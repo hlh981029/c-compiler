@@ -12,6 +12,7 @@ namespace hebo
 	typedef std::string morpheme;
 	typedef std::string value;
 	std::string int2string(int input);
+	int string2int(const std::string& input);
 	class DFA
 	{
 		const static int dead_status = 0;
@@ -37,7 +38,7 @@ namespace hebo
 	public:
 		DFA(std::string source_file_name, int row_number_ = 10, int column_number_ = 10);
 		DFA(DFA& input);
-		DFA(std::string& dfa_file_name, std::string source_file_name);
+		DFA(std::string dfa_file_name, std::string source_file_name);
 		~DFA();
 		friend std::ostream& operator<<(std::ostream& my_out, const DFA& dfa);
 		auto feed(char ch) -> void;

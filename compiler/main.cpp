@@ -7,16 +7,21 @@
 #include "Min_DFA.cpp"
 #include "intput_and_output.hpp"
 using namespace std;
-
+#define HB
 int main()
 {
+#ifdef HB
+	hebo::DFA dfa("ans.txt", "test.c");
+	dfa.run();
+	return 0;
+#endif // HB
 
 
 
 	RegExp **exps;
 	int n = 3;
 	exps = new RegExp*[n]; 
-	string data[3][2] = { "aa","a","bb","b","cc","c" };
+	string data[3][2] = { "aa","ID","bb","b","ccc","c" };
 	string *names = new string[n];
 	for (int count = 0; count<n; count++)
 	{

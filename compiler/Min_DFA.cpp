@@ -112,9 +112,9 @@ public:
 			}
 		}
 		ofstream outfile("ans.txt");
-		outfile << "n_chars:" << this->n_chars << endl;
-		outfile << "n_dfa_states:" << vec.size() + 1 << endl;
-		outfile << "start_state_ans:" << this->start_state_ans << endl;
+		outfile << "n_dfa_states: " << vec.size() + 1 << endl;
+		outfile << "n_chars: " << this->n_chars << endl;
+		outfile << "start_state_ans: " << this->start_state_ans << endl;
 		outfile << "matrix:" << endl;
 		for (vector<vector<int>>::iterator it1 = ans.begin(); it1 != ans.end(); it1++) {
 			vector<int> temp_vec = *it1;
@@ -123,7 +123,7 @@ public:
 			}
 			outfile << endl;
 		}
-		outfile << "map:" << endl;
+		outfile << "map: " << endl;
 		for (map<int, string>::iterator it = map_ans.begin(); it != map_ans.end(); it++) {
 			outfile << (*it).first << " " << (*it).second << endl;
 		}
@@ -135,7 +135,7 @@ public:
 				return *((*it).begin());
 			}
 		}
-		return -10000;
+		return 0;
 	}
 
 	int get_position(int destination) {
@@ -149,7 +149,7 @@ public:
 	}
 
 	bool break_up(set<int> origin_set) {
-		int large = vec.size()+1;
+		int large = vec.size() + 1;
 		set<int>* set_pointer = new set<int>[large];
 		for (int i = 0; i < this->n_chars; i++) {
 			for (set<int>::iterator it = origin_set.begin(); it != origin_set.end(); it++) {

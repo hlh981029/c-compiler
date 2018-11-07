@@ -9,6 +9,14 @@ namespace hebo
 		trans << input;
 		return trans.str();
 	}
+	int string2int(const std::string& input)
+	{
+		std::stringstream trans;
+		trans << input;
+		int result;
+		trans >> result;
+		return result;
+	}
 
 	DFA::DFA(std::string source_file_name, int row_number_, int column_number_)
 		:current_status(1), current_memory(0), row_number(row_number_), column_number(column_number_)
@@ -29,7 +37,7 @@ namespace hebo
 		}
 	}
 
-	DFA::DFA(DFA& input) :current_status(0)
+	DFA::DFA(DFA& input) :current_status(1)
 	{
 		row_number = input.row_number;
 		column_number = input.column_number;
@@ -45,15 +53,19 @@ namespace hebo
 		status_to_pattern = input.status_to_pattern;
 	}
 
-	DFA::DFA(std::string& dfa_file_name, std::string source_file_name)
+	DFA::DFA(std::string dfa_file_name, std::string source_file_name)
 	{
-		cpp_source.open(source_file_name);
+		cpp_source.open(source_file_name, std::ios::in);
 		std::ifstream dfa_file(dfa_file_name);
-		if (!cpp_source.is_open() || !dfa_file.is_open())
+		if (!dfa_file.is_open() || !cpp_source.is_open())
 		{
 			std::cerr << "Not open files" << std::endl;
 		}
-		dfa_file >> row_number >> column_number;
+		std::string temp_string;
+		dfa_file >> temp_string >> row_number;
+		dfa_file >> temp_string >> column_number;
+		dfa_file >> temp_string >> init_status;
+		dfa_file >> temp_string;
 		matrix = new int*[row_number];
 		for (int i = 0; i < row_number; i++)
 		{
@@ -63,6 +75,7 @@ namespace hebo
 				dfa_file >> matrix[i][j];
 			}
 		}
+		dfa_file >> temp_string;
 		int end_status;
 		std::string pattern;
 		while (dfa_file >> end_status >> pattern)
@@ -81,6 +94,18 @@ namespace hebo
 				right_note_ = end_status;
 			}
 		}
+		current_status = init_status;
+#ifdef DEBUG
+		for (int i = 0; i < row_number; i++)
+		{
+			for (int j = 0; j < column_number; j++)
+			{
+				std::cout << matrix[i][j] << ' ';
+			}
+			std::cout << std::endl;
+		}
+#endif // DEBUG
+
 	}
 
 	DFA::~DFA()
@@ -144,7 +169,8 @@ namespace hebo
 		}
 		else if (is_dead)
 		{
-			update_output_sequence();
+			update_output_sequence(); 
+			//cpp_source.seekg(std::ios::cur, -1);
 			current_string = ch;
 			current_status = matrix[init_status][ch];
 		}
@@ -199,6 +225,10 @@ namespace hebo
 		{
 			output_string += current_string;
 		}
+		else if(pattern == "BLANK")
+		{
+			return;
+		}
 		output_sequence.push_back(output_string);
 		current_status = init_status;
 		current_string.clear();
@@ -220,6 +250,8 @@ namespace hebo
 		{
 			feed(ch);
 		}
+		feed(0);
+		print_output_sequence();
 	}
 
 
@@ -239,9 +271,10 @@ namespace hebo
 	}
 	void DFA::print_output_sequence()
 	{
+		std::ofstream output("lyhsb.txt");
 		for (int i = 0; i < output_sequence.size(); i++)
 		{
-			std::cout << output_sequence[i] << std::endl;
+			output << output_sequence[i] << std::endl;
 		}
 	}
 
