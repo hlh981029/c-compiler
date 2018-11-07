@@ -21,11 +21,11 @@ namespace hebo
 	class DFA
 	{
 	private:
-		static const int DEAD_STATUS = 0;
-		static const int INIT_STATUS = 1;
-		static const int LINE__NOTE_ = 2;
-		static const int LEFT__NOTE_ = 3;
-		static const int RIGHT_NOTE_ = 4;
+		const static int dead_status = 0;
+		int init_status;
+		int line__note_;
+		int left__note_;
+		int right_note_;
 
 		int current_status;
 		std::string current_string;
@@ -101,6 +101,18 @@ namespace hebo
 			while (dfa_file >> end_status >> pattern)
 			{
 				status_to_pattern.insert(std::make_pair(end_status, pattern));
+				if (pattern == "LINE_NOTE")
+				{
+					line__note_ = end_status;
+				}
+				else if (pattern == "LEFT_NOTE")
+				{
+					left__note_ = end_status;
+				}
+				else if (pattern == "RIGHT_NOTE")
+				{
+					right_note_ = end_status;
+				}
 			}
 		}
 
@@ -151,49 +163,52 @@ namespace hebo
 		output_sequence if dead status and new morpheme then append a unit
 		*/
 
-
 		//feed a single character from the source file to the dfa matrix and monitor the transition of the status
 		auto feed(char ch) -> void
 		{
 			int next_status = matrix[current_status][ch];
-			switch (next_status)
+			bool is_dead = (next_status == dead_status);
+			bool is_line = (next_status == line__note_);
+			bool is_left = (next_status == left__note_);
+			if (!(is_dead||is_line||is_left))
 			{
-			default:
 				current_string += ch;
 				current_status = next_status;
-				break;
-			case DEAD_STATUS:
+			}
+			else if(is_dead)
+			{
 				update_output_sequence();
 				current_string = ch;
-				current_status = matrix[INIT_STATUS][ch];
-				break;
-			case LINE__NOTE_:
+				current_status = matrix[init_status][ch];
+			}
+			else if (is_line)
+			{
 				deal_with_line_note();
-				break;
-			case LEFT__NOTE_:
+			}
+			else if (is_left)
+			{
 				deal_with_multiplied_note();
-				break;
 			}
 		}
 
 		void deal_with_multiplied_note()
 		{
-			current_status = INIT_STATUS;
+			current_status = init_status;
 			char ch;
 			while (1)
 			{
 				ch = cpp_source.get();
 				current_status = matrix[current_status][ch];
-				if (current_status == DEAD_STATUS)
+				if (current_status == dead_status)
 				{
-					current_status = INIT_STATUS;
+					current_status = init_status;
 				}
-				else if (current_status == RIGHT_NOTE_)
+				else if (current_status == right_note_)
 				{
 					break;
 				}
 			}
-			current_status = INIT_STATUS;
+			current_status = init_status;
 			current_string.clear();
 		}
 
@@ -202,7 +217,7 @@ namespace hebo
 		{
 			std::getline(cpp_source, std::string());
 			current_string.clear();
-			current_status = INIT_STATUS;
+			current_status = init_status;
 		}
 
 		void update_output_sequence()
@@ -218,7 +233,7 @@ namespace hebo
 				output_string += current_string;
 			}
 			output_sequence.push_back(output_string);
-			current_status = INIT_STATUS;
+			current_status = init_status;
 			current_string.clear();
 		}
 
@@ -264,26 +279,20 @@ namespace hebo
 	};
 }
 
-class HLH {
-	static int a;
-	int b;
-public:
-	HLH(){}
-	HLH(int input)
-	{
-		b = input;
-		HLH::a = b;
-		std::cout << HLH::a << std::endl;
-	}
-};
-//int HLH::a = 0;
-
-
+// lyhsb
 int main()
 {
+	std::map<int, int> hlh;
 	for (int i = 0; i < 10; i++)
 	{
-		auto bb= HLH(i*i);
+		hlh.insert(std::make_pair(i, i*i + 1));
+	}
+	for (std::map<int, int>::iterator it = hlh.begin(); it != hlh.end(); it++)
+	{
+		if ((*it).second == 65)
+		{
+			std::cout << (*it).first << std::endl;
+		}
 	}
 	system("pause");
 }
