@@ -29,6 +29,12 @@ namespace hebo
 		int current_status;
 		std::string current_string;
 
+
+
+
+
+
+
 		int** matrix;
 		int row_number;
 		int column_number;
@@ -40,10 +46,10 @@ namespace hebo
 
 		int current_memory;
 	public:
-		DFA(int row_number_ = 10, int column_number_ = 10)
+		DFA(std::string source_file_name, int row_number_ = 10, int column_number_ = 10)
 			:current_status(1), current_memory(0), row_number(row_number_), column_number(column_number_)
 		{
-			cpp_source.open("input_and_output.cpp");
+			cpp_source.open(source_file_name);
 			if (!cpp_source.is_open())
 			{
 				std::cerr << "Not open the source file." << std::endl;
@@ -75,7 +81,7 @@ namespace hebo
 			status_to_pattern = input.status_to_pattern;
 		}
 
-		DFA(std::istream& file, int row_number_, int column_number_)
+		DFA(std::istream& dfa_file, int row_number_, int column_number_, std::istream& source_file)
 		{
 
 		}
@@ -131,7 +137,7 @@ namespace hebo
 		//feed a single character from the source file to the dfa matrix and monitor the transition of the status
 		auto feed(char ch) -> void
 		{
-			int next_status = matrix[ch][current_status];
+			int next_status = matrix[current_status][ch];
 			switch (next_status)
 			{
 			default:
@@ -141,7 +147,7 @@ namespace hebo
 			case DEAD_STATUS:
 				update_output_sequence();
 				current_string = ch;
-				current_status = matrix[ch][INIT_STATUS];
+				current_status = matrix[INIT_STATUS][ch];
 				break;
 			case LINE__NOTE_:
 				deal_with_line_note();
@@ -159,7 +165,7 @@ namespace hebo
 			while (1)
 			{
 				ch = cpp_source.get();
-				current_status = matrix[ch][current_status];
+				current_status = matrix[current_status][ch];
 				if (current_status == DEAD_STATUS)
 				{
 					current_status = INIT_STATUS;
