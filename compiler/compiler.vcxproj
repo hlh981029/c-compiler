@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="dq.h" />
     <ClInclude Include="hlhNFA.h" />
+    <ClInclude Include="intput_and_output.hpp" />
     <ClInclude Include="Nfa.h" />
     <ClInclude Include="Nfa_to_dfa.h" />
     <ClInclude Include="RegExp.h" />

@@ -50,5 +50,8 @@
     <ClInclude Include="RegExp.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="intput_and_output.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

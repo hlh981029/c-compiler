@@ -5,12 +5,17 @@
 #include "RegExp.h"
 #include "hlhNFA.h"
 #include "dq.h"
+#include "intput_and_output.hpp"
 using namespace std;
 
-int main() {
+int main()
+{
+
+
+
 	RegExp **exps;
 	int n = 3;
-	exps = new RegExp*[n];
+	exps = new RegExp*[n]; 
 	string data[3][2] = { "aa","a","bb","b","cc","c" };
 	string *names = new string[n];
 	for (int count = 0; count<n; count++)
