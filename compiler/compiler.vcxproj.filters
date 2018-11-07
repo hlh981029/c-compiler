@@ -33,11 +33,11 @@
     <ClCompile Include="RegExp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Min_DFA.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dq.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="hlhNFA.h">
       <Filter>头文件</Filter>
     </ClInclude>

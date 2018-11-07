@@ -4,7 +4,7 @@
 #include "Nfa_to_dfa.h"
 #include "RegExp.h"
 #include "hlhNFA.h"
-#include "dq.h"
+#include "Min_DFA.cpp"
 #include "intput_and_output.hpp"
 using namespace std;
 
@@ -41,12 +41,12 @@ int main()
 	//}
 	NfaToDfa ntd(mynfa);
 	ntd.transform();
-	for (int i = 0; i < ntd.n_chars; i++) {
+	/*for (int i = 0; i < ntd.n_chars; i++) {
 		for (int j = 0; j < ntd.n_dfa_states; j++) {
 			cout << ntd.dfa_map[i][j] << " ";
 		}
 		cout << endl;
-	}
+	}*/
 	Min_DFA mdfa(ntd.dfa_end, ntd.dfa_map, ntd.dfa_s, ntd.n_dfa_states, ntd.n_chars);
 	system("pause");
 	return 0;
