@@ -6,7 +6,8 @@
 #include<vector>
 #include<cstdlib>
 #include<sstream>
-//hlhlsadjfka;fj;laskdj
+// hlhlsadjfka;fj;laskdj
+// the std::ifstream cpp_source had better be set as a member variable, maybe.
 namespace hebo
 {
 	typedef std::string morpheme;
@@ -28,12 +29,6 @@ namespace hebo
 
 		int current_status;
 		std::string current_string;
-
-
-
-
-
-
 
 		int** matrix;
 		int row_number;
@@ -81,7 +76,7 @@ namespace hebo
 			status_to_pattern = input.status_to_pattern;
 		}
 
-		DFA(std::string& dfa_file_name, int row_number_, int column_number_,std::string source_file_name)
+		DFA(std::string& dfa_file_name, int row_number_, int column_number_, std::string source_file_name)
 		{
 
 		}
@@ -212,6 +207,16 @@ namespace hebo
 			}
 			return word_list[current_string];
 		}
+
+		void run()
+		{
+			char ch;
+			while ((ch = cpp_source.get()) != -1)
+			{
+				feed(ch);
+			}
+		}
+
 
 		DFA& operator<<(std::ifstream& input)
 		{
