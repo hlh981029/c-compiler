@@ -81,7 +81,7 @@ namespace hebo
 			status_to_pattern = input.status_to_pattern;
 		}
 
-		DFA(std::istream& dfa_file, int row_number_, int column_number_,std::string source_file_name)
+		DFA(std::string& dfa_file_name, int row_number_, int column_number_,std::string source_file_name)
 		{
 
 		}
