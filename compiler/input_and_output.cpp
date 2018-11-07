@@ -34,6 +34,8 @@ namespace hebo
 		int row_number;
 		int column_number;
 		std::map<int, std::string> status_to_pattern;//end status to pattern
+		// Four data above should be given.
+
 		std::map<morpheme, value> word_list;//morpheme to value
 		std::vector<std::string> output_sequence;
 
@@ -76,9 +78,30 @@ namespace hebo
 			status_to_pattern = input.status_to_pattern;
 		}
 
-		DFA(std::string& dfa_file_name, int row_number_, int column_number_, std::string source_file_name)
+		DFA(std::string& dfa_file_name, std::string source_file_name)
 		{
-
+			cpp_source.open(source_file_name);
+			std::ifstream dfa_file(dfa_file_name);
+			if (!cpp_source.is_open() || !dfa_file.is_open())
+			{
+				std::cerr << "Not open files" << std::endl;
+			}
+			dfa_file >> row_number >> column_number;
+			matrix = new int*[row_number];
+			for (int i = 0; i < row_number; i++)
+			{
+				matrix[i] = new int[column_number];
+				for (int j = 0; j < column_number; j++)
+				{
+					dfa_file >> matrix[i][j];
+				}
+			}
+			int end_status;
+			std::string pattern;
+			while (dfa_file >> end_status >> pattern)
+			{
+				status_to_pattern.insert(std::make_pair(end_status, pattern));
+			}
 		}
 
 		~DFA()
@@ -231,14 +254,36 @@ namespace hebo
 		{
 			std::cout << current_string << std::endl;
 		}
+		void print_output_sequence()
+		{
+			for (int i = 0; i < output_sequence.size(); i++)
+			{
+				std::cout << output_sequence[i] << std::endl;
+			}
+		}
 	};
 }
+
+class HLH {
+	static int a;
+	int b;
+public:
+	HLH(){}
+	HLH(int input)
+	{
+		b = input;
+		HLH::a = b;
+		std::cout << HLH::a << std::endl;
+	}
+};
+//int HLH::a = 0;
 
 
 int main()
 {
-	std::string a = "hlh";
-	a += hebo::int2string(1);
-	std::cout << a << std::endl;
+	for (int i = 0; i < 10; i++)
+	{
+		auto bb= HLH(i*i);
+	}
 	system("pause");
 }
