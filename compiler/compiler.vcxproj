@@ -111,7 +111,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="hlhNFA.cpp" />
     <ClCompile Include="input_and_output.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Nfa.cpp" />
+    <ClCompile Include="Nfa_to_dfa.cpp" />
+    <ClCompile Include="RegExp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dq.h" />
+    <ClInclude Include="hlhNFA.h" />
+    <ClInclude Include="Nfa.h" />
+    <ClInclude Include="Nfa_to_dfa.h" />
+    <ClInclude Include="RegExp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

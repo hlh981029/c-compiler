@@ -18,5 +18,37 @@
     <ClCompile Include="input_and_output.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="hlhNFA.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Nfa.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Nfa_to_dfa.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RegExp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dq.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hlhNFA.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Nfa.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Nfa_to_dfa.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RegExp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
