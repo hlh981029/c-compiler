@@ -279,20 +279,3 @@ namespace hebo
 	};
 }
 
-// lyhsb
-int main()
-{
-	std::map<int, int> hlh;
-	for (int i = 0; i < 10; i++)
-	{
-		hlh.insert(std::make_pair(i, i*i + 1));
-	}
-	for (std::map<int, int>::iterator it = hlh.begin(); it != hlh.end(); it++)
-	{
-		if ((*it).second == 65)
-		{
-			std::cout << (*it).first << std::endl;
-		}
-	}
-	system("pause");
-}
