@@ -81,15 +81,15 @@ namespace hebo
 		while (dfa_file >> end_status >> pattern)
 		{
 			status_to_pattern.insert(std::make_pair(end_status, pattern));
-			if (pattern == "LINE_NOTE")
+			if (pattern == "//")
 			{
 				line__note_ = end_status;
 			}
-			else if (pattern == "LEFT_NOTE")
+			else if (pattern == "/*")
 			{
 				left__note_ = end_status;
 			}
-			else if (pattern == "RIGHT_NOTE")
+			else if (pattern == "*/")
 			{
 				right_note_ = end_status;
 			}
@@ -170,7 +170,6 @@ namespace hebo
 		else if (is_dead)
 		{
 			update_output_sequence(); 
-			//cpp_source.seekg(std::ios::cur, -1);
 			current_string = ch;
 			current_status = matrix[init_status][ch];
 		}
@@ -194,7 +193,7 @@ namespace hebo
 			current_status = matrix[current_status][ch];
 			if (current_status == dead_status)
 			{
-				current_status = init_status;
+				current_status = matrix[init_status][ch];
 			}
 			else if (current_status == right_note_)
 			{
@@ -248,6 +247,7 @@ namespace hebo
 		char ch;
 		while ((ch = cpp_source.get()) != -1)
 		{
+
 			feed(ch);
 		}
 		feed(0);
@@ -271,12 +271,13 @@ namespace hebo
 	}
 	void DFA::print_output_sequence()
 	{
-		std::ofstream output("lyhsb.txt");
+		std::ofstream output("lexical analyzer.txt");
+		//output << "Name\tMorpheme\tValue" << std::endl;
 		for (int i = 0; i < output_sequence.size(); i++)
 		{
+			std::cout << std::setw(10) <<std::endl;
 			output << output_sequence[i] << std::endl;
 		}
 	}
-
 }
 

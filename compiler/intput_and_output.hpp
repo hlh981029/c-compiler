@@ -7,6 +7,7 @@
 #include<vector>
 #include<cstdlib>
 #include<sstream>
+#include <iomanip>
 namespace hebo
 {
 	typedef std::string morpheme;
@@ -52,3 +53,10 @@ namespace hebo
 		void print_output_sequence();
 	};
 }
+
+struct LexicalUnit
+{
+	std::string name;
+	std::string morpheme;
+	std::string value;
+};

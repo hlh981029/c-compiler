@@ -131,14 +131,14 @@ void NfaToDfa::transform() {
 						}
 					}
 					dfa_states.insert(newstate);
-					for (set<Dstate>::iterator it = dfa_states.begin(); it != dfa_states.end(); it++) {
+					/*for (set<Dstate>::iterator it = dfa_states.begin(); it != dfa_states.end(); it++) {
 						cout << "dfa state " << (*it).index << ": ";
 						for (set<int>::iterator pr = (*(*it).state).begin(); pr != (*(*it).state).end(); pr++) {
 							cout << *pr << " ";
 						}
 						cout << endl;
 					}
-					cout << endl;
+					cout << endl;*/
 					index++;
 				}
 				dfa_map[wordlist[i]][temp.index] = newstate.index;
