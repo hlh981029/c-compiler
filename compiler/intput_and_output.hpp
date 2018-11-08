@@ -19,7 +19,7 @@ namespace hebo
 	};
 	typedef std::string morpheme;
 	typedef std::string value;
-	std::string int2string(int input);
+	std::string uint2string(unsigned int  input);
 	int string2int(const std::string& input);
 	class DFA
 	{

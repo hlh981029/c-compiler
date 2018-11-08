@@ -8,9 +8,16 @@
 #include "intput_and_output.hpp"
 using namespace std;
 #define HB
+
+struct HLH
+{
+	int a;
+};
+
 int main()
 {
 #ifdef HB
+	
 	hebo::DFA dfa("ans.txt", "test.c");
 	dfa.run();
 	return 0;
