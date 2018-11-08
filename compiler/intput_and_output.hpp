@@ -10,6 +10,13 @@
 #include <iomanip>
 namespace hebo
 {
+	class LexicalUnit
+	{
+	public:
+		std::string name;
+		std::string morpheme;
+		std::string value;
+	};
 	typedef std::string morpheme;
 	typedef std::string value;
 	std::string int2string(int input);
@@ -31,7 +38,7 @@ namespace hebo
 		// Four data above should be given.
 
 		std::map<morpheme, value> word_list;//morpheme to value
-		std::vector<std::string> output_sequence;
+		std::vector<LexicalUnit> output_sequence;
 
 		std::ifstream cpp_source;
 
@@ -54,9 +61,3 @@ namespace hebo
 	};
 }
 
-struct LexicalUnit
-{
-	std::string name;
-	std::string morpheme;
-	std::string value;
-};

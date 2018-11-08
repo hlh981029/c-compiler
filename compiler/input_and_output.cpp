@@ -3,7 +3,7 @@
 // the std::ifstream cpp_source had better be set as a member variable, maybe.
 namespace hebo
 {
-	std::string int2string(int input)
+	std::string uint2string(unsigned int input)
 	{
 		std::stringstream trans;
 		trans << input;
@@ -169,7 +169,7 @@ namespace hebo
 		}
 		else if (is_dead)
 		{
-			update_output_sequence(); 
+			update_output_sequence();
 			current_string = ch;
 			current_status = matrix[init_status][ch];
 		}
@@ -214,30 +214,38 @@ namespace hebo
 
 	void DFA::update_output_sequence()
 	{
-		std::string pattern = status_to_pattern[current_status];
-		std::string output_string = pattern + "\t" + current_string + "\t";
-		if (pattern == "ID")
+		LexicalUnit lexical_unit;
+		lexical_unit.name = status_to_pattern[current_status];
+		lexical_unit.morpheme = current_string;
+
+		if (lexical_unit.name == "ID")
 		{
-			output_string += update_word_list();
+			lexical_unit.value = update_word_list();
 		}
-		else if (pattern == "NUMBER")
+		else if (lexical_unit.name == "NUMBER")
 		{
-			output_string += current_string;
+			lexical_unit.value += current_string;
 		}
-		else if(pattern == "BLANK")
+		else if (lexical_unit.name == "BLANK")
 		{
 			return;
 		}
-		output_sequence.push_back(output_string);
+		else if (lexical_unit.name.empty())
+		{
+			lexical_unit.name = "WRONG INPUT";
+		}
+		output_sequence.push_back(lexical_unit);
 		current_status = init_status;
 		current_string.clear();
+		current_string = std::string("1");
 	}
 
 	value DFA::update_word_list()
 	{
 		if (!word_list.count(current_string))
 		{
-			word_list.insert(std::make_pair(current_string, int2string(current_memory += 4)));
+			auto it = word_list.insert(std::make_pair(current_string, uint2string((unsigned int)&current_string)));
+			(*(it.first)).second = uint2string((unsigned int)&(*(it.first)));
 		}
 		return word_list[current_string];
 	}
@@ -269,15 +277,24 @@ namespace hebo
 	{
 		std::cout << current_string << std::endl;
 	}
+
 	void DFA::print_output_sequence()
 	{
 		std::ofstream output("lexical analyzer.txt");
-		//output << "Name\tMorpheme\tValue" << std::endl;
+		output.setf(std::ios::left);
+		output
+			<< std::setw(15) << "Name"
+			<< std::setw(15) << "Morpheme"
+			<< std::setw(15) << "Value"
+			<< std::endl << std::endl;
+
 		for (int i = 0; i < output_sequence.size(); i++)
 		{
-			std::cout << std::setw(10) <<std::endl;
-			output << output_sequence[i] << std::endl;
+			output
+				<< std::setw(15) << output_sequence[i].name
+				<< std::setw(15) << output_sequence[i].morpheme
+				<< std::setw(15) << output_sequence[i].value
+				<< std::endl;
 		}
 	}
 }
-
