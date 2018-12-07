@@ -6,7 +6,9 @@
 #include "hlhNFA.h"
 #include "Min_DFA.cpp"
 #include "intput_and_output.hpp"
+#include "ContextFreeGrammar.hpp"
 using namespace std;
+#define GRAMMAR
 #define HB
 
 struct HLH
@@ -16,6 +18,13 @@ struct HLH
 
 int main()
 {
+#ifdef GRAMMAR
+	cfg::ContextFreeGrammar a;
+	a.test_function();
+	system("pause");
+	return 0;
+#endif // GRAMMAR
+
 #ifdef HB
 	
 	hebo::DFA dfa("ans.txt", "test.c");

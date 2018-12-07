@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ContextFreeGrammar.cpp" />
     <ClCompile Include="hlhNFA.cpp" />
     <ClCompile Include="input_and_output.cpp" />
     <ClCompile Include="main.cpp" />
@@ -125,6 +126,9 @@
     <ClInclude Include="Nfa.h" />
     <ClInclude Include="Nfa_to_dfa.h" />
     <ClInclude Include="RegExp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ContextFreeGrammar.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

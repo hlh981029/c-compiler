@@ -36,6 +36,9 @@
     <ClCompile Include="Min_DFA.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ContextFreeGrammar.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hlhNFA.h">
@@ -53,5 +56,10 @@
     <ClInclude Include="intput_and_output.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ContextFreeGrammar.hpp">
+      <Filter>头文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
