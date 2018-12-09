@@ -98,7 +98,7 @@ namespace cfg
 
 	ContextFreeGrammar::ContextFreeGrammar() :start_symbol(nullptr) {
 		Terminal* end = new Terminal("$");
-		terminal_vector.push_back(end);
+		terminal_set.insert(end);
 	}
 
 	void ContextFreeGrammar::test_function()
@@ -197,12 +197,12 @@ system("pause");
 	}
 
 	void ContextFreeGrammar::set_first() {
-		vector<Terminal*>::iterator it = terminal_vector.begin();
-		for (; it != terminal_vector.end(); it++) {
+		unordered_set<Terminal*>::iterator it = terminal_set.begin();
+		for (; it != terminal_set.end(); it++) {
 			(*it)->first_set.insert((*it));
 		}
-		vector<Production*>::iterator ip = production_vector.begin();
-		for (; ip != production_vector.end(); ip++) {
+		unordered_set<Production*>::iterator ip = production_set.begin();
+		for (; ip != production_set.end(); ip++) {
 			if ((*ip)->right.size == 0) {
 				(*ip)->left->start_as_epsilon = true;
 			}
@@ -224,13 +224,18 @@ system("pause");
 
 	void ContextFreeGrammar::set_follow() {
 		//add $ to the follow set of S
-		start_symbol->follow_set.insert(terminal_vector[0]);
-		vector<Production*>::iterator ip = production_vector.begin();
+		unordered_set<Terminal*>::iterator e = terminal_set.begin();
+		for (; e != terminal_set.begin; e++) {
+			if ((*e)->value == "$") {
+				start_symbol->follow_set.insert(*e);
+			}
+		}
+		unordered_set<Production*>::iterator ip = production_set.begin();
 		bool flag = true;  //if there's any other elements to add to the follow sets
 		while (flag) {
 			flag = false;
 			//traverse the productions
-			for (; ip != production_vector.end(); ip++) {
+			for (; ip != production_set.end(); ip++) {
 				vector<Symbol*>::iterator is = (*ip)->right.begin();
 				//traverse the right part of a production
 				for (; is != (*ip)->right.end(); is++){
@@ -260,6 +265,9 @@ system("pause");
 							}
 							//if ep in first set of the next symble, add its next to this next set
 							if ((*isn)->start_as_epsilon) {
+								if ((*isn)->get_id() != Identify::Nonterminal) {
+									cout << "error: the next symble is not a nonterminal symble" << endl;
+								}
 								unordered_set<Terminal*>::iterator iitf = ((Nonterminal*)*isn)->follow_set.begin();
 								for (; iitf != ((Nonterminal*)*isn)->follow_set.end(); iitf++) {
 									bool b = ((Nonterminal*)*is)->follow_set.insert(*iitf).second;
@@ -273,5 +281,9 @@ system("pause");
 				}
 			}
 		}
+	}
+
+	void ContextFreeGrammar::add_production() {
+
 	}
 }

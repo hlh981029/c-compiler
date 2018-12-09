@@ -100,15 +100,16 @@ namespace cfg
 	class ContextFreeGrammar
 	{
 	public:
-		vector<Terminal*> terminal_vector;
-		vector<Nonterminal*> nonterminal_vector;
-		vector<Production*> production_vector;
+		unordered_set<Terminal*> terminal_set;
+		unordered_set<Nonterminal*> nonterminal_set;
+		unordered_set<Production*> production_set;
 		Nonterminal* start_symbol;
 
 		ContextFreeGrammar();
 
 		void set_first();
 		void set_follow();
+		void add_production();
 
 		void test_function();
 
