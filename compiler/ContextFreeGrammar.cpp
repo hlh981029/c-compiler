@@ -129,71 +129,71 @@ namespace cfg
 		A->first_set.insert(a);
 		A->first_set.insert(b);
 		B->first_set.insert(a);
-		B->first_set.insert(c);
-		C->first_set.insert(d);
+B->first_set.insert(c);
+C->first_set.insert(d);
 
-		A->follow_set.insert(b);
-		B->follow_set.insert(b);
-		C->follow_set.insert(d);
-
-
-
-		cout << *p1 << endl;
-		cout << *p2 << endl;
+A->follow_set.insert(b);
+B->follow_set.insert(b);
+C->follow_set.insert(d);
 
 
-		cout << *a << "\nfirst_set:\n" << a->first_set << endl;
-		cout << *b << "\nfirst_set:\n" << b->first_set << endl;
-		cout << *c << "\nfirst_set:\n" << c->first_set << endl;
-		cout << *d << "\nfirst_set:\n" << d->first_set << endl;
 
-		cout
-			<< *A
-			<< "\nfirst_set:\n" << A->first_set << endl
-			<< "\nfollow_set:\n" << A->follow_set << endl;
-		cout
-			<< *B
-			<< "\nfirst_set:\n" << B->first_set << endl
-			<< "\nfollow_set:\n" << B->follow_set << endl;
-		cout
-			<< *C
-			<< "\nfirst_set:\n" << C->first_set << endl
-			<< "\nfollow_set:\n" << C->follow_set << endl;
-
-		a->value = "aaa";
-		b->value = "bbbb";
-		c->value = "cccc";
-		d->value = "ddddddd";
-		A->value = "AAAA";
-		B->value = "BB";
-		C->value = "CCC";
+cout << *p1 << endl;
+cout << *p2 << endl;
 
 
-		cout << *p1 << endl;
-		cout << *p2 << endl;
+cout << *a << "\nfirst_set:\n" << a->first_set << endl;
+cout << *b << "\nfirst_set:\n" << b->first_set << endl;
+cout << *c << "\nfirst_set:\n" << c->first_set << endl;
+cout << *d << "\nfirst_set:\n" << d->first_set << endl;
+
+cout
+<< *A
+<< "\nfirst_set:\n" << A->first_set << endl
+<< "\nfollow_set:\n" << A->follow_set << endl;
+cout
+<< *B
+<< "\nfirst_set:\n" << B->first_set << endl
+<< "\nfollow_set:\n" << B->follow_set << endl;
+cout
+<< *C
+<< "\nfirst_set:\n" << C->first_set << endl
+<< "\nfollow_set:\n" << C->follow_set << endl;
+
+a->value = "aaa";
+b->value = "bbbb";
+c->value = "cccc";
+d->value = "ddddddd";
+A->value = "AAAA";
+B->value = "BB";
+C->value = "CCC";
 
 
-		cout << *a << "\nfirst_set:\n" << a->first_set << endl;
-		cout << *b << "\nfirst_set:\n" << b->first_set << endl;
-		cout << *c << "\nfirst_set:\n" << c->first_set << endl;
-		cout << *d << "\nfirst_set:\n" << d->first_set << endl;
+cout << *p1 << endl;
+cout << *p2 << endl;
 
-		cout
-			<< *A
-			<< "\nfirst_set:\n" << A->first_set << endl
-			<< "\nfollow_set:\n" << A->follow_set << endl;
-		cout
-			<< *B
-			<< "\nfirst_set:\n" << B->first_set << endl
-			<< "\nfollow_set:\n" << B->follow_set << endl;
-		cout
-			<< *C
-			<< "\nfirst_set:\n" << C->first_set << endl
-			<< "\nfollow_set:\n" << C->follow_set << endl;
 
-		cout << (p1->left == C) << endl;
+cout << *a << "\nfirst_set:\n" << a->first_set << endl;
+cout << *b << "\nfirst_set:\n" << b->first_set << endl;
+cout << *c << "\nfirst_set:\n" << c->first_set << endl;
+cout << *d << "\nfirst_set:\n" << d->first_set << endl;
 
-		system("pause");
+cout
+<< *A
+<< "\nfirst_set:\n" << A->first_set << endl
+<< "\nfollow_set:\n" << A->follow_set << endl;
+cout
+<< *B
+<< "\nfirst_set:\n" << B->first_set << endl
+<< "\nfollow_set:\n" << B->follow_set << endl;
+cout
+<< *C
+<< "\nfirst_set:\n" << C->first_set << endl
+<< "\nfollow_set:\n" << C->follow_set << endl;
+
+cout << (p1->left == C) << endl;
+
+system("pause");
 	}
 
 	void ContextFreeGrammar::set_first() {
@@ -223,12 +223,54 @@ namespace cfg
 	}
 
 	void ContextFreeGrammar::set_follow() {
+		//add $ to the follow set of S
 		start_symbol->follow_set.insert(terminal_vector[0]);
 		vector<Production*>::iterator ip = production_vector.begin();
-		while (true) {
-			bool flag = false;
+		bool flag = true;  //if there's any other elements to add to the follow sets
+		while (flag) {
+			flag = false;
+			//traverse the productions
 			for (; ip != production_vector.end(); ip++) {
-				
+				vector<Symbol*>::iterator is = (*ip)->right.begin();
+				//traverse the right part of a production
+				for (; is != (*ip)->right.end(); is++){
+					//find a nonterminal symble
+					if ((*is)->get_id() == Identify::Nonterminal) {
+						cout << (*is)->value << " is a nonterminal symble." << endl;
+						//at the end
+						if (is == (*ip)->right.end() - 1) {
+							unordered_set<Terminal*>::iterator itf = (*ip)->left->follow_set.begin();
+							for (; itf != (*ip)->left->follow_set.end(); itf++) {
+								bool b = ((Nonterminal*)*is)->follow_set.insert(*itf).second;
+								if (b == true) {
+									flag = true;
+								}
+							}
+						}
+						//not at the end
+						else {
+							vector<Symbol*>::iterator isn = is + 1;
+							unordered_set<Terminal*>::iterator itf = (*isn)->first_set.begin();
+							//add elements in first set of the next symble to this follow set 
+							for (; itf != (*isn)->first_set.end(); itf++) {
+								bool b = ((Nonterminal*)*is)->follow_set.insert(*itf).second;
+								if (b == true) {
+									flag = true;
+								}
+							}
+							//if ep in first set of the next symble, add its next to this next set
+							if ((*isn)->start_as_epsilon) {
+								unordered_set<Terminal*>::iterator iitf = ((Nonterminal*)*isn)->follow_set.begin();
+								for (; iitf != ((Nonterminal*)*isn)->follow_set.end(); iitf++) {
+									bool b = ((Nonterminal*)*is)->follow_set.insert(*iitf).second;
+									if (b == true) {
+										flag = true;
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
