@@ -96,7 +96,10 @@ namespace cfg
 		right = symbol;
 	}
 
-	ContextFreeGrammar::ContextFreeGrammar() :start_symbol(nullptr) {}
+	ContextFreeGrammar::ContextFreeGrammar() :start_symbol(nullptr) {
+		Terminal* end = new Terminal("$");
+		terminal_vector.push_back(end);
+	}
 
 	void ContextFreeGrammar::test_function()
 	{
@@ -193,5 +196,40 @@ namespace cfg
 		system("pause");
 	}
 
+	void ContextFreeGrammar::set_first() {
+		vector<Terminal*>::iterator it = terminal_vector.begin();
+		for (; it != terminal_vector.end(); it++) {
+			(*it)->first_set.insert((*it));
+		}
+		vector<Production*>::iterator ip = production_vector.begin();
+		for (; ip != production_vector.end(); ip++) {
+			if ((*ip)->right.size == 0) {
+				(*ip)->left->start_as_epsilon = true;
+			}
+			vector<Symbol*>::iterator is = (*ip)->right.begin();
+			for (; is != (*ip)->right.end(); is++) {
+				unordered_set<Terminal*>::iterator iff = (*is)->first_set.begin();
+				for (; iff != (*is)->first_set.end(); iff++) {
+					(*ip)->left->first_set.insert(*iff);
+				}
+				if (!(*iff)->start_as_epsilon) {
+					break;
+				}
+				if (is == (*ip)->right.end() - 1) {
+					(*ip)->left->start_as_epsilon = true;
+				}
+			}
+		}
+	}
 
+	void ContextFreeGrammar::set_follow() {
+		start_symbol->follow_set.insert(terminal_vector[0]);
+		vector<Production*>::iterator ip = production_vector.begin();
+		while (true) {
+			bool flag = false;
+			for (; ip != production_vector.end(); ip++) {
+				
+			}
+		}
+	}
 }

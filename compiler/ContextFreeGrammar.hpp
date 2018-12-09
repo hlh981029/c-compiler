@@ -75,7 +75,6 @@ namespace cfg
 	{
 	public:
 		unordered_set<Terminal*> follow_set;
-		bool followed_by_dollar;
 
 		Nonterminal();
 		Nonterminal(string input);
@@ -107,6 +106,9 @@ namespace cfg
 		Nonterminal* start_symbol;
 
 		ContextFreeGrammar();
+
+		void set_first();
+		void set_follow();
 
 		void test_function();
 

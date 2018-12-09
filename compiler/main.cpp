@@ -9,7 +9,7 @@
 #include "ContextFreeGrammar.hpp"
 using namespace std;
 #define GRAMMAR
-#define HB
+//#define HB
 
 struct HLH
 {
@@ -21,7 +21,7 @@ int main()
 #ifdef GRAMMAR
 	cfg::ContextFreeGrammar a;
 	a.test_function();
-	system("pause");
+	std::system("pause");
 	return 0;
 #endif // GRAMMAR
 
@@ -31,6 +31,8 @@ int main()
 	dfa.run();
 	return 0;
 #endif // HB
+
+#ifdef lex
 	RegExp **exps;
 	int n = 85;
 	exps = new RegExp*[n]; 
@@ -157,6 +159,7 @@ int main()
 	}*/
 	Min_DFA mdfa(ntd.dfa_end, ntd.dfa_map, ntd.dfa_s, ntd.n_dfa_states, ntd.n_chars);
 	system("pause");
+#endif // lex
 
 	return 0;
 }
