@@ -51,14 +51,13 @@ namespace cfg
 
 		Symbol();
 		Symbol(string input);
+		bool operator==(const Symbol & a);
 		virtual int get_id() const;
 		friend ostream& operator<<(ostream& out, const Symbol& symbol);
 
 	private:
 
 	};
-
-
 
 	class Terminal : public Symbol
 	{
@@ -69,7 +68,6 @@ namespace cfg
 	private:
 
 	};
-
 
 	class Nonterminal : public Symbol
 	{
@@ -100,8 +98,34 @@ namespace cfg
 	class ContextFreeGrammar
 	{
 	public:
-		unordered_set<Terminal*> terminal_set;
-		unordered_set<Nonterminal*> nonterminal_set;
+		struct Ter_pointer_hash
+		{
+			size_t operator()(Terminal* input) const {
+				std::hash<std::string> hash_fn;
+				return hash_fn(input->value);
+			}
+		};
+		struct Ter_pointer_hash_compare
+		{
+			bool operator()(Terminal* input1, Terminal* input2) const {
+				return input1->value == input2->value;
+			}
+		};
+		struct Non_pointer_hash
+		{
+			size_t operator()(Nonterminal* input) const {
+				std::hash<std::string> hash_fn;
+				return hash_fn(input->value);
+			}
+		};
+		struct Non_pointer_hash_compare
+		{
+			bool operator()(Nonterminal* input1, Nonterminal* input2) const {
+				return input1->value == input2->value;
+			}
+		};
+		unordered_set<Terminal*, Ter_pointer_hash, Ter_pointer_hash_compare> terminal_set;
+		unordered_set<Nonterminal*, Non_pointer_hash, Non_pointer_hash_compare> nonterminal_set;
 		unordered_set<Production*> production_set;
 		Nonterminal* start_symbol;
 
@@ -109,7 +133,8 @@ namespace cfg
 
 		void set_first();
 		void set_follow();
-		void add_production();
+		void add_production(string left, string right);
+		void set_start(string s);
 
 		void test_function();
 

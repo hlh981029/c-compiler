@@ -1,6 +1,7 @@
 #include"ContextFreeGrammar.hpp"
 namespace cfg
 {
+
 	ostream& operator<<(ostream& out, const Symbol& symbol)
 	{
 		return out << symbol.value;
@@ -47,6 +48,11 @@ namespace cfg
 
 	}
 
+	bool Symbol::operator==(const Symbol & a)
+	{
+		return value == a.value;
+	}
+
 	int Symbol::get_id() const
 	{
 		return Identify::Symbol;
@@ -54,12 +60,12 @@ namespace cfg
 
 	Terminal::Terminal() :Symbol()
 	{
-
+		start_as_epsilon = false;
 	}
 
 	Terminal::Terminal(string input) : Symbol(input)
 	{
-
+		start_as_epsilon = false;
 	}
 
 	int Terminal::get_id() const
@@ -69,12 +75,12 @@ namespace cfg
 
 	Nonterminal::Nonterminal() :Symbol()
 	{
-
+		start_as_epsilon = false;
 	}
 
 	Nonterminal::Nonterminal(string input) : Symbol(input)
 	{
-
+		start_as_epsilon = false;
 	}
 
 	int Nonterminal::get_id() const
@@ -197,26 +203,34 @@ system("pause");
 	}
 
 	void ContextFreeGrammar::set_first() {
+		// first set for terminal symbols
 		unordered_set<Terminal*>::iterator it = terminal_set.begin();
 		for (; it != terminal_set.end(); it++) {
 			(*it)->first_set.insert((*it));
 		}
+		// first set for terminal symbols
 		unordered_set<Production*>::iterator ip = production_set.begin();
+		// traverse all the productions
 		for (; ip != production_set.end(); ip++) {
-			if ((*ip)->right.size == 0) {
+			// right is empty
+			if ((*ip)->right.size() == 0) {
 				(*ip)->left->start_as_epsilon = true;
 			}
-			vector<Symbol*>::iterator is = (*ip)->right.begin();
-			for (; is != (*ip)->right.end(); is++) {
-				unordered_set<Terminal*>::iterator iff = (*is)->first_set.begin();
-				for (; iff != (*is)->first_set.end(); iff++) {
-					(*ip)->left->first_set.insert(*iff);
-				}
-				if (!(*iff)->start_as_epsilon) {
-					break;
-				}
-				if (is == (*ip)->right.end() - 1) {
-					(*ip)->left->start_as_epsilon = true;
+			else {
+				vector<Symbol*>::iterator is = (*ip)->right.begin();
+				// traverse all the symbols at the right side
+				for (; is != (*ip)->right.end(); is++) {
+					unordered_set<Terminal*>::iterator iff = (*is)->first_set.begin();
+					// traverse all the symbols in first set of is
+					for (; iff != (*is)->first_set.end(); iff++) {
+						(*ip)->left->first_set.insert(*iff);
+					}
+					if (!(*is)->start_as_epsilon) {
+						break;
+					}
+					if (is == (*ip)->right.end() - 1) {
+						(*ip)->left->start_as_epsilon = true;
+					}
 				}
 			}
 		}
@@ -225,7 +239,7 @@ system("pause");
 	void ContextFreeGrammar::set_follow() {
 		//add $ to the follow set of S
 		unordered_set<Terminal*>::iterator e = terminal_set.begin();
-		for (; e != terminal_set.begin; e++) {
+		for (; e != terminal_set.end(); e++) {
 			if ((*e)->value == "$") {
 				start_symbol->follow_set.insert(*e);
 			}
@@ -239,7 +253,7 @@ system("pause");
 				vector<Symbol*>::iterator is = (*ip)->right.begin();
 				//traverse the right part of a production
 				for (; is != (*ip)->right.end(); is++){
-					//find a nonterminal symble
+					//find a nonterminal symbol
 					if ((*is)->get_id() == Identify::Nonterminal) {
 						cout << (*is)->value << " is a nonterminal symble." << endl;
 						//at the end
@@ -256,14 +270,14 @@ system("pause");
 						else {
 							vector<Symbol*>::iterator isn = is + 1;
 							unordered_set<Terminal*>::iterator itf = (*isn)->first_set.begin();
-							//add elements in first set of the next symble to this follow set 
+							//add elements in first set of the next symbol to this follow set 
 							for (; itf != (*isn)->first_set.end(); itf++) {
 								bool b = ((Nonterminal*)*is)->follow_set.insert(*itf).second;
 								if (b == true) {
 									flag = true;
 								}
 							}
-							//if ep in first set of the next symble, add its next to this next set
+							//if ep in first set of the next symbol, add its next to this next set
 							if ((*isn)->start_as_epsilon) {
 								if ((*isn)->get_id() != Identify::Nonterminal) {
 									cout << "error: the next symble is not a nonterminal symble" << endl;
@@ -283,7 +297,126 @@ system("pause");
 		}
 	}
 
-	void ContextFreeGrammar::add_production() {
+	//void ContextFreeGrammar::add_production(string left, string right) {
+	//	Production* p = new Production();
 
+	//	Nonterminal* le = new Nonterminal(left);
+	//	unordered_set<Nonterminal*>::iterator it = nonterminal_set.begin();
+	//	bool has_le = false;
+	//	for (; it != nonterminal_set.end(); it++) {
+	//		if (**it == *le) {
+	//			delete le;
+	//			has_le = true;
+	//			break;
+	//		}
+	//	}
+	//	if (!has_le) {
+	//		nonterminal_set.insert(le);
+	//	}
+	//	Nonterminal* l = has_le ? *it : le;
+
+	//	vector<Symbol*> ri;
+	//	if (right == "") {
+	//		p->init(l, ri);
+	//	}
+	//	else {
+	//		char * buf;
+	//		char* t = strtok_s((char*)right.data(), " ", &buf);
+	//		while (t) {
+	//			string tstr = t;
+	//			if (isupper(tstr[0])) {
+	//				Nonterminal* new_nonter = new Nonterminal(tstr);
+	//				unordered_set<Nonterminal*>::iterator itt = nonterminal_set.begin();
+	//				bool has_new_nonter = false;
+	//				for (; itt != nonterminal_set.end(); itt++) {
+	//					if (**itt == *new_nonter) {
+	//						delete new_nonter;
+	//						has_new_nonter = true;
+	//						break;
+	//					}
+	//				}
+	//				if (!has_new_nonter) {
+	//					nonterminal_set.insert(new_nonter);
+	//				}
+	//				ri.push_back(has_new_nonter ? *itt : new_nonter);
+	//			}
+	//			else {
+	//				Terminal* new_ter = new Terminal(tstr);
+
+	//				unordered_set<Terminal*>::iterator itt = terminal_set.begin();
+	//				bool has_new_ter = false;
+	//				for (; itt != terminal_set.end(); itt++) {
+	//					if (**itt == *new_ter) {
+	//						delete new_ter;
+	//						has_new_ter = true;
+	//						break;
+	//					}
+	//				}
+	//				if (!has_new_ter) {
+	//					terminal_set.insert(new_ter);
+	//				}
+	//				ri.push_back(has_new_ter ? *itt : new_ter);
+	//			}
+	//			t = strtok_s(buf, " ", &buf);
+	//		}
+	//		p->init(l, ri);
+	//	}
+	//	cout << "production:" << *p << endl;
+	//	production_set.insert(p);
+	//}
+
+	void ContextFreeGrammar::add_production(string left, string right) {
+		Production* p = new Production();
+
+		Nonterminal* le = new Nonterminal(left);
+		std::pair<unordered_set<Nonterminal*>::iterator, bool> pp;
+		pp = nonterminal_set.insert(le);
+		if (!pp.second) {
+			delete le;
+		}
+		Nonterminal* l = *(pp.first);
+
+		vector<Symbol*> ri;
+		if (right == "") {
+			p->init(l, ri);
+		}
+		else {
+			char * buf;
+			char* t = strtok_s((char*)right.data(), " ", &buf);
+			while (t) {
+				string tstr = t;
+				if (isupper(tstr[0])) {
+					Nonterminal* new_nonter = new Nonterminal(tstr);
+					std::pair<unordered_set<Nonterminal*>::iterator, bool> ppn;
+					ppn = nonterminal_set.insert(new_nonter);
+					if (!ppn.second) {
+						delete new_nonter;
+					}
+					ri.push_back(*(ppn.first));
+				}
+				else {
+					Terminal* new_ter = new Terminal(tstr);
+					std::pair<unordered_set<Terminal*>::iterator, bool> ppt;
+					ppt = terminal_set.insert(new_ter);
+					if (!ppt.second) {
+						delete new_ter;
+					}
+					ri.push_back(*(ppt.first));
+				}
+				t = strtok_s(buf, " ", &buf);
+			}
+			p->init(l, ri);
+		}
+		cout << "production:" << *p << endl;
+		production_set.insert(p);
+	}
+
+	void ContextFreeGrammar::set_start(string s)
+	{
+		for each (Nonterminal* t in nonterminal_set) {
+			if ((*t).value == s) {
+				start_symbol = t;
+			}
+		}
 	}
 }

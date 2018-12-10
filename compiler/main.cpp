@@ -10,6 +10,8 @@
 using namespace std;
 #define GRAMMAR
 //#define HB
+//#define LEX
+//#define LYH
 
 struct HLH
 {
@@ -20,10 +22,28 @@ int main()
 {
 #ifdef GRAMMAR
 	cfg::ContextFreeGrammar a;
-	a.test_function();
+	//a.test_function();
+	a.add_production("S", "i E t S M");
+	a.add_production("S", "a");
+	a.add_production("M", "e S");
+	a.add_production("M", "");
+	a.add_production("E", "b");
+	a.set_start("S");
+	a.set_first();
+	a.set_follow();
+	for each (auto t in a.nonterminal_set) {
+		cout << t->value << endl;
+		cout << "first set: " << endl << t->first_set << endl;
+		cout << "follow set:" << endl << t->follow_set << endl;
+	}
 	std::system("pause");
 	return 0;
 #endif // GRAMMAR
+
+#ifdef LYH
+
+#endif // LYH
+
 
 #ifdef HB
 	
@@ -32,7 +52,7 @@ int main()
 	return 0;
 #endif // HB
 
-#ifdef lex
+#ifdef LEX
 	RegExp **exps;
 	int n = 85;
 	exps = new RegExp*[n]; 
@@ -159,7 +179,7 @@ int main()
 	}*/
 	Min_DFA mdfa(ntd.dfa_end, ntd.dfa_map, ntd.dfa_s, ntd.n_dfa_states, ntd.n_chars);
 	system("pause");
-#endif // lex
+#endif // LEX
 
 	return 0;
 }
