@@ -22,20 +22,25 @@ int main()
 {
 #ifdef GRAMMAR
 	cfg::ContextFreeGrammar a;
-	//a.test_function();
-	a.add_production("S", "i E t S M");
-	a.add_production("S", "a");
-	a.add_production("M", "e S");
-	a.add_production("M", "");
-	a.add_production("E", "b");
-	a.set_start("S");
+	a.input_productions("../productions1.txt");
+	a.set_start("translation_unit");
 	a.set_first();
 	a.set_follow();
-	for each (auto t in a.nonterminal_set) {
+
+	cout << "-----------terminals----------" << endl;
+	for each (auto t in a.terminal_set) {
 		cout << t->value << endl;
-		cout << "first set: " << endl << t->first_set << endl;
-		cout << "follow set:" << endl << t->follow_set << endl;
 	}
+	cout << "------------------------------" << endl;
+
+	cout << "-----------nonterminals----------" << endl;
+	for each (auto t in a.nonterminal_set) {
+		cout << "*** " << t->value << " ***" << endl;
+		cout << "first set: " << t->start_as_epsilon << endl << t->first_set << endl;
+		cout << "follow set:" << endl << t->follow_set;
+		cout << "***********" << endl << endl;
+	}
+	cout << "---------------------------------" << endl;
 	std::system("pause");
 	return 0;
 #endif // GRAMMAR
