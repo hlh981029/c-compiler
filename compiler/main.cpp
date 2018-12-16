@@ -7,11 +7,12 @@
 #include "Min_DFA.cpp"
 #include "intput_and_output.hpp"
 #include "ContextFreeGrammar.hpp"
+#include "GrammerAnalyzer.h"
 using namespace std;
-#define GRAMMAR
-//#define HB
-//#define LEX
-//#define LYH
+//#define GRAMMAR
+#define HB
+#define LEX
+#define LYH
 
 struct HLH
 {
@@ -54,6 +55,7 @@ int main()
 	
 	hebo::DFA dfa("ans.txt", "test.c");
 	dfa.run();
+	GrammerAnalyzer* grammer_analyzer = new GrammerAnalyzer(dfa.output_sequence);
 	return 0;
 #endif // HB
 
@@ -149,7 +151,7 @@ int main()
 		",", ",",
 		".", ".",
 		dig + dig + "\001", "CONSTANT",
-		ch + "\004" + ch + "\002" + dig + "\005\001", "IDENTIFIER",
+		ch + "\004" + ch + "\002" + dig + "\005\001", "IDENTIFER",
 		"\004 \002\t\002\n\005\001", "BLANK"//
 	};
 	string *names = new string[n];
@@ -185,6 +187,8 @@ int main()
 	Min_DFA mdfa(ntd.dfa_end, ntd.dfa_map, ntd.dfa_s, ntd.n_dfa_states, ntd.n_chars);
 	system("pause");
 #endif // LEX
+
+
 
 	return 0;
 }

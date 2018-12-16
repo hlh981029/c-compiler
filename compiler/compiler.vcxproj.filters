@@ -39,6 +39,9 @@
     <ClCompile Include="ContextFreeGrammar.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GrammerAnalyzer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hlhNFA.h">
@@ -54,6 +57,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="intput_and_output.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GrammerAnalyzer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

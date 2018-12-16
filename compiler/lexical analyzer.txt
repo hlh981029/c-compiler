@@ -1,46 +1,13 @@
 Name           Morpheme       Value          
 
 INT            int                           
-ID             main           895265936      
+ID             main           2615154144     
 (              (                             
 )              )                             
 {              {                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
-WRONG INPUT    @                             
 INT            int                           
-ID             b              895476592      
+ID             t              2615340080     
 =              =                             
-NUMBER         1              1              
-;              ;                             
-FOR            for                           
-(              (                             
-INT            int                           
-ID             i              895266112      
-=              =                             
-NUMBER         0              0              
-;              ;                             
-ID             i              895266112      
-<              <                             
-NUMBER         10             10             
-;              ;                             
-ID             i              895266112      
-++             ++                            
-)              )                             
-{              {                             
-ID             b              895476592      
-+=             +=                            
-NUMBER         10             10             
-;              ;                             
-}              }                             
-RETURN         return                        
-NUMBER         0              0              
+NUMBER         4              4              
 ;              ;                             
 }              }                             

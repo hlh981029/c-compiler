@@ -1,0 +1,43 @@
+6
+id
++
+*
+(
+)
+$
+3
+E
+T
+F
+6
+E E + T
+E T
+T T * F
+T F
+F ( E )
+F id
+12
+s5 e e s4 e e
+e s6 e e e acc
+e r2 s7 e r2 r2
+e r4 r4 e r4 r4
+s5 e e s4 e e
+e r6 r6 e r6 r6
+s5 e e s4 e e
+s5 e e s4 e e
+e s6 e e s11 e
+e r1 s7 e r1 r1
+e r3 r3 e r3 r3
+e r5 r5 e r5 r5
+1 2 3
+e e e
+e e e
+e e e
+8 2 3
+e e e 
+0 9 3
+e e 10
+e e e
+e e e
+e e e
+e e e

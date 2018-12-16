@@ -28,7 +28,7 @@ public:
 		this->dfa_s = dfa_s;
 		this->n_dfa_states = n_dfa_states;
 		this->n_chars = n_chars;
-		int final_state_num = dfa_end.size();
+		size_t final_state_num = dfa_end.size();
 		set<int>* final_set_list = new set<int>[final_state_num];
 		int final_count = 0;
 		for (map<int, string>::iterator it = dfa_end.begin(); it != dfa_end.end(); it++) {
@@ -55,7 +55,7 @@ public:
 			}
 		}
 		vec.push_back(start_set);
-		int count_flag = size(vec);
+		size_t count_flag = size(vec);
 		while (count_flag != 0) {
 			vector<set<int>>::iterator it = vec.begin();
 			set<int> temp = *it;
@@ -149,7 +149,7 @@ public:
 	}
 
 	bool break_up(set<int> origin_set) {
-		int large = vec.size() + 1;
+		size_t large = vec.size() + 1;
 		set<int>* set_pointer = new set<int>[large];
 		for (int i = 0; i < this->n_chars; i++) {
 			for (set<int>::iterator it = origin_set.begin(); it != origin_set.end(); it++) {

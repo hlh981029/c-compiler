@@ -16,6 +16,7 @@ namespace hebo
 		std::string name;
 		std::string morpheme;
 		std::string value;
+		std::vector<LexicalUnit*> child_node_list;
 	};
 	typedef std::string morpheme;
 	typedef std::string value;
@@ -38,7 +39,6 @@ namespace hebo
 		// Four data above should be given.
 
 		std::map<morpheme, value> word_list;//morpheme to value
-		std::vector<LexicalUnit> output_sequence;
 
 		std::ifstream cpp_source;
 
@@ -48,6 +48,7 @@ namespace hebo
 		DFA(DFA& input);
 		DFA(std::string dfa_file_name, std::string source_file_name);
 		~DFA();
+		std::vector<LexicalUnit> output_sequence;
 		friend std::ostream& operator<<(std::ostream& my_out, const DFA& dfa);
 		auto feed(char ch) -> void;
 		void deal_with_multiplied_note();
