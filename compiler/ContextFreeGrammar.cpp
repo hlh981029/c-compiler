@@ -94,7 +94,7 @@ namespace cfg
 	}
 	Production::Production(Nonterminal* start, const vector<Symbol*>& symbol) :left(start), right(symbol)
 	{
-		
+
 	}
 	void Production::init(Nonterminal* start, const vector<Symbol*>& symbol)
 	{
@@ -135,71 +135,71 @@ namespace cfg
 		A->first_set.insert(a);
 		A->first_set.insert(b);
 		B->first_set.insert(a);
-B->first_set.insert(c);
-C->first_set.insert(d);
+		B->first_set.insert(c);
+		C->first_set.insert(d);
 
-A->follow_set.insert(b);
-B->follow_set.insert(b);
-C->follow_set.insert(d);
-
-
-
-cout << *p1 << endl;
-cout << *p2 << endl;
+		A->follow_set.insert(b);
+		B->follow_set.insert(b);
+		C->follow_set.insert(d);
 
 
-cout << *a << "\nfirst_set:\n" << a->first_set << endl;
-cout << *b << "\nfirst_set:\n" << b->first_set << endl;
-cout << *c << "\nfirst_set:\n" << c->first_set << endl;
-cout << *d << "\nfirst_set:\n" << d->first_set << endl;
 
-cout
-<< *A
-<< "\nfirst_set:\n" << A->first_set << endl
-<< "\nfollow_set:\n" << A->follow_set << endl;
-cout
-<< *B
-<< "\nfirst_set:\n" << B->first_set << endl
-<< "\nfollow_set:\n" << B->follow_set << endl;
-cout
-<< *C
-<< "\nfirst_set:\n" << C->first_set << endl
-<< "\nfollow_set:\n" << C->follow_set << endl;
-
-a->value = "aaa";
-b->value = "bbbb";
-c->value = "cccc";
-d->value = "ddddddd";
-A->value = "AAAA";
-B->value = "BB";
-C->value = "CCC";
+		cout << *p1 << endl;
+		cout << *p2 << endl;
 
 
-cout << *p1 << endl;
-cout << *p2 << endl;
+		cout << *a << "\nfirst_set:\n" << a->first_set << endl;
+		cout << *b << "\nfirst_set:\n" << b->first_set << endl;
+		cout << *c << "\nfirst_set:\n" << c->first_set << endl;
+		cout << *d << "\nfirst_set:\n" << d->first_set << endl;
+
+		cout
+			<< *A
+			<< "\nfirst_set:\n" << A->first_set << endl
+			<< "\nfollow_set:\n" << A->follow_set << endl;
+		cout
+			<< *B
+			<< "\nfirst_set:\n" << B->first_set << endl
+			<< "\nfollow_set:\n" << B->follow_set << endl;
+		cout
+			<< *C
+			<< "\nfirst_set:\n" << C->first_set << endl
+			<< "\nfollow_set:\n" << C->follow_set << endl;
+
+		a->value = "aaa";
+		b->value = "bbbb";
+		c->value = "cccc";
+		d->value = "ddddddd";
+		A->value = "AAAA";
+		B->value = "BB";
+		C->value = "CCC";
 
 
-cout << *a << "\nfirst_set:\n" << a->first_set << endl;
-cout << *b << "\nfirst_set:\n" << b->first_set << endl;
-cout << *c << "\nfirst_set:\n" << c->first_set << endl;
-cout << *d << "\nfirst_set:\n" << d->first_set << endl;
+		cout << *p1 << endl;
+		cout << *p2 << endl;
 
-cout
-<< *A
-<< "\nfirst_set:\n" << A->first_set << endl
-<< "\nfollow_set:\n" << A->follow_set << endl;
-cout
-<< *B
-<< "\nfirst_set:\n" << B->first_set << endl
-<< "\nfollow_set:\n" << B->follow_set << endl;
-cout
-<< *C
-<< "\nfirst_set:\n" << C->first_set << endl
-<< "\nfollow_set:\n" << C->follow_set << endl;
 
-cout << (p1->left == C) << endl;
+		cout << *a << "\nfirst_set:\n" << a->first_set << endl;
+		cout << *b << "\nfirst_set:\n" << b->first_set << endl;
+		cout << *c << "\nfirst_set:\n" << c->first_set << endl;
+		cout << *d << "\nfirst_set:\n" << d->first_set << endl;
 
-system("pause");
+		cout
+			<< *A
+			<< "\nfirst_set:\n" << A->first_set << endl
+			<< "\nfollow_set:\n" << A->follow_set << endl;
+		cout
+			<< *B
+			<< "\nfirst_set:\n" << B->first_set << endl
+			<< "\nfollow_set:\n" << B->follow_set << endl;
+		cout
+			<< *C
+			<< "\nfirst_set:\n" << C->first_set << endl
+			<< "\nfollow_set:\n" << C->follow_set << endl;
+
+		cout << (p1->left == C) << endl;
+
+		system("pause");
 	}
 
 	void ContextFreeGrammar::set_first() {
@@ -259,7 +259,7 @@ system("pause");
 			for (; ip != production_set.end(); ip++) {
 				vector<Symbol*>::iterator is = (*ip)->right.begin();
 				//traverse the right part of a production
-				for (; is != (*ip)->right.end(); is++){
+				for (; is != (*ip)->right.end(); is++) {
 					//find a nonterminal symbol
 					if ((*is)->get_id() == Identify::Nonterminal) {
 						//at the end
