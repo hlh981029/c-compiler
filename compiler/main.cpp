@@ -22,20 +22,25 @@ int main()
 {
 #ifdef GRAMMAR
 	cfg::ContextFreeGrammar a;
-	//a.test_function();
-	a.add_production("S", "i E t S M");
-	a.add_production("S", "a");
-	a.add_production("M", "e S");
-	a.add_production("M", "");
-	a.add_production("E", "b");
-	a.set_start("S");
+	a.input_productions("../productions1.txt");
+	a.set_start("translation_unit");
 	a.set_first();
 	a.set_follow();
-	for each (auto t in a.nonterminal_set) {
+
+	cout << "-----------terminals----------" << endl;
+	for each (auto t in a.terminal_set) {
 		cout << t->value << endl;
-		cout << "first set: " << endl << t->first_set << endl;
-		cout << "follow set:" << endl << t->follow_set << endl;
 	}
+	cout << "------------------------------" << endl;
+
+	cout << "-----------nonterminals----------" << endl;
+	for each (auto t in a.nonterminal_set) {
+		cout << "*** " << t->value << " ***" << endl;
+		cout << "first set: " << t->start_as_epsilon << endl << t->first_set << endl;
+		cout << "follow set:" << endl << t->follow_set;
+		cout << "***********" << endl << endl;
+	}
+	cout << "---------------------------------" << endl;
 	std::system("pause");
 	return 0;
 #endif // GRAMMAR
@@ -98,54 +103,54 @@ int main()
 		"*", "*",
 		"/", "/",
 		"%", "%",
-		"++", "++",
-		"--", "--",
-		"==", "==",
-		"!=", "!=",
+		"++", "INC_OP",
+		"--", "DEC_OP",
+		"==", "EQ_OP",
+		"!=", "NE_OP",
 		"<", "<",
 		">", ">",
-		">=", ">=",
-		"<=", "<=",
-		"&&", "&&",
-		"||", "||",
+		">=", "GE_OP",
+		"<=", "LE_OP",
+		"&&", "AND_OP",
+		"||", "OR_OP",
 		"!", "!",
 		"&", "&",
 		"|", "|",
 		"^", "^",
-		"<<", "<<",
-		">>", ">>",
+		"<<", "LEFT_OP",
+		">>", "RIGHT_OP",
 		"~", "~",
 		"=", "=",
-		"+=", "+=",
-		"-=", "-=",
-		"*=", "*=",
-		"/=", "/=",
-		"%=", "%=",
-		"<<=", "<<=",//
-		">>=", ">>=",//
-		"&=", "&=",//
-		"^=", "^=",//
-		"|=", "|=",//
+		"+=", "ADD_ASSIGN",
+		"-=", "SUB_ASSIGN",
+		"*=", "MUL_ASSIGN",
+		"/=", "DIV_ASSIGN",
+		"%=", "MOD_ASSIGN",
+		"<<=", "LEFT_ASSIGN",
+		">>=", "RIGHT_ASSIGN",
+		"&=", "AND_ASSIGN",
+		"^=", "XOR_ASSIGN",
+		"|=", "OR_ASSIGN",
 		"?", "?",
 		":", ":",
-		"->", "->",
+		"->", "PTR_OP",
 		"(", "(",
 		")", ")",
 		"{", "{",
 		"}", "}",
 		"[", "[",
 		"]", "]",
-		"\"", "\"",
+		"\"", "\"",//
 		"'", "'",
-		"/*", "/*",
-		"*/", "*/",
-		"//", "//",
+		"/*", "/*",//
+		"*/", "*/",//
+		"//", "//",//
 		";", ";",
 		",", ",",
 		".", ".",
-		dig + dig + "\001", "NUMBER",
-		ch + "\004" + ch + "\002" + dig + "\005\001", "ID",
-		"\004 \002\t\002\n\005\001", "BLANK"
+		dig + dig + "\001", "CONSTANT",
+		ch + "\004" + ch + "\002" + dig + "\005\001", "IDENTIFIER",
+		"\004 \002\t\002\n\005\001", "BLANK"//
 	};
 	string *names = new string[n];
 	for (int count = 0; count<n; count++)

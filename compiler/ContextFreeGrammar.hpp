@@ -133,6 +133,7 @@ namespace cfg
 
 		void set_first();
 		void set_follow();
+		void input_productions(string file);
 		void add_production(string left, string right);
 		void set_start(string s);
 
