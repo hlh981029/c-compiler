@@ -42,6 +42,9 @@
     <ClCompile Include="GrammerAnalyzer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="LRItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hlhNFA.h">
@@ -62,10 +65,18 @@
     <ClInclude Include="GrammerAnalyzer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LRItem.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ContextFreeGrammar.hpp">
       <Filter>头文件</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\productions1.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>

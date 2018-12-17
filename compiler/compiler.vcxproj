@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{26511C81-B83A-4A1D-A915-75EA90A893D5}</ProjectGuid>
     <RootNamespace>compiler</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -115,6 +115,7 @@
     <ClCompile Include="GrammerAnalyzer.cpp" />
     <ClCompile Include="hlhNFA.cpp" />
     <ClCompile Include="input_and_output.cpp" />
+    <ClCompile Include="LRItem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Min_DFA.cpp" />
     <ClCompile Include="Nfa.cpp" />
@@ -125,12 +126,16 @@
     <ClInclude Include="GrammerAnalyzer.h" />
     <ClInclude Include="hlhNFA.h" />
     <ClInclude Include="intput_and_output.hpp" />
+    <ClInclude Include="LRItem.hpp" />
     <ClInclude Include="Nfa.h" />
     <ClInclude Include="Nfa_to_dfa.h" />
     <ClInclude Include="RegExp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ContextFreeGrammar.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\productions1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
