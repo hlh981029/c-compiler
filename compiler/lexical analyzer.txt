@@ -1,13 +1,2 @@
 Name           Morpheme       Value          
 
-INT            int                           
-ID             main           2615154144     
-(              (                             
-)              )                             
-{              {                             
-INT            int                           
-ID             t              2615340080     
-=              =                             
-NUMBER         4              4              
-;              ;                             
-}              }                             
