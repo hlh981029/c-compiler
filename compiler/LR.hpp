@@ -48,11 +48,10 @@ namespace lr
 	};
 
 
-
-
 	class LALR
 	{
 	public:
+		int production_number;
 		struct item_pointer_hash
 		{
 			size_t operator()(LALR1Item* input) const {

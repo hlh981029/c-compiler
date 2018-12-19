@@ -10,7 +10,7 @@
 #include "GrammerAnalyzer.h"
 #include "LR.hpp"
 using namespace std;
-#define GRAMMAR
+//#define GRAMMAR
 #define HB
 #define LEX
 #define LYH
@@ -71,6 +71,7 @@ int main()
 #endif // GRAMMAR
 
 #ifdef LYH
+
 
 #endif // LYH
 

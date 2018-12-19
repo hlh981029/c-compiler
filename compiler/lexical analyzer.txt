@@ -1,2 +1,19 @@
 Name           Morpheme       Value          
 
+VOID           void                          
+ID             test           25833184       
+(              (                             
+)              )                             
+{              {                             
+INT            int                           
+ID             a              26011808       
+=              =                             
+NUMBER         0              0              
+;              ;                             
+ID             a              26011808       
+++             ++                            
+;              ;                             
+ID             a              26011808       
+--             --                            
+;              ;                             
+}              }                             

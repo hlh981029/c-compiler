@@ -10,7 +10,7 @@ namespace lr
 
 
 	LALR1Item::LALR1Item(cfg::Production* production_, int position_, cfg::Terminal* sentence_ending_, int order_)
-		:production(production_), position(position_), is_kernel(true),order(order_)
+		:production(production_), position(position_), is_kernel(true), order(order_)
 	{
 		if (sentence_ending_ != nullptr)
 		{
@@ -38,10 +38,12 @@ namespace lr
 			{
 				cout << i << endl;
 				cout << *production->left << endl;
-				lr0_item_set.insert(new LALR1Item(production, i, sentence_ending,production_order));
+				lr0_item_set.insert(new LALR1Item(production, i, sentence_ending, production_order));
 			}
 			production_order++;
 		}
+		production_number = context_free_grammar_.production_set.size();
+		assert(production_number == production_order);
 		int exchanged_order_number = -1;
 		for each(auto item in lr0_item_set)
 		{
@@ -56,7 +58,7 @@ namespace lr
 		{
 			for each(auto item in lr0_item_set)
 			{
-				if (item->order== 0)
+				if (item->order == 0)
 				{
 					item->order = exchanged_order_number;
 					argumented_grammar_start->order = 0;
@@ -99,7 +101,7 @@ namespace lr
 					}
 					if (item->production->right[item->position] == terminal)
 					{
-						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending,item->order);
+						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending, item->order);
 						insert_item->is_kernel = true;
 						kernel_set.insert(insert_item);
 					}
@@ -140,7 +142,7 @@ namespace lr
 					}
 					if (item->production->right[item->position] == nonterminal)
 					{
-						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending,item->order);
+						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending, item->order);
 						insert_item->is_kernel = true;
 						kernel_set.insert(insert_item);
 					}
@@ -206,7 +208,7 @@ namespace lr
 					{
 						if (item->production->left == nonterminal && item->position == 0)
 						{
-							LALR1Item* insert_item = new LALR1Item(item->production, item->position, nullptr,item->order);
+							LALR1Item* insert_item = new LALR1Item(item->production, item->position, nullptr, item->order);
 							insert_item->is_kernel = false;
 							if (closure_set.insert(insert_item).second)
 							{
@@ -249,7 +251,7 @@ namespace lr
 					{
 						if (item->production->left == nonterminal && item->position == 0)
 						{
-							LALR1Item* insert_item = new LALR1Item(item->production, item->position, nullptr,item->order);
+							LALR1Item* insert_item = new LALR1Item(item->production, item->position, nullptr, item->order);
 							auto result = closure_set.insert(insert_item);
 							// 无论是否之前有同心项 都需要更新先前看符号
 							if (current_item->position + 1 >= current_item->production->right.size())
@@ -408,7 +410,7 @@ namespace lr
 				break;
 			}
 		}
-		if(start_symbol_position)
+		if (start_symbol_position)
 		{
 			auto temp = nonterminal_vector[0];
 			nonterminal_vector[0] = start_symbol;
@@ -434,7 +436,7 @@ namespace lr
 				{
 					std::stringstream ss;
 					ss.clear();
-					ss<<trans_pair.second;
+					ss << trans_pair.second;
 					action_vector[i][terminal_to_int_map[dynamic_cast<cfg::Terminal*> (trans_pair.first)]] = "s" + ss.str();
 					ss.clear();
 				}
@@ -452,7 +454,7 @@ namespace lr
 						std::stringstream ss;
 						ss.clear();
 						ss << item->order;
-						if(action_vector[i][terminal_to_int_map[terminal]][0] == 'e')
+						if (action_vector[i][terminal_to_int_map[terminal]][0] == 'e')
 						{
 							action_vector[i][terminal_to_int_map[terminal]] = "r" + ss.str();
 						}
@@ -460,6 +462,11 @@ namespace lr
 						{
 							action_vector[i][terminal_to_int_map[terminal]] += "r" + ss.str();
 						}
+						if(item->order ==0)
+						{
+							action_vector[i][terminal_to_int_map[terminal]] = "acc";
+						}
+
 					}
 				}
 			}
@@ -474,11 +481,31 @@ namespace lr
 		{
 			txt << *terminal << endl;
 		}
-		txt << nonterminal_vector.size();
+		txt << nonterminal_vector.size() << endl;
 		for each (auto nonterminal in nonterminal_vector)
 		{
 			txt << *nonterminal << endl;
 		}
+		//output production
+		//
+		//
+		vector<cfg::Production*> production_vector(production_number,nullptr);
+		for each (auto item in lr0_item_set)
+		{
+			production_vector[item->order] = item->production;
+		}
+
+		txt << production_number << endl;
+		for each (auto production in production_vector)
+		{
+			txt << *production->left << ' ';
+			for each (auto symbol in production->right)
+			{
+				txt << *symbol << ' ';
+			}
+			txt << endl;
+		}
+		assert(status_vector.size() == action_vector.size());
 		txt << status_vector.size() << endl;
 		for each (auto vec in action_vector)
 		{
@@ -488,6 +515,7 @@ namespace lr
 			}
 			txt << endl;
 		}
+		assert(status_vector.size() == go_vector.size());
 		for each (auto vec in go_vector)
 		{
 			for each (auto status in vec)
