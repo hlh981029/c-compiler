@@ -95,8 +95,8 @@ namespace lr
 
 		vector<unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare>> kernel_status_vector;
 		vector<map<cfg::Symbol*, int>> kernel_goto_vector;
-		vector<map<cfg::Terminal*, string>> kernel_action_vector;
-		vector<map<cfg::Nonterminal*, int>> kernel_go_vector;
+		//vector<map<cfg::Terminal*, string>> kernel_action_vector;
+		//vector<map<cfg::Nonterminal*, int>> kernel_go_vector;
 
 		cfg::Terminal* sentence_ending;
 
@@ -116,6 +116,10 @@ namespace lr
 		void get_spontaneous_lookaheads_and_spreading_lookaheads();
 		void set_spontaneous_lookaheads();
 		void spread_lookaheads();
+
+		vector<unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare>> status_vector;
+
+		void get_full_status_vector();
 
 	};
 

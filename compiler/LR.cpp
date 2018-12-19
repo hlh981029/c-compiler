@@ -70,8 +70,8 @@ namespace lr
 			auto closure_set = kernel_status_vector[i];
 			LR0_closure(closure_set);
 
-			kernel_action_vector.push_back(map<cfg::Terminal*, string>());
-			kernel_go_vector.push_back(map < cfg::Nonterminal*, int>());
+			//kernel_action_vector.push_back(map<cfg::Terminal*, string>());
+			//kernel_go_vector.push_back(map < cfg::Nonterminal*, int>());
 			kernel_goto_vector.push_back(map<cfg::Symbol*, int>());
 			// 输入一个终结符, 状态转换
 			for each(auto terminal in terminal_set)
@@ -111,7 +111,7 @@ namespace lr
 					std::stringstream ss;
 					ss.clear();
 					ss << order;
-					kernel_action_vector[i].insert(std::make_pair(terminal, "s" + ss.str()));
+					//kernel_action_vector[i].insert(std::make_pair(terminal, "s" + ss.str()));
 					kernel_goto_vector[i].insert(std::make_pair(terminal, order));
 				}
 			}
@@ -147,7 +147,7 @@ namespace lr
 					{
 						kernel_status_vector.push_back(kernel_set);
 					}
-					kernel_go_vector[i].insert(std::make_pair(nonterminal, order));
+					//kernel_go_vector[i].insert(std::make_pair(nonterminal, order));
 					kernel_goto_vector[i].insert(std::make_pair(nonterminal, order));
 				}
 			}
@@ -162,7 +162,7 @@ namespace lr
 			}
 			cout << "delete count: " << delete_count << endl;
 		}
-		assert(kernel_action_vector.size() == kernel_status_vector.size());
+		assert(kernel_goto_vector.size() == kernel_status_vector.size());
 	}
 
 	// Get a closuer of a status.
@@ -359,9 +359,18 @@ namespace lr
 				}
 			}
 		}
-
 	}
 
+	void LALR::get_full_status_vector()
+	{
+		for (int i = 0; i < kernel_status_vector.size(); i++)
+		{
+			unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare> closure_set = kernel_status_vector[i];
+			LALR_closuer(closure_set);
+			status_vector.push_back(closure_set);
+			assert(status_vector.size() == i + 1);
+		}
+	}
 
 	LALR::LALR()
 	{
