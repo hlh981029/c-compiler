@@ -1,19 +1,19 @@
 Name           Morpheme       Value          
 
 VOID           void                          
-ID             test           25833184       
+IDENTIFIER     test                          
 (              (                             
 )              )                             
 {              {                             
 INT            int                           
-ID             a              26011808       
+IDENTIFIER     a                             
 =              =                             
-NUMBER         0              0              
+CONSTANT       0                             
 ;              ;                             
-ID             a              26011808       
-++             ++                            
+IDENTIFIER     a                             
+INC_OP         ++                            
 ;              ;                             
-ID             a              26011808       
---             --                            
+IDENTIFIER     a                             
+DEC_OP         --                            
 ;              ;                             
 }              }                             

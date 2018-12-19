@@ -12,13 +12,14 @@
 using namespace std;
 //#define GRAMMAR
 #define HB
-#define LEX
-#define LYH
+//#define LEX
+
 
 struct HLH
 {
 	int a;
 };
+
 
 struct set_hash
 {
@@ -176,7 +177,7 @@ int main()
 		",", ",",
 		".", ".",
 		dig + dig + "\001", "CONSTANT",
-		ch + "\004" + ch + "\002" + dig + "\005\001", "IDENTIFER",
+		ch + "\004" + ch + "\002" + dig + "\005\001", "IDENTIFIER",
 		"\004 \002\t\002\n\005\001", "BLANK"//
 	};
 	string *names = new string[n];
