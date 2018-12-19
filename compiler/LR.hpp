@@ -1,5 +1,5 @@
 #pragma once
-#include"LRItem.hpp"
+#include"ContextFreeGrammar.hpp"
 #include<map>
 #include<queue>
 #include<assert.h>

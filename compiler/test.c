@@ -3,5 +3,5 @@
 */
 void main() {
     // [test] declaration statement.
-  2+3;
+  2*3;
 }

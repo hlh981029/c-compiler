@@ -6,7 +6,7 @@ IDENTIFIER     main
 )              )                             
 {              {                             
 CONSTANT       2                             
-+              +                             
+*              *                             
 CONSTANT       3                             
 ;              ;                             
 }              }                             

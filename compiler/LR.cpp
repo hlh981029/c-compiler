@@ -456,7 +456,7 @@ namespace lr
 						{
 							action_vector[i][terminal_to_int_map[terminal]] += "r" + ss.str();
 						}
-						if(item->order ==0)
+						if(item->order == argumented_grammar_start->order)
 						{
 							action_vector[i][terminal_to_int_map[terminal]] = "acc";
 						}
