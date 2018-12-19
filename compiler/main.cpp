@@ -10,8 +10,8 @@
 #include "GrammerAnalyzer.h"
 #include "LR.hpp"
 using namespace std;
-//#define GRAMMAR
-#define HB
+#define GRAMMAR
+//#define HB
 //#define LEX
 
 

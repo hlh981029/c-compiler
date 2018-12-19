@@ -18,12 +18,7 @@ namespace lr
 		}
 
 	}
-
-
-
-
-
-
+	
 	LALR::LALR(const cfg::ContextFreeGrammar & context_free_grammar_) :
 		terminal_set(context_free_grammar_.terminal_set),
 		nonterminal_set(context_free_grammar_.nonterminal_set),
@@ -44,16 +39,16 @@ namespace lr
 		}
 		production_number = context_free_grammar_.production_set.size();
 		assert(production_number == production_order);
-		int exchanged_order_number = -1;
 		for each(auto item in lr0_item_set)
 		{
 			if (item->production->left == start_symbol && item->position == 0)
 			{
 				argumented_grammar_start = item;
-				exchanged_order_number = item->order;
+				//exchanged_order_number = item->order;
 				break;
 			}
 		}
+		/*int exchanged_order_number = -1;
 		if (exchanged_order_number)
 		{
 			for each(auto item in lr0_item_set)
@@ -65,7 +60,7 @@ namespace lr
 					break;
 				}
 			}
-		}
+		}*/
 	}
 
 	void LALR::get_kernel()
@@ -163,7 +158,6 @@ namespace lr
 					{
 						kernel_status_vector.push_back(kernel_set);
 					}
-					//kernel_go_vector[i].insert(std::make_pair(nonterminal, order));
 					kernel_goto_vector[i].insert(std::make_pair(nonterminal, order));
 				}
 			}
@@ -401,23 +395,23 @@ namespace lr
 			nonterminal_vector.push_back(nonterminal);
 			nonterminal_to_int_map.insert(std::make_pair(nonterminal, nonterminal_vector.size() - 1));
 		}
-		int start_symbol_position = -1;
-		for (int i = 0; i < nonterminal_vector.size(); i++)
-		{
-			if (nonterminal_vector[i] == start_symbol)
-			{
-				start_symbol_position = i;
-				break;
-			}
-		}
-		if (start_symbol_position)
-		{
-			auto temp = nonterminal_vector[0];
-			nonterminal_vector[0] = start_symbol;
-			nonterminal_vector[start_symbol_position] = temp;
-			nonterminal_to_int_map[temp] = start_symbol_position;
-			nonterminal_to_int_map[start_symbol] = 0;
-		}
+		//int start_symbol_position = -1;
+		//for (int i = 0; i < nonterminal_vector.size(); i++)
+		//{
+		//	if (nonterminal_vector[i] == start_symbol)
+		//	{
+		//		start_symbol_position = i;
+		//		break;
+		//	}
+		//}
+		//if (start_symbol_position)
+		//{
+		//	auto temp = nonterminal_vector[0];
+		//	nonterminal_vector[0] = start_symbol;
+		//	nonterminal_vector[start_symbol_position] = temp;
+		//	nonterminal_to_int_map[temp] = start_symbol_position;
+		//	nonterminal_to_int_map[start_symbol] = 0;
+		//}
 
 		assert(terminal_set.size() == terminal_vector.size() && terminal_vector.size() == terminal_to_int_map.size());
 		assert(nonterminal_set.size() == nonterminal_vector.size() && nonterminal_vector.size() == nonterminal_to_int_map.size());
