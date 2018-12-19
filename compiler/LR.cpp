@@ -9,14 +9,14 @@ namespace lr
 	}
 
 
-	LALR1Item::LALR1Item(cfg::Production* production_, int position_, cfg::Terminal* sentence_ending_)
-		:production(production_), position(position_), is_kernel(true)
+	LALR1Item::LALR1Item(cfg::Production* production_, int position_, cfg::Terminal* sentence_ending_, int order_)
+		:production(production_), position(position_), is_kernel(true),order(order_)
 	{
 		if (sentence_ending_ != nullptr)
 		{
 			lookaheads.insert(sentence_ending_);
 		}
-		
+
 	}
 
 
@@ -31,31 +31,45 @@ namespace lr
 	{
 		auto result = terminal_set.insert(new cfg::Terminal("$"));
 		sentence_ending = *result.first;
+		int production_order = 0;
 		for each(auto production in context_free_grammar_.production_set)
 		{
 			for (int i = 0; i < production->right.size() + 1; i++)
 			{
 				cout << i << endl;
 				cout << *production->left << endl;
-				lr0_item_set.insert(new LALR1Item(production, i, sentence_ending));
+				lr0_item_set.insert(new LALR1Item(production, i, sentence_ending,production_order));
 			}
+			production_order++;
 		}
+		int exchanged_order_number = -1;
 		for each(auto item in lr0_item_set)
 		{
 			if (item->production->left == start_symbol && item->position == 0)
 			{
 				argumented_grammar_start = item;
+				exchanged_order_number = item->order;
 				break;
+			}
+		}
+		if (exchanged_order_number)
+		{
+			for each(auto item in lr0_item_set)
+			{
+				if (item->order== 0)
+				{
+					item->order = exchanged_order_number;
+					argumented_grammar_start->order = 0;
+					break;
+				}
 			}
 		}
 	}
 
 	void LALR::get_kernel()
 	{
-		std::ofstream lalr_txt("lalr.txt");
-		lalr_txt << terminal_set.size() << '\t' << nonterminal_set.size() << '\t' << lr0_item_set.size() << endl;
 		unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare> first_set;
-		LALR1Item* start = new LALR1Item(argumented_grammar_start->production, argumented_grammar_start->position, sentence_ending);
+		LALR1Item* start = new LALR1Item(argumented_grammar_start->production, argumented_grammar_start->position, sentence_ending, argumented_grammar_start->order);
 		start->is_kernel = true;
 		first_set.insert(start);
 		kernel_status_vector.push_back(first_set);
@@ -85,7 +99,7 @@ namespace lr
 					}
 					if (item->production->right[item->position] == terminal)
 					{
-						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending);
+						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending,item->order);
 						insert_item->is_kernel = true;
 						kernel_set.insert(insert_item);
 					}
@@ -126,7 +140,7 @@ namespace lr
 					}
 					if (item->production->right[item->position] == nonterminal)
 					{
-						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending);
+						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending,item->order);
 						insert_item->is_kernel = true;
 						kernel_set.insert(insert_item);
 					}
@@ -192,7 +206,7 @@ namespace lr
 					{
 						if (item->production->left == nonterminal && item->position == 0)
 						{
-							LALR1Item* insert_item = new LALR1Item(item->production, item->position, sentence_ending);
+							LALR1Item* insert_item = new LALR1Item(item->production, item->position, nullptr,item->order);
 							insert_item->is_kernel = false;
 							if (closure_set.insert(insert_item).second)
 							{
@@ -235,7 +249,7 @@ namespace lr
 					{
 						if (item->production->left == nonterminal && item->position == 0)
 						{
-							LALR1Item* insert_item = new LALR1Item(item->production, item->position, nullptr);
+							LALR1Item* insert_item = new LALR1Item(item->production, item->position, nullptr,item->order);
 							auto result = closure_set.insert(insert_item);
 							// 无论是否之前有同心项 都需要更新先前看符号
 							if (current_item->position + 1 >= current_item->production->right.size())
@@ -371,6 +385,120 @@ namespace lr
 			assert(status_vector.size() == i + 1);
 		}
 	}
+
+	void LALR::serialize_symbol()
+	{
+		assert(terminal_vector.empty() && nonterminal_vector.empty());
+		for each (auto terminal in terminal_set)
+		{
+			terminal_vector.push_back(terminal);
+			terminal_to_int_map.insert(std::make_pair(terminal, terminal_vector.size() - 1));
+		}
+		for each (auto nonterminal in nonterminal_set)
+		{
+			nonterminal_vector.push_back(nonterminal);
+			nonterminal_to_int_map.insert(std::make_pair(nonterminal, nonterminal_vector.size() - 1));
+		}
+		int start_symbol_position = -1;
+		for (int i = 0; i < nonterminal_vector.size(); i++)
+		{
+			if (nonterminal_vector[i] == start_symbol)
+			{
+				start_symbol_position = i;
+				break;
+			}
+		}
+		if(start_symbol_position)
+		{
+			auto temp = nonterminal_vector[0];
+			nonterminal_vector[0] = start_symbol;
+			nonterminal_vector[start_symbol_position] = temp;
+			nonterminal_to_int_map[temp] = start_symbol_position;
+			nonterminal_to_int_map[start_symbol] = 0;
+		}
+
+		assert(terminal_set.size() == terminal_vector.size() && terminal_vector.size() == terminal_to_int_map.size());
+		assert(nonterminal_set.size() == nonterminal_vector.size() && nonterminal_vector.size() == nonterminal_to_int_map.size());
+
+	}
+
+	void LALR::make_action_and_go()
+	{
+		for (int i = 0; i < kernel_goto_vector.size(); i++)
+		{
+			action_vector.push_back(vector<string>(terminal_set.size(), "e"));
+			go_vector.push_back(vector<int>(nonterminal_set.size(), -1));
+			for each (auto trans_pair in kernel_goto_vector[i])
+			{
+				if (trans_pair.first->get_id() == cfg::Identify::Terminal)
+				{
+					std::stringstream ss;
+					ss.clear();
+					ss<<trans_pair.second;
+					action_vector[i][terminal_to_int_map[dynamic_cast<cfg::Terminal*> (trans_pair.first)]] = "s" + ss.str();
+					ss.clear();
+				}
+				if (trans_pair.first->get_id() == cfg::Identify::Nonterminal)
+				{
+					go_vector[i][nonterminal_to_int_map[dynamic_cast<cfg::Nonterminal*> (trans_pair.first)]] = trans_pair.second;
+				}
+			}
+			for each (auto item in status_vector[i])
+			{
+				if (item->production->right.size() == item->position)
+				{
+					for each (auto terminal in item->lookaheads)
+					{
+						std::stringstream ss;
+						ss.clear();
+						ss << item->order;
+						if(action_vector[i][terminal_to_int_map[terminal]][0] == 'e')
+						{
+							action_vector[i][terminal_to_int_map[terminal]] = "r" + ss.str();
+						}
+						else
+						{
+							action_vector[i][terminal_to_int_map[terminal]] += "r" + ss.str();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void LALR::output()
+	{
+		std::ofstream txt("lalr.txt");
+		txt << terminal_vector.size() << endl;
+		for each (auto terminal in terminal_vector)
+		{
+			txt << *terminal << endl;
+		}
+		txt << nonterminal_vector.size();
+		for each (auto nonterminal in nonterminal_vector)
+		{
+			txt << *nonterminal << endl;
+		}
+		txt << status_vector.size() << endl;
+		for each (auto vec in action_vector)
+		{
+			for each (auto str in vec)
+			{
+				txt << str << ' ';
+			}
+			txt << endl;
+		}
+		for each (auto vec in go_vector)
+		{
+			for each (auto status in vec)
+			{
+				txt << status << ' ';
+			}
+			txt << endl;
+		}
+	}
+
+
 
 	LALR::LALR()
 	{

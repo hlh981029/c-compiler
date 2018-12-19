@@ -40,8 +40,10 @@ namespace lr
 		std::unordered_set<cfg::Terminal*, Ter_pointer_hash, Ter_pointer_hash_compare> lookaheads;
 		bool is_kernel;
 
+		int order;
+
 		LALR1Item();
-		LALR1Item(cfg::Production* production_, int position, cfg::Terminal* sentence_ending);
+		LALR1Item(cfg::Production* production_, int position, cfg::Terminal* sentence_ending, int order_);
 
 	};
 
@@ -95,8 +97,7 @@ namespace lr
 
 		vector<unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare>> kernel_status_vector;
 		vector<map<cfg::Symbol*, int>> kernel_goto_vector;
-		//vector<map<cfg::Terminal*, string>> kernel_action_vector;
-		//vector<map<cfg::Nonterminal*, int>> kernel_go_vector;
+
 
 		cfg::Terminal* sentence_ending;
 
@@ -121,9 +122,20 @@ namespace lr
 
 		void get_full_status_vector();
 
+		vector<cfg::Terminal*> terminal_vector;
+		vector<cfg::Nonterminal*> nonterminal_vector;
+
+		map<cfg::Terminal*, int> terminal_to_int_map;
+		map<cfg::Nonterminal*, int> nonterminal_to_int_map;
+
+		vector<vector<string>> action_vector;
+		vector<vector<int>> go_vector;
+
+		void serialize_symbol();
+		void make_action_and_go();
+		void output();
 	};
 
 	std::ostream& operator<<(std::ostream& out, LALR1Item item);
-
 
 }

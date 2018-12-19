@@ -63,6 +63,9 @@ int main()
 	lalr.set_spontaneous_lookaheads();
 	lalr.spread_lookaheads();
 	lalr.get_full_status_vector();
+	lalr.serialize_symbol();
+	lalr.make_action_and_go();
+	lalr.output();
 	system("pause");
 	return 0;
 #endif // GRAMMAR
