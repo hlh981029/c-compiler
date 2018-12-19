@@ -3,7 +3,7 @@
 #include <stack>
 #include <string>
 
-#define DQ_TEST
+//#define DQ_TEST
 
 GrammerAnalyzer::GrammerAnalyzer(std::vector<hebo::LexicalUnit> output_sequence) {
 	this->output_sequence = output_sequence;
@@ -20,7 +20,7 @@ GrammerAnalyzer::GrammerAnalyzer(std::vector<hebo::LexicalUnit> output_sequence)
 }
 
 void GrammerAnalyzer::initialization() {
-	std::ifstream in("to_dq.txt");
+	std::ifstream in("lalr.txt");
 	if (!in.is_open()) {
 		std::cout << "Open failed!" << std::endl;
 		in.close();
@@ -136,8 +136,12 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 			std::cout << "acc" << std::endl;
 			break;
 		}
-		else {
-			std::cout << "Error!" << std::endl;
+		else if (this->action_table[temp_status][pos_num][0][0] == 'e') {
+			std::cout << "Standard Error!" << std::endl;
+		}
+		else
+		{
+			std::cout << "Error" << std::endl;
 		}
 	}
 	return root;

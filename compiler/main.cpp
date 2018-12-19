@@ -8,6 +8,7 @@
 #include "intput_and_output.hpp"
 #include "ContextFreeGrammar.hpp"
 #include "GrammerAnalyzer.h"
+#include "LR.hpp"
 using namespace std;
 //#define GRAMMAR
 #define HB
@@ -19,12 +20,26 @@ struct HLH
 	int a;
 };
 
+struct set_hash
+{
+	size_t operator()(unordered_set<int> input)const
+	{
+		int result = 0;
+		for each (int x in input)
+		{
+			result += x;
+			result = result << 2;
+		}
+		return result;
+	}
+};
+
 int main()
 {
 #ifdef GRAMMAR
 	cfg::ContextFreeGrammar a;
 	a.input_productions("../productions1.txt");
-	a.set_start("translation_unit");
+	a.set_start("argumented_translation_unit");
 	a.set_first();
 	a.set_follow();
 
@@ -42,17 +57,27 @@ int main()
 		cout << "***********" << endl << endl;
 	}
 	cout << "---------------------------------" << endl;
-	std::system("pause");
+	lr::LALR lalr(a);
+	lalr.get_kernel();
+	lalr.get_spontaneous_lookaheads_and_spreading_lookaheads();
+	lalr.set_spontaneous_lookaheads();
+	lalr.spread_lookaheads();
+	lalr.get_full_status_vector();
+	lalr.serialize_symbol();
+	lalr.make_action_and_go();
+	lalr.output();
+	system("pause");
 	return 0;
 #endif // GRAMMAR
 
 #ifdef LYH
 
+
 #endif // LYH
 
 
 #ifdef HB
-	
+
 	hebo::DFA dfa("ans.txt", "test.c");
 	dfa.run();
 	GrammerAnalyzer* grammer_analyzer = new GrammerAnalyzer(dfa.output_sequence);
@@ -62,7 +87,7 @@ int main()
 #ifdef LEX
 	RegExp **exps;
 	int n = 85;
-	exps = new RegExp*[n]; 
+	exps = new RegExp*[n];
 	string dig = "\0040\0021\0022\0023\0024\0025\0026\0027\0028\0029\005";
 	string ch1 = "\004A\002B\002C\002D\002E\002F\002G\002H\002I\002J\002K\002L\002M\002N\002O\002P\002Q\002R\002S\002T\002U\002V\002W\002X\002Y\002Z";
 	string ch2 = "\002a\002b\002c\002d\002e\002f\002g\002h\002i\002j\002k\002l\002m\002n\002o\002p\002q\002r\002s\002t\002u\002v\002w\002x\002y\002z\002_\005";
@@ -155,7 +180,7 @@ int main()
 		"\004 \002\t\002\n\005\001", "BLANK"//
 	};
 	string *names = new string[n];
-	for (int count = 0; count<n; count++)
+	for (int count = 0; count < n; count++)
 	{
 		exps[count] = new RegExp(data[count][0]);
 		names[count] = data[count][1];
