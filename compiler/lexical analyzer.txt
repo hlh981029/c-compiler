@@ -1,19 +1,12 @@
 Name           Morpheme       Value          
 
 VOID           void                          
-IDENTIFIER     test                          
+IDENTIFIER     main                          
 (              (                             
 )              )                             
 {              {                             
-INT            int                           
-IDENTIFIER     a                             
-=              =                             
-CONSTANT       0                             
-;              ;                             
-IDENTIFIER     a                             
-INC_OP         ++                            
-;              ;                             
-IDENTIFIER     a                             
-DEC_OP         --                            
+CONSTANT       2                             
++              +                             
+CONSTANT       3                             
 ;              ;                             
 }              }                             

@@ -3,20 +3,11 @@
 #include <stack>
 #include <string>
 
-//#define DQ_TEST
-
 GrammerAnalyzer::GrammerAnalyzer(std::vector<hebo::LexicalUnit> output_sequence) {
 	this->output_sequence = output_sequence;
-#ifdef DQ_TEST
-	this->output_sequence[0].name = "id";
-	this->output_sequence[1].name = "*";
-	this->output_sequence[2].name = "id";
-	this->output_sequence[3].name = "+";
-	this->output_sequence[4].name = "id";
-	this->output_sequence[5].name = "$";
-#endif // DQ_TEST
 	this->initialization();
 	this->root = this->init_tree();
+	this->output_tree(root, 0);
 }
 
 void GrammerAnalyzer::initialization() {
@@ -54,7 +45,6 @@ void GrammerAnalyzer::initialization() {
 				start = ii + 1;
 			}
 		}
-		production_list[i]->production_formula.push_back(new std::string(temp.substr(start, temp.length() - start)));
 	}
 	std::getline(in, temp);
 	this->table_number = std::atoi(temp.c_str());
@@ -91,14 +81,28 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 	std::stack<int> status_stack;
 	std::stack<hebo::LexicalUnit*> symbol_stack;
 	status_stack.push(0);
+	hebo::LexicalUnit* end = new hebo::LexicalUnit();
+	end->name = "$";
+	symbol_stack.push(end);
 	hebo::LexicalUnit* root = new hebo::LexicalUnit();
+	int step = 0;
 	while (1) {
+		std::cout << ++step<<"£º";
+		if (step == 10) {
+			std::cout << std::endl;
+		}
 		hebo::LexicalUnit* temp_unit = new hebo::LexicalUnit();
-		temp_unit->child_node_list = this->output_sequence.begin()->child_node_list;
-		temp_unit->morpheme = this->output_sequence.begin()->morpheme;
-		temp_unit->name = this->output_sequence.begin()->name;
-		temp_unit->value = this->output_sequence.begin()->value;
+		if (this->output_sequence.size() > 0) {
+			temp_unit->child_node_list = this->output_sequence.begin()->child_node_list;
+			temp_unit->morpheme = this->output_sequence.begin()->morpheme;
+			temp_unit->name = this->output_sequence.begin()->name;
+			temp_unit->value = this->output_sequence.begin()->value;
+		}
+		else {
+			temp_unit->name = '$';
+		}
 		std::string temp_name = temp_unit->name;
+
 		int temp_status = status_stack.top();
 		int pos_num = 0;
 		for (; pos_num < this->terminal_number; pos_num++) {
@@ -109,14 +113,20 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 		std::string temp_str = (*this->action_table[temp_status][pos_num]);
 		if (this->action_table[temp_status][pos_num][0][0] == 's') {
 			this->output_sequence.erase(this->output_sequence.begin());
+			std::cout << this->action_table[temp_status][pos_num][0] << std::endl;
 			status_stack.push(std::atoi(temp_str.substr(1, temp_str.length() - 1).c_str()));
 			symbol_stack.push(temp_unit);
 		}
 		else if (this->action_table[temp_status][pos_num][0][0] == 'r') {
 			int formula_number = std::atoi(temp_str.substr(1, temp_str.length() - 1).c_str());
-			size_t temp_pop_number = this->production_list[formula_number - 1]->production_formula.size() - 1;
+			std::cout << "R:" << formula_number << ":";
+			for (int i = 0; i < this->production_list[formula_number]->production_formula.size(); i++) {
+				std::cout << *this->production_list[formula_number]->production_formula[i]<<' ';
+			}
+			std::cout << std::endl;
+			size_t temp_pop_number = this->production_list[formula_number]->production_formula.size() - 1;
 			root = new hebo::LexicalUnit();
-			root->name = *this->production_list[formula_number - 1]->production_formula[0];
+			root->name = *this->production_list[formula_number]->production_formula[0];
 			for (int i = 0; i < temp_pop_number; i++) {
 				status_stack.pop();
 				root->child_node_list.push_back(symbol_stack.top());
@@ -146,4 +156,18 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 		}
 	}
 	return root;
+}
+
+void GrammerAnalyzer::output_tree(hebo::LexicalUnit* root, int num) {
+	if (root->child_node_list.size() > 0) {
+		for (int i = 0; i < root->child_node_list.size(); i++) {
+			this->output_tree(root->child_node_list[i], num + 1);
+		}
+	}
+	for (int i = 0; i < num - 1; i++) {
+		std::cout << "  ";
+	}
+	std::cout << "|-";
+
+	std::cout << root->name << std::endl;
 }

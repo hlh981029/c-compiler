@@ -28,4 +28,5 @@ public:
 private:
 	void initialization();
 	hebo::LexicalUnit* init_tree();
+	void output_tree(hebo::LexicalUnit*, int);
 };
