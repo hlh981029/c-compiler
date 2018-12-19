@@ -5,6 +5,7 @@
 #include<assert.h>
 #include<sstream>
 #include<fstream>
+#include<unordered_map>
 namespace lr
 {
 	using std::unordered_set;
@@ -14,6 +15,7 @@ namespace lr
 	using std::vector;
 	using std::map;
 	using std::string;
+	using std::unordered_map;
 	using std::queue;
 	class LALR1Item
 	{
@@ -35,11 +37,11 @@ namespace lr
 
 		cfg::Production* production;
 		int position;
-		std::unordered_set<cfg::Terminal*, Ter_pointer_hash, Ter_pointer_hash_compare> foreword;
-
+		std::unordered_set<cfg::Terminal*, Ter_pointer_hash, Ter_pointer_hash_compare> lookaheads;
+		bool is_kernel;
 
 		LALR1Item();
-		LALR1Item(cfg::Production* production_, int position);
+		LALR1Item(cfg::Production* production_, int position, cfg::Terminal* sentence_ending);
 
 	};
 
@@ -67,28 +69,53 @@ namespace lr
 				return
 					input1->production->left == input2->production->left &&
 					input1->production->right == input2->production->right &&
-					input1->position == input2->position  &&
-					input1->foreword == input2->foreword;
+					input1->position == input2->position;
+			}
+		};
+
+		struct unordered_set_lalr_item_hash
+		{
+			size_t operator()(unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare> input) const
+			{
+				item_pointer_hash hash_func;
+				size_t result = 0;
+				for each (auto item in input)
+				{
+					result += hash_func(item);
+				}
+				return result;
 			}
 		};
 
 		unordered_set<cfg::Terminal*, cfg::ContextFreeGrammar::Ter_pointer_hash, cfg::ContextFreeGrammar::Ter_pointer_hash_compare> terminal_set;
 		unordered_set<cfg::Nonterminal*, cfg::ContextFreeGrammar::Non_pointer_hash, cfg::ContextFreeGrammar::Non_pointer_hash_compare> nonterminal_set;
-		unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare> item_set;
+		unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare> lr0_item_set;
 		LALR1Item* argumented_grammar_start;
 		cfg::Nonterminal* start_symbol;
 
 		vector<unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare>> kernel_status_vector;
-		vector<map<cfg::Terminal*, string>> kernel_action_table;
-		vector<map<cfg::Nonterminal*, int>> kernel_goto_table;
-		
+		vector<map<cfg::Symbol*, int>> kernel_goto_vector;
+		vector<map<cfg::Terminal*, string>> kernel_action_vector;
+		vector<map<cfg::Nonterminal*, int>> kernel_go_vector;
+
+		cfg::Terminal* sentence_ending;
+
 		LALR(const cfg::ContextFreeGrammar& context_free_grammar_);
 		void get_kernel();
 
 		void LR0_closure(unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare>& closure_set);
+		void LALR_closuer(unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare>& closure_set);
+
 
 		LALR();
 		~LALR();
+
+		vector<std::pair<LALR1Item*, cfg::Terminal*>> spontaneous_lookaheads_vector;
+		vector<std::pair<LALR1Item*, LALR1Item*>> spreading_lookaheads_vector;
+
+		void get_spontaneous_lookaheads_and_spreading_lookaheads();
+		void set_spontaneous_lookaheads();
+		void spread_lookaheads();
 
 	};
 

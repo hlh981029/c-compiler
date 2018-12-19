@@ -20,6 +20,20 @@ struct HLH
 	int a;
 };
 
+struct set_hash
+{
+	size_t operator()(unordered_set<int> input)const
+	{
+		int result = 0;
+		for each (int x in input)
+		{
+			result += x;
+			result = result << 2;
+		}
+		return result;
+	}
+};
+
 int main()
 {
 #ifdef GRAMMAR
@@ -45,42 +59,9 @@ int main()
 	cout << "---------------------------------" << endl;
 	lr::LALR lalr(a);
 	lalr.get_kernel();
-	//ofstream lalr_txt("lalr.txt");
-	//for each (auto x in lalr.item_set)
-	//{
-	//	lalr_txt << *x << endl;
-	//}
-	//int count = 0;
-	//for each (auto var in lalr.kernel_status_vector)
-	//{
-	//	lalr_txt << count++ << endl;
-	//	for each(auto item in var)
-	//	{
-	//		lalr_txt << *item << endl;
-	//	}
-	//	lalr_txt << endl;
-	//}
-	//count = 0;
-	//for each (auto x in lalr.kernel_action_table)
-	//{
-	//	lalr_txt << count++ << endl;
-	//	for each (auto p in x)
-	//	{
-	//		lalr_txt << *p.first << " : " << p.second << endl;
-	//	}
-	//	lalr_txt << endl;
-	//}
-	//count = 0;
-	//for each (auto x  in lalr.kernel_goto_table)
-	//{
-	//	lalr_txt << count++ << endl;
-	//	for each (auto p in x)
-	//	{
-	//		lalr_txt << *p.first << " : " << p.second << endl;
-	//	}
-	//	lalr_txt << endl;
-	//}
-
+	lalr.get_spontaneous_lookaheads_and_spreading_lookaheads();
+	lalr.set_spontaneous_lookaheads();
+	lalr.spread_lookaheads();
 	system("pause");
 	return 0;
 #endif // GRAMMAR
