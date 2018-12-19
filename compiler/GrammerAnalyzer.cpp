@@ -142,6 +142,7 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 		else
 		{
 			std::cout << "Error" << std::endl;
+			break;
 		}
 	}
 	return root;
