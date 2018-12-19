@@ -260,6 +260,3 @@ paket-files/
 __pycache__/
 *.pyc
 # My
-ans.txt
-lyhsb.txt
-test.c
