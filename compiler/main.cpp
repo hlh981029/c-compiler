@@ -39,7 +39,7 @@ int main()
 {
 #ifdef GRAMMAR
 	cfg::ContextFreeGrammar a;
-	a.input_productions("../productions1.txt");
+	a.input_productions("../productions.txt");
 	a.set_start("argumented_translation_unit");
 	a.set_first();
 	a.set_follow();
@@ -217,4 +217,4 @@ int main()
 
 
 	return 0;
-}
+	}

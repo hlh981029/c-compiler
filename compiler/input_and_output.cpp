@@ -259,7 +259,8 @@ namespace hebo
 			feed(ch);
 		}
 		feed(0);
-		print_output_sequence();
+		std::ofstream output("lexical analyzer.txt");
+		print_output_sequence(output);
 	}
 
 
@@ -278,9 +279,8 @@ namespace hebo
 		std::cout << current_string << std::endl;
 	}
 
-	void DFA::print_output_sequence()
+	void DFA::print_output_sequence(std::ostream& output)
 	{
-		std::ofstream output("lexical analyzer.txt");
 		output.setf(std::ios::left);
 		output
 			<< std::setw(15) << "Name"

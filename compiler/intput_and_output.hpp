@@ -58,7 +58,7 @@ namespace hebo
 		void run();
 		DFA& operator<<(std::ifstream& input);
 		void print_current_string();
-		void print_output_sequence();
+		void print_output_sequence(std::ostream& output);
 	};
 }
 

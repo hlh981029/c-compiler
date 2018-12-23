@@ -1,10 +1,16 @@
 #include "GrammerAnalyzer.h"
 #include <fstream>
 #include <stack>
+#include <assert.h>
 #include <string>
 
 GrammerAnalyzer::GrammerAnalyzer(std::vector<hebo::LexicalUnit> output_sequence) {
+
 	this->output_sequence = output_sequence;
+	this->output_sequence.push_back(hebo::LexicalUnit());
+	this->output_sequence[this->output_sequence.size() - 1].name = "$";
+	this->output_sequence[this->output_sequence.size() - 1].morpheme = "$";
+	this->output_sequence[this->output_sequence.size() - 1].value = "$";
 	this->initialization();
 	this->root = this->init_tree();
 	this->output_tree(root, 0);
@@ -84,6 +90,9 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 	hebo::LexicalUnit* end = new hebo::LexicalUnit();
 	end->name = "$";
 	symbol_stack.push(end);
+
+	
+
 	hebo::LexicalUnit* root = new hebo::LexicalUnit();
 	int step = 0;
 	while (1) {
@@ -141,12 +150,13 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 				}
 			}
 			status_stack.push(std::atoi(this->goto_table[now_status][pos_num]->c_str()));
+			std::cout <<'\t'<< status_stack.top() << std::endl;
 		}
-		else if (this->action_table[temp_status][pos_num][0][0] == 'a') {
+			else if (this->action_table[temp_status][pos_num][0][0] == 'a') {
 			std::cout << "acc" << std::endl;
 			break;
 		}
-		else if (this->action_table[temp_status][pos_num][0][0] == 'e') {
+		else if (this->action_table[temp_status][pos_num][0].size() == 0) {
 			std::cout << "Standard Error!" << std::endl;
 		}
 		else

@@ -42,9 +42,6 @@
     <ClCompile Include="GrammerAnalyzer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LRItem.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="LR.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GrammerAnalyzer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LRItem.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="LR.hpp">

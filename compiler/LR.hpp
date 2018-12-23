@@ -51,7 +51,7 @@ namespace lr
 	class LALR
 	{
 	public:
-		int production_number;
+
 		struct item_pointer_hash
 		{
 			size_t operator()(LALR1Item* input) const {
@@ -87,6 +87,9 @@ namespace lr
 				return result;
 			}
 		};
+
+		int production_number;
+		cfg::Terminal* non_exist_terminal;
 
 		unordered_set<cfg::Terminal*, cfg::ContextFreeGrammar::Ter_pointer_hash, cfg::ContextFreeGrammar::Ter_pointer_hash_compare> terminal_set;
 		unordered_set<cfg::Nonterminal*, cfg::ContextFreeGrammar::Non_pointer_hash, cfg::ContextFreeGrammar::Non_pointer_hash_compare> nonterminal_set;

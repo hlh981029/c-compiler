@@ -9,12 +9,12 @@ namespace lr
 	}
 
 
-	LALR1Item::LALR1Item(cfg::Production* production_, int position_, cfg::Terminal* sentence_ending_, int order_)
+	LALR1Item::LALR1Item(cfg::Production* production_, int position_, cfg::Terminal* non_exist_terminal_, int order_)
 		:production(production_), position(position_), is_kernel(true), order(order_)
 	{
-		if (sentence_ending_ != nullptr)
+		if (non_exist_terminal_ != nullptr)
 		{
-			lookaheads.insert(sentence_ending_);
+			lookaheads.insert(non_exist_terminal_);
 		}
 
 	}
@@ -24,6 +24,7 @@ namespace lr
 		nonterminal_set(context_free_grammar_.nonterminal_set),
 		start_symbol(context_free_grammar_.start_symbol)
 	{
+		non_exist_terminal = new cfg::Terminal("this is a non existed terminal");
 		auto result = terminal_set.insert(new cfg::Terminal("$"));
 		sentence_ending = *result.first;
 		int production_order = 0;
@@ -33,7 +34,7 @@ namespace lr
 			{
 				cout << i << endl;
 				cout << *production->left << endl;
-				lr0_item_set.insert(new LALR1Item(production, i, sentence_ending, production_order));
+				lr0_item_set.insert(new LALR1Item(production, i, non_exist_terminal, production_order));
 			}
 			production_order++;
 		}
@@ -44,35 +45,20 @@ namespace lr
 			if (item->production->left == start_symbol && item->position == 0)
 			{
 				argumented_grammar_start = item;
-				//exchanged_order_number = item->order;
 				break;
 			}
 		}
-		/*int exchanged_order_number = -1;
-		if (exchanged_order_number)
-		{
-			for each(auto item in lr0_item_set)
-			{
-				if (item->order == 0)
-				{
-					item->order = exchanged_order_number;
-					argumented_grammar_start->order = 0;
-					break;
-				}
-			}
-		}*/
 	}
 
 	void LALR::get_kernel()
 	{
 		unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare> first_set;
-		LALR1Item* start = new LALR1Item(argumented_grammar_start->production, argumented_grammar_start->position, sentence_ending, argumented_grammar_start->order);
+		LALR1Item* start = new LALR1Item(argumented_grammar_start->production, argumented_grammar_start->position, non_exist_terminal, argumented_grammar_start->order);
 		start->is_kernel = true;
 		first_set.insert(start);
 		kernel_status_vector.push_back(first_set);
 		// 查重集
 		// 查重相同的核
-		// unordered_map<unordered_set<LALR1Item*, item_pointer_hash, item_pointer_hash_compare>,int ,unordered_set_lalr_item_hash> distincted_map;
 		//对于每一个项目集核
 		//先求闭包, 然后找GO函数
 		for (int i = 0; i < kernel_status_vector.size(); i++)
@@ -81,8 +67,6 @@ namespace lr
 			auto closure_set = kernel_status_vector[i];
 			LR0_closure(closure_set);
 
-			//kernel_action_vector.push_back(map<cfg::Terminal*, string>());
-			//kernel_go_vector.push_back(map < cfg::Nonterminal*, int>());
 			kernel_goto_vector.push_back(map<cfg::Symbol*, int>());
 			// 输入一个终结符, 状态转换
 			for each(auto terminal in terminal_set)
@@ -96,8 +80,8 @@ namespace lr
 					}
 					if (item->production->right[item->position] == terminal)
 					{
-						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending, item->order);
-						insert_item->is_kernel = true;
+						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, non_exist_terminal, item->order);
+						insert_item->is_kernel = true;	
 						kernel_set.insert(insert_item);
 					}
 				}
@@ -122,7 +106,6 @@ namespace lr
 					std::stringstream ss;
 					ss.clear();
 					ss << order;
-					//kernel_action_vector[i].insert(std::make_pair(terminal, "s" + ss.str()));
 					kernel_goto_vector[i].insert(std::make_pair(terminal, order));
 				}
 			}
@@ -137,7 +120,7 @@ namespace lr
 					}
 					if (item->production->right[item->position] == nonterminal)
 					{
-						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, sentence_ending, item->order);
+						LALR1Item* insert_item = new LALR1Item(item->production, item->position + 1, non_exist_terminal, item->order);
 						insert_item->is_kernel = true;
 						kernel_set.insert(insert_item);
 					}
@@ -299,7 +282,7 @@ namespace lr
 					}
 					for each (auto terminal in item->lookaheads)// 对于每一个先前看符号
 					{
-						if (terminal == sentence_ending)// 传播
+						if (terminal == non_exist_terminal)// 传播
 						{
 							for each(auto next_item in kernel_status_vector[kernel_goto_vector[i][item->production->right[item->position]]])
 							{
@@ -340,7 +323,9 @@ namespace lr
 		{
 			for each (auto item in status_set)
 			{
-				item->lookaheads.empty();
+				assert(item->lookaheads.size() == 1);
+				item->lookaheads.clear();
+				assert(item->lookaheads.empty());
 			}
 		}
 		assert(kernel_status_vector[0].size() == 1);
@@ -460,7 +445,6 @@ namespace lr
 						{
 							action_vector[i][terminal_to_int_map[terminal]] = "acc";
 						}
-
 					}
 				}
 			}
@@ -518,6 +502,39 @@ namespace lr
 			}
 			txt << endl;
 		}
+		std::ofstream item_file("kernel item.txt");
+		for (int i = 0; i < kernel_status_vector.size(); i++)
+		{
+			item_file << "status number: " << i << endl << kernel_status_vector[i].size() << endl;
+			for each (auto item in kernel_status_vector[i])
+			{
+				item_file << *item->production << '\t' << item->position << endl;
+				for each (auto terminal in item->lookaheads)
+				{
+					item_file << *terminal << ' ';
+				}
+				item_file << endl;
+			}
+			item_file << endl << endl;
+		}
+		std::ofstream full_item("item.txt");
+		full_item << status_vector.size() << endl;
+
+		for (int i = 0; i < status_vector.size(); i++)
+		{
+			full_item << i <<  ' '  << status_vector[i].size() << endl;
+			for each (auto item in status_vector[i])
+			{
+				full_item << *item->production << '\t' << item->position << endl;
+				for each (auto terminal in item->lookaheads)
+				{
+					full_item << *terminal << ' ';
+				}
+				full_item << endl;
+			}
+			full_item << endl;
+		}
+		
 	}
 
 
