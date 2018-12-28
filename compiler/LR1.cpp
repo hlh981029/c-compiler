@@ -1,6 +1,11 @@
 #include "LR1.h"
-
+#include<map>
+#include<assert.h>
+#include<sstream>
 namespace lr1{
+	using std::map;
+	using std::make_pair;
+	using std::stringstream;
 	LR1Item::LR1Item(Production* production, int pnum, int pos)
 	{
 		this->production = production;
@@ -97,7 +102,7 @@ namespace lr1{
 			if (this->itemset[i]->production == Item->production && this->itemset[i]->position == Item->position) {
 				have_it = true;
 				bool a = this->itemset[i]->addForwards(Item->forward);
-				// first±êÊ¶×´Ì¬¼¯ÊÇ·ñ·¢Éú¸Ä±ä£¬second±êÊ¶ÊÇ·ñÓ¦¸Ãdelete Item
+				// firstï¿½ï¿½Ê¶×´Ì¬ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ä±ä£¬secondï¿½ï¿½Ê¶ï¿½Ç·ï¿½Ó¦ï¿½ï¿½delete Item
 				std::pair<bool, bool> p(a, true);
 				return p;
 			}
@@ -298,19 +303,268 @@ namespace lr1{
 	}
 	int8_t LR1ItemSets::can_merge(int status_1, int status_2)
 	{
-		return int8_t();
+		/*if (itemSets[status_1]->itemset.size() != itemSets[status_2]->itemset.size())
+		{
+			return 0;
+		}
+		map<int, int> status_1_equivalence;
+		map<int, int> status_2_equivalence;
+
+		int size = itemSets[status_1]->itemset.size();
+		for (int i = 0; i < size; i++)
+		{
+			status_1_equivalence.insert(
+				make_pair(
+					itemSets[status_1]->itemset[i]->productionNum,
+					itemSets[status_1]->itemset[i]->position));
+			status_2_equivalence.insert(
+				make_pair(
+					itemSets[status_2]->itemset[i]->productionNum,
+					itemSets[status_2]->itemset[i]->position));
+		}
+		return status_1_equivalence == status_2_equivalence;*/
+		
+		if (itemSets[status_1]->itemset.size() != itemSets[status_2]->itemset.size())
+		{
+			return 0;
+		}
+
+		assert(status_2 < status_1);
+		assert(itemSets[status_1]->itemset.size() == itemSets[status_2]->itemset.size());
+
+		map<int, int> correspondence;
+		int size = itemSets[status_1]->itemset.size();
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				if (
+					itemSets[status_1]->itemset[i]->productionNum ==
+					itemSets[status_2]->itemset[j]->productionNum &&
+					itemSets[status_1]->itemset[i]->position ==
+					itemSets[status_2]->itemset[j]->position)
+				{
+					correspondence.insert(make_pair(i, j));
+				}
+			}
+		}
+		return correspondence.size() == size;
 	}
 	void LR1ItemSets::merge_all()
 	{
+		for (int i = 0; i < itemSets.size(); i++)
+		{
+			for (int j = 0; j < i; j++)
+			{
+				if (can_merge(i, j))
+				{
+					merge_go_table(i, j);
+					merge_itemSets(i, j);
+					i--;
+					break;
+				}
+				assert(GO.size() == itemSets.size());
+				
+			}
+		}
 	}
 	void LR1ItemSets::merge_go_table(int status_1, int status_2)
 	{
+		assert(status_2 < status_1);
+		for (int i = 0; i < GO.size(); i++)
+		{
+			for (int j = 0; j < GO[i].size(); j++)
+			{
+				if (GO[i][j] == status_1)
+				{
+					GO[i][j] = status_2;
+				}
+				else if (GO[i][j] > status_1)
+				{
+					GO[i][j] -= 1;
+				}
+			}
+		}
+		GO.erase(GO.begin() + status_1);
 	}
 	void LR1ItemSets::merge_itemSets(int status_1, int status_2)
 	{
+		assert(status_2 < status_1);
+		assert(itemSets[status_1]->itemset.size() == itemSets[status_2]->itemset.size());
+		map<int, int> correspondence;
+		int size = itemSets[status_1]->itemset.size();
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				if (
+					itemSets[status_1]->itemset[i]->productionNum ==
+					itemSets[status_2]->itemset[j]->productionNum &&
+					itemSets[status_1]->itemset[i]->position ==
+					itemSets[status_2]->itemset[j]->position)
+				{
+					correspondence.insert(make_pair(i, j));
+				}
+			}
+		}
+		assert(correspondence.size() == size);
+		int count = 0;
+		for each(auto it in correspondence)
+		{
+			for each(auto terminal in itemSets[status_1]->itemset[it.first]->forward)
+			{
+				bool been_in = false;
+				for (int i = 0; i < itemSets[status_2]->itemset[it.second]->forward.size(); i++)
+				{
+					if (itemSets[status_2]->itemset[it.second]->forward[i] == terminal)
+					{
+						been_in = true;
+						break;
+					}
+				}
+				if(!been_in)
+				{
+					itemSets[status_2]->itemset[it.second]->forward.push_back(terminal);
+				}
+			}
+			count++;
+		}
+		assert(count == size);
+		itemSets.erase(itemSets.begin() + status_1);
+	}
+	void LR1ItemSets::set_action_and_goto()
+	{
+		terminals.clear();
+		nonterminals.clear();
+		for (int i = 0; i < symbols.size(); i++)
+		{
+			if (symbols[i]->get_id() == cfg::Identify::Terminal)
+			{
+				terminals.push_back(dynamic_cast<Terminal*>(symbols[i]));
+			}
+			else
+			{
+				break;
+			}
+		}
+		for (int i = terminals.size(); i < symbols.size(); i++)
+		{
+			nonterminals.push_back(dynamic_cast<Nonterminal*>(symbols[i]));
+		}
+
+
+
+		action_table = vector<vector<string>>(itemSets.size(), vector<string>(terminals.size(), "e"));
+		goto_table = vector<vector<int>>(itemSets.size(), vector<int>(nonterminals.size(), -1));
+
+		stringstream ssss;
+		
+		for (int i = 0; i < itemSets.size(); i++)
+		{
+			for (int j = 0; j < terminals.size(); j++)
+			{
+				if (GO[i][j] == -1)
+				{
+					continue;
+				}
+				ssss << GO[i][j];
+				action_table[i][j] = "s" + ssss.str();
+				ssss.str("");
+			}
+		}
+		for (int i = 0; i < itemSets.size(); i++)
+		{
+			for (int j = 0; j < nonterminals.size(); j++)
+			{
+				goto_table[i][j] = GO[i][j + terminals.size()];
+			}
+		}
+		map<Terminal*, int> terminal_to_int;
+		for (int i = 0; i < terminals.size(); i++)
+		{
+			terminal_to_int.insert(make_pair(terminals[i], i));
+		}
+
+		for (int i = 0; i < itemSets.size(); i++)
+		{
+			for (int j = 0; j < itemSets[i]->itemset.size(); j++)
+			{
+				if (itemSets[i]->itemset[j]->production->right.size() == itemSets[i]->itemset[j]->position)
+				{
+					for (int k = 0; k < itemSets[i]->itemset[j]->forward.size(); k++)
+					{
+						if (action_table[i][terminal_to_int[itemSets[i]->itemset[j]->forward[k]]] != "e")
+						{
+							cout << action_table[i][terminal_to_int[itemSets[i]->itemset[j]->forward[k]]] << endl;
+							cout << "chong tu" << endl;
+							ssss.str("");
+							ssss << itemSets[i]->itemset[j]->productionNum;
+							action_table[i][terminal_to_int[itemSets[i]->itemset[j]->forward[k]]] += "r" + ssss.str();
+							cout << "r" + ssss.str();
+						}
+						else
+						{
+							ssss.str("");
+							ssss << itemSets[i]->itemset[j]->productionNum;
+							action_table[i][terminal_to_int[itemSets[i]->itemset[j]->forward[k]]] = "r" + ssss.str();
+						}
+						if (itemSets[i]->itemset[j]->production->left->value == "argumented_translation_unit" && itemSets[i]->itemset[j]->position == 1)
+						//if (itemSets[i]->itemset[j]->production->left->value == "sp" && itemSets[i]->itemset[j]->position == 1)
+						{
+							action_table[i][terminal_to_int[itemSets[i]->itemset[j]->forward[k]]] = "acc";
+						}
+					}
+				}
+			}
+		}
+
+	}
+	void LR1ItemSets::output()
+	{
+		ofstream lalr("lalr.txt");
+		lalr << terminals.size() << endl;
+		for (int i = 0; i < terminals.size(); i++)
+		{
+			lalr << *terminals[i] << endl;
+		}
+		lalr << nonterminals.size() << endl;
+		for (int i = 0; i < nonterminals.size(); i++)
+		{
+			lalr << *nonterminals[i] << endl;
+		}
+		lalr << productions.size() << endl;
+		for (int i = 0; i < productions.size(); i++)
+		{
+			lalr << *(productions[i]->left) << ' ';
+			for (int j = 0; j < productions[i]->right.size(); j++)
+			{
+				lalr << *(productions[i]->right[j]) << ' ';
+			}
+			lalr << endl;
+		}
+		lalr << action_table.size() << endl;
+		for (int i = 0; i < action_table.size(); i++)
+		{
+			assert(terminals.size() == action_table[i].size());
+			for (int j = 0; j < terminals.size(); j++)
+			{
+				lalr << action_table[i][j] << ' ';
+			}
+			lalr << endl;
+		}
+		for (int i = 0; i < goto_table.size(); i++)
+		{
+			assert(nonterminals.size() == goto_table[i].size());
+			for (int j = 0; j < nonterminals.size(); j++)
+			{
+				lalr << goto_table[i][j] << ' ';
+			}
+			lalr << endl;
+		}
 	}
 	LR1ItemSets::~LR1ItemSets()
 	{
+
 	}
 	void LR1ItemSets::getSets()
 	{
@@ -358,3 +612,7 @@ namespace lr1{
 	}
 
 }
+
+
+// ï¿½Ï²ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½
+// goï¿½ï¿½ÄºÏ²ï¿½ 

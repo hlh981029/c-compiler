@@ -85,8 +85,8 @@ namespace lr1
 		void merge_go_table(int status_1, int status_2);
 		void merge_itemSets(int status_1, int status_2);
 
-
-
+		void set_action_and_goto();
+		void output();
 		~LR1ItemSets();
 		void getSets();
 	};

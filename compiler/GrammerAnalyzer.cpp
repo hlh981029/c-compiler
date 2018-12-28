@@ -156,7 +156,7 @@ hebo::LexicalUnit* GrammerAnalyzer::init_tree() {
 			std::cout << "acc" << std::endl;
 			break;
 		}
-		else if (this->action_table[temp_status][pos_num][0].size() == 0) {
+			else if (this->action_table[temp_status][pos_num][0][0] == 'e') {
 			std::cout << "Standard Error!" << std::endl;
 		}
 		else

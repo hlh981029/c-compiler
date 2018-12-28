@@ -11,9 +11,9 @@
 #include "LR1.h"
 using namespace std;
 // #define GRAMMAR
-// #define HB
+ #define HB
 // #define LEX
-#define LYH
+//#define LYH
 
 
 struct HLH
@@ -76,7 +76,7 @@ int main()
 	cfg::ContextFreeGrammar a;
 	a.input_productions("../productions.txt");
 	a.set_start("argumented_translation_unit");
-	//a.input_productions("../test.txt");
+	//a.input_productions("../testh.txt");
 	//a.set_start("sp");
 	a.set_first();
 	a.set_follow();
@@ -84,7 +84,7 @@ int main()
 	lr1.getSets();
 	int i = 0;
 	for each (auto set in lr1.itemSets) {
-		std::cout << "״̬��" << i << endl << *set << endl << endl;
+		std::cout << "״̬��" << i << endl << *set << endl << endl;
 		i++;
 	}
 	std::cout << "״̬  \t";
@@ -101,7 +101,14 @@ int main()
 		std::cout << endl;
 		sts++;
 	}
+	lr1.set_action_and_goto();
+	lr1.output();
 	std::system("pause");
+	lr1.merge_all();
+	lr1.set_action_and_goto();
+	lr1.output();
+	std::system("pause");
+
 #endif // LYH
 
 
