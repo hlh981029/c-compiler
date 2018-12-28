@@ -8,7 +8,6 @@
 #include "intput_and_output.hpp"
 #include "ContextFreeGrammar.hpp"
 #include "GrammerAnalyzer.h"
-#include "LR.hpp"
 #include "LR1.h"
 using namespace std;
 // #define GRAMMAR

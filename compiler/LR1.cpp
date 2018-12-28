@@ -296,6 +296,19 @@ namespace lr1{
 			}
 		}
 	}
+	int8_t LR1ItemSets::can_merge(int status_1, int status_2)
+	{
+		return int8_t();
+	}
+	void LR1ItemSets::merge_all()
+	{
+	}
+	void LR1ItemSets::merge_go_table(int status_1, int status_2)
+	{
+	}
+	void LR1ItemSets::merge_itemSets(int status_1, int status_2)
+	{
+	}
 	LR1ItemSets::~LR1ItemSets()
 	{
 	}

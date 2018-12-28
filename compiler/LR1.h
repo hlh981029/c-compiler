@@ -75,7 +75,18 @@ namespace lr1
 		vector<Production*> productions;
 		vector<vector<int>> GO;
 
+		vector<vector<string>> action_table;
+		vector<vector<int>> goto_table;
+
 		LR1ItemSets(ContextFreeGrammar grammar);
+
+		int8_t can_merge(int status_1, int status_2);
+		void merge_all();
+		void merge_go_table(int status_1, int status_2);
+		void merge_itemSets(int status_1, int status_2);
+
+
+
 		~LR1ItemSets();
 		void getSets();
 	};
