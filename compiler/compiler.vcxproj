@@ -95,6 +95,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -108,6 +109,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -116,6 +118,7 @@
     <ClCompile Include="hlhNFA.cpp" />
     <ClCompile Include="input_and_output.cpp" />
     <ClCompile Include="LR.cpp" />
+    <ClCompile Include="LR1.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Min_DFA.cpp" />
     <ClCompile Include="Nfa.cpp" />
@@ -127,6 +130,7 @@
     <ClInclude Include="hlhNFA.h" />
     <ClInclude Include="intput_and_output.hpp" />
     <ClInclude Include="LR.hpp" />
+    <ClInclude Include="LR1.h" />
     <ClInclude Include="Nfa.h" />
     <ClInclude Include="Nfa_to_dfa.h" />
     <ClInclude Include="RegExp.h" />

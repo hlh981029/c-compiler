@@ -104,6 +104,7 @@ namespace cfg
 
 	ContextFreeGrammar::ContextFreeGrammar() :start_symbol(nullptr) {
 		Terminal* end = new Terminal("$");
+		this->end_symbol = end;
 		terminal_set.insert(end);
 	}
 

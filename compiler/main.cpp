@@ -9,10 +9,12 @@
 #include "ContextFreeGrammar.hpp"
 #include "GrammerAnalyzer.h"
 #include "LR.hpp"
+#include "LR1.h"
 using namespace std;
-//#define GRAMMAR
-#define HB
-//#define LEX
+// #define GRAMMAR
+// #define HB
+// #define LEX
+#define LYH
 
 
 struct HLH
@@ -72,8 +74,35 @@ int main()
 #endif // GRAMMAR
 
 #ifdef LYH
-
-
+	cfg::ContextFreeGrammar a;
+	a.input_productions("../productions.txt");
+	a.set_start("argumented_translation_unit");
+	//a.input_productions("../test.txt");
+	//a.set_start("sp");
+	a.set_first();
+	a.set_follow();
+	lr1::LR1ItemSets lr1(a);
+	lr1.getSets();
+	int i = 0;
+	for each (auto set in lr1.itemSets) {
+		std::cout << "״̬��" << i << endl << *set << endl << endl;
+		i++;
+	}
+	std::cout << "״̬  \t";
+	for each (auto s in lr1.symbols) {
+		std::cout << *s << '\t';
+	}
+	std::cout << endl;
+	int sts = 0;
+	for each (auto v in lr1.GO) {
+		std::cout << "״̬" << sts << "\t";
+		for each (auto n in v) {
+			std::cout << n << '\t';
+		}
+		std::cout << endl;
+		sts++;
+	}
+	std::system("pause");
 #endif // LYH
 
 

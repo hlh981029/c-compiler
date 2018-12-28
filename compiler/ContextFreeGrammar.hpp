@@ -128,6 +128,7 @@ namespace cfg
 		unordered_set<Nonterminal*, Non_pointer_hash, Non_pointer_hash_compare> nonterminal_set;
 		unordered_set<Production*> production_set;
 		Nonterminal* start_symbol;
+		Terminal* end_symbol;
 
 		ContextFreeGrammar();
 
