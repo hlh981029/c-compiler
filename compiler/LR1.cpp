@@ -64,22 +64,28 @@ namespace lr1{
 	}
 	bool LR1Item::operator==(LR1Item & a)
 	{
-		if (this->production == a.production && this->position == a.position) {
-			for (int i = 0; i < a.forward.size(); i++) {
+		if (this->production == a.production && this->position == a.position && this->forward.size() == a.forward.size())
+		{
+			for (int i = 0; i < a.forward.size(); i++)
+			{
 				bool have_it = false;
-				for (int j = 0; j < this->forward.size(); j++) {
-					if (a.forward[i]->value == this->forward[j]->value) {
+				for (int j = 0; j < this->forward.size(); j++)
+				{
+					if (a.forward[i]->value == this->forward[j]->value)
+					{
 						have_it = true;
 						break;
 					}
 				}
-				if (!have_it) {
+				if (!have_it)
+				{
 					return false;
 				}
 			}
 			return true;
 		}
-		else {
+		else
+		{
 			return false;
 		}
 	}
@@ -126,22 +132,28 @@ namespace lr1{
 	}
 	bool LR1ItemSet::operator==(LR1ItemSet& a)
 	{
-		if (this->itemset.size() == a.itemset.size()) {
-			for (int i = 0; i < this->itemset.size(); i++) {
+		if (this->itemset.size() == a.itemset.size())
+		{
+			for (int i = 0; i < this->itemset.size(); i++)
+			{
 				bool have_it = false;
-				for (int j = 0; j != a.itemset.size(); j++) {
-					if (*this->itemset[i] == *a.itemset[j]) {
+				for (int j = 0; j < a.itemset.size(); j++)
+				{
+					if (*this->itemset[i] == *a.itemset[j])
+					{
 						have_it = true;
 						break;
 					}
 				}
-				if (!have_it) {
+				if (!have_it)
+				{
 					return false;
 				}
 			}
 			return true;
 		}
-		else {
+		else
+		{
 			return false;
 		}
 	}
@@ -179,10 +191,10 @@ namespace lr1{
 			}
 			int from = 0, to = 0, via = 0;
 			for (int i = 0; i < this->itemSets.size(); i++) {
-				if (*s == *this->itemSets[i]) {
+				if (s == this->itemSets[i]) {
 					from = i;
 				}
-				if (*temp == *this->itemSets[i]) {
+				if (temp == this->itemSets[i]) {
 					to = i;
 				}
 			}
@@ -570,7 +582,9 @@ namespace lr1{
 	{
 		for (int i = 0; i < this->itemSets.size(); i++) {
 			for (int j = 0; j < this->symbols.size(); j++) {
-				if (this->symbols[j]->value!="$" && this->Go(this->itemSets[i], this->symbols[j])) {
+				if (this->symbols[j]->value!="$" && this->Go(this->itemSets[i], this->symbols[j]))
+				{
+
 				}
 			}
 		}

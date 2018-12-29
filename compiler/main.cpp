@@ -11,9 +11,9 @@
 #include "LR1.h"
 using namespace std;
 // #define GRAMMAR
- //#define HB
+ #define HB
 // #define LEX
-#define LYH
+//#define LYH
 
 
 struct HLH
@@ -82,28 +82,33 @@ int main()
 	a.set_follow();
 	lr1::LR1ItemSets lr1(a);
 	lr1.getSets();
+	ofstream hlhsb("2018-12-29.txt");
 	int i = 0;
 	for each (auto set in lr1.itemSets) {
-		std::cout << "状态集" << i << endl << *set << endl << endl;
+		hlhsb << "״̬��" << i << endl << *set << endl << endl;
 		i++;
 	}
-	std::cout << "状态  \t";
+	hlhsb << "״̬  \t";
 	for each (auto s in lr1.symbols) {
-		std::cout << *s << '\t';
+		hlhsb << *s << '\t';
 	}
-	std::cout << endl;
+	hlhsb << endl;
 	int sts = 0;
 	for each (auto v in lr1.GO) {
-		std::cout << "状态" << sts << "\t";
+		hlhsb << "״̬" << sts << "\t";
 		for each (auto n in v) {
-			std::cout << n << '\t';
+			hlhsb << n << '\t';
 		}
-		std::cout << endl;
+		hlhsb << endl;
 		sts++;
 	}
-	lr1.set_action_and_goto();
-	lr1.output();
-	std::system("pause");
+	hlhsb << endl;
+	for (int i = 0; i < lr1.productions.size(); i++)
+	{
+		hlhsb << i << '\t' << *lr1.productions[i] << endl;
+	}
+	//lr1.set_action_and_goto();
+	//lr1.output();
 	lr1.merge_all();
 	lr1.set_action_and_goto();
 	lr1.output();
