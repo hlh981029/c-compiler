@@ -11,9 +11,9 @@
 #include "LR1.h"
 using namespace std;
 // #define GRAMMAR
- #define HB
+ //#define HB
 // #define LEX
-//#define LYH
+#define LYH
 
 
 struct HLH
@@ -84,17 +84,17 @@ int main()
 	lr1.getSets();
 	int i = 0;
 	for each (auto set in lr1.itemSets) {
-		std::cout << "״̬��" << i << endl << *set << endl << endl;
+		std::cout << "状态集" << i << endl << *set << endl << endl;
 		i++;
 	}
-	std::cout << "״̬  \t";
+	std::cout << "状态  \t";
 	for each (auto s in lr1.symbols) {
 		std::cout << *s << '\t';
 	}
 	std::cout << endl;
 	int sts = 0;
 	for each (auto v in lr1.GO) {
-		std::cout << "״̬" << sts << "\t";
+		std::cout << "状态" << sts << "\t";
 		for each (auto n in v) {
 			std::cout << n << '\t';
 		}
