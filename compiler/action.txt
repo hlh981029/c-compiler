@@ -1,4 +1,4 @@
-96
+105
 primary_expression IDENTIFIER action1
 primary_expression CONSTANT action2
 primary_expression ( expression ) action4
@@ -99,3 +99,8 @@ parameter_list parameter_declaration action605
 parameter_list parameter_list , parameter_declaration action606
 parameter_declaration type_specifier declarator action607
 parameter_declaration type_specifier action608
+function_compound_statement { } action609
+function_compound_statement { action610 statement_list action611 }
+function_compound_statement { action612 declaration_list action613 }
+function_compound_statement { action614 declaration_list statement_list action615 }
+function_definition type_specifier action616 direct_declarator action617 function_compound_statement

@@ -82,6 +82,8 @@ void GrammerAnalyzer::action602(hebo::LexicalUnit* root) {
     FunctionItem func_item(temp_item.name, root->father->child_node_list[1]->attribute.type);
     function_table->put_function(func_item);
     root->father->child_node_list[4]->morpheme = temp_item.name;
+    root->father->morpheme = root->father->child_node_list[1]->morpheme;
+
     return;
 }
 
@@ -102,6 +104,8 @@ void GrammerAnalyzer::action604(hebo::LexicalUnit* root) {
     }
     FunctionItem func_item(temp_item.name, root->father->child_node_list[1]->attribute.type);
     function_table->put_function(func_item);
+    root->father->morpheme = root->father->child_node_list[1]->morpheme;
+
     return;
 }
 
@@ -131,5 +135,115 @@ void GrammerAnalyzer::action608(hebo::LexicalUnit* root) {
     root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
     root->father->attribute.width = root->father->child_node_list[0]->attribute.width;
     root->father->morpheme = "";
+    return;
+}
+
+void GrammerAnalyzer::action609(hebo::LexicalUnit* root) {
+    return;
+}
+
+void GrammerAnalyzer::action610(hebo::LexicalUnit* root) {
+    curr_func_name = root->father->morpheme;
+    three_address_instruction* temp_instruction = new three_address_instruction();
+    temp_instruction->index = this->final_instruction.size();
+    temp_instruction->op = "FUNC";
+    temp_instruction->arg1 = curr_func_name;
+    temp_instruction->arg2 = "-";
+    temp_instruction->result = "-";
+    this->final_instruction.push_back(temp_instruction);
+    SymbolTable * temp_table = new SymbolTable(curr_func_name, this->out_table);
+    FunctionItem func_item = function_table->get_function(curr_func_name);
+    this->out_table = temp_table;
+    for (int count = 0; count < var_name_list.size(); count++) {
+        out_table->put_symbol(SymbolItem(var_name_list[count], func_item.parameter_vector[count], 0, var_width_list[count]));
+    }
+    var_name_list.clear();
+    var_width_list.clear();
+    return;
+}
+
+void GrammerAnalyzer::action611(hebo::LexicalUnit* root) {
+    three_address_instruction* temp_instruction = new three_address_instruction();
+    temp_instruction->index = this->final_instruction.size();
+    temp_instruction->op = "ENDF";
+    temp_instruction->arg1 = curr_func_name;
+    temp_instruction->arg2 = "-";
+    temp_instruction->result = "-";
+    this->final_instruction.push_back(temp_instruction);
+    out_table = out_table->father;
+    return;
+}
+
+void GrammerAnalyzer::action612(hebo::LexicalUnit* root) {
+    curr_func_name = root->father->morpheme;
+    three_address_instruction* temp_instruction = new three_address_instruction();
+    temp_instruction->index = this->final_instruction.size();
+    temp_instruction->op = "FUNC";
+    temp_instruction->arg1 = curr_func_name;
+    temp_instruction->arg2 = "-";
+    temp_instruction->result = "-";
+    this->final_instruction.push_back(temp_instruction);
+    SymbolTable * temp_table = new SymbolTable(curr_func_name, this->out_table);
+    FunctionItem func_item = function_table->get_function(curr_func_name);
+    this->out_table = temp_table;
+    for (int count = 0; count < var_name_list.size(); count++) {
+        out_table->put_symbol(SymbolItem(var_name_list[count], func_item.parameter_vector[count], 0, var_width_list[count]));
+    }
+    var_name_list.clear();
+    var_width_list.clear();
+    return;
+}
+
+void GrammerAnalyzer::action613(hebo::LexicalUnit* root) {
+    three_address_instruction* temp_instruction = new three_address_instruction();
+    temp_instruction->index = this->final_instruction.size();
+    temp_instruction->op = "ENDF";
+    temp_instruction->arg1 = curr_func_name;
+    temp_instruction->arg2 = "-";
+    temp_instruction->result = "-";
+    this->final_instruction.push_back(temp_instruction);
+    out_table = out_table->father;
+    return;
+}
+
+void GrammerAnalyzer::action614(hebo::LexicalUnit* root) {
+    curr_func_name = root->father->morpheme;
+    three_address_instruction* temp_instruction = new three_address_instruction();
+    temp_instruction->index = this->final_instruction.size();
+    temp_instruction->op = "FUNC";
+    temp_instruction->arg1 = curr_func_name;
+    temp_instruction->arg2 = "-";
+    temp_instruction->result = "-";
+    this->final_instruction.push_back(temp_instruction);
+    SymbolTable * temp_table = new SymbolTable(curr_func_name, this->out_table);
+    FunctionItem func_item = function_table->get_function(curr_func_name);
+    this->out_table = temp_table;
+    for (int count = 0; count < var_name_list.size(); count++) {
+        out_table->put_symbol(SymbolItem(var_name_list[count], func_item.parameter_vector[count], 0, var_width_list[count]));
+    }
+    var_name_list.clear();
+    var_width_list.clear();
+    return;
+}
+
+void GrammerAnalyzer::action615(hebo::LexicalUnit* root) {
+    three_address_instruction* temp_instruction = new three_address_instruction();
+    temp_instruction->index = this->final_instruction.size();
+    temp_instruction->op = "ENDF";
+    temp_instruction->arg1 = curr_func_name;
+    temp_instruction->arg2 = "-";
+    temp_instruction->result = "-";
+    this->final_instruction.push_back(temp_instruction);
+    out_table = out_table->father;
+    return;
+}
+
+void GrammerAnalyzer::action616(hebo::LexicalUnit* root) {
+    root->father->child_node_list[2]->attribute.type = root->father->child_node_list[0]->attribute.type;
+    return;
+}
+
+void GrammerAnalyzer::action617(hebo::LexicalUnit* root) {
+    root->father->child_node_list[4]->morpheme = root->father->child_node_list[2]->morpheme;
     return;
 }

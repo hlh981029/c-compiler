@@ -298,7 +298,7 @@ void GrammerAnalyzer::say_error() {
 }
 
 bool GrammerAnalyzer::check_type(std::string function_name, std::vector<std::string> parameter_list) {
-	return true;
+	return function_table->get_function(function_name).parameter_vector == parameter_list;
 }
 
 void GrammerAnalyzer::clean_param_list() {

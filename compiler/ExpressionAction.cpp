@@ -74,37 +74,73 @@ void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action7(hebo::LexicalUnit* root) {
-	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
+    std::string temp_type = function_table->get_function(root->father->child_node_list[0]->attribute.addr).return_type;
+    hbst::SymbolItem temp;
+    if (temp_type == "void") {
+        three_address_instruction* call = new three_address_instruction();
+        call->index = this->final_instruction.size();
+        call->op = "CALL";
+        call->arg1 = root->father->child_node_list[0]->attribute.addr;
+        call->arg2 = "-";
+        call->result = "-";
+        this->final_instruction.push_back(call);
+        root->father->attribute.type = temp_type;
+        return;
+    }
+    else if (temp_type == "int") {
+        temp = hbst::SymbolItem("", "int", 0, 4);
+    }
+    else {
+        temp = hbst::SymbolItem("", temp_type, 0, out_table->get_symbol(temp_type.substr(0, temp_type.find("$"))).width);
+    }
 	this->out_table->put_symbol(temp);
-	root->father->attribute.addr = temp.address;
 	three_address_instruction* call = new three_address_instruction();
 	call->index = this->final_instruction.size();
 	call->op = "CALL";
 	call->arg1 = root->father->child_node_list[0]->attribute.addr;
 	call->arg2 = "-";
-	call->result = root->father->attribute.addr;
+	call->result = temp.address;
 	this->final_instruction.push_back(call);
-	return;
+    root->father->attribute.addr = temp.address;
+    root->father->attribute.type = temp.type;
+    return;
 }
 
 void GrammerAnalyzer::action8(hebo::LexicalUnit* root) {
-	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
-	this->out_table->put_symbol(temp);
-	root->father->attribute.addr = temp.address;
-	if (this->check_type(root->father->child_node_list[0]->attribute.addr, this->parameter_list) == false) {
-		this->say_error();
-	}
-	else {
-		three_address_instruction* call = new three_address_instruction();
-		call->index = this->final_instruction.size();
-		call->op = "CALL";
-		call->arg1 = root->father->child_node_list[0]->attribute.addr;
-		call->arg2 = std::to_string(this->parameter_list.size());
-		call->result = root->father->attribute.addr;
-		this->final_instruction.push_back(call);
-	}
-	this->clean_param_list();
-	return;
+    std::string temp_type = function_table->get_function(root->father->child_node_list[0]->attribute.addr).return_type;
+    if (this->check_type(root->father->child_node_list[0]->attribute.addr, this->parameter_list) == false) {
+    	    this->say_error();
+    }
+    this->clean_param_list();
+    hbst::SymbolItem temp;
+    if (temp_type == "void") {
+        three_address_instruction* call = new three_address_instruction();
+        call->index = this->final_instruction.size();
+        call->op = "CALL";
+        call->arg1 = root->father->child_node_list[0]->attribute.addr;
+        call->arg2 = "-";
+        call->result = "-";
+        this->final_instruction.push_back(call);
+        root->father->attribute.type = temp_type;
+        return;
+    }
+    else if (temp_type == "int") {
+        temp = hbst::SymbolItem("", "int", 0, 4);
+    }
+    else {
+        temp = hbst::SymbolItem("", temp_type, 0, out_table->get_symbol(temp_type.substr(0, temp_type.find("$"))).width);
+    }
+    this->out_table->put_symbol(temp);
+    three_address_instruction* call = new three_address_instruction();
+    call->index = this->final_instruction.size();
+    call->op = "CALL";
+    call->arg1 = root->father->child_node_list[0]->attribute.addr;
+    call->arg2 = "-";
+    call->result = temp.address;
+    this->final_instruction.push_back(call);
+    root->father->attribute.addr = temp.address;
+    root->father->attribute.type = temp.type;
+    return;
 }
 
 void GrammerAnalyzer::action9(hebo::LexicalUnit* root) {

@@ -624,6 +624,13 @@ void AssemblyGenerator::generate_code()
 //
 //}
 
+void AssemblyGenerator::output_instructions()
+{
+    for (int count = 0; count < final_instruction->size(); count++) {
+        cout << final_instruction->at(count)->op << "\t" << final_instruction->at(count)->arg1 << "\t" << final_instruction->at(count)->arg2 << "\t" << final_instruction->at(count)->result << "\t" << endl;
+    }
+}
+
 void AssemblyGenerator::close_file()
 {
     asm_out.close();

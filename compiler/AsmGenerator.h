@@ -25,6 +25,7 @@ public:
     void generate_global_var();
     void generate_code();
     void generate_example();
+    void output_instructions();
     void close_file();
     void add_symbol(SymbolItem i, SymbolTable* t = NULL);
     void add_struct(StructItem* i);

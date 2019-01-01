@@ -25,6 +25,7 @@ private:
 	std::vector<std::string> parameter_list;
     std::vector<int> var_width_list;
     std::vector<std::string> var_name_list;
+    std::string curr_func_name;
 
 public:
     typedef struct {
@@ -204,5 +205,14 @@ private:
     void action606(hebo::LexicalUnit*);
     void action607(hebo::LexicalUnit*);
     void action608(hebo::LexicalUnit*);
+    void action609(hebo::LexicalUnit*);
+    void action610(hebo::LexicalUnit*);
+    void action611(hebo::LexicalUnit*);
+    void action612(hebo::LexicalUnit*);
+    void action613(hebo::LexicalUnit*);
+    void action614(hebo::LexicalUnit*);
+    void action615(hebo::LexicalUnit*);
+    void action616(hebo::LexicalUnit*);
+    void action617(hebo::LexicalUnit*);
 
 };

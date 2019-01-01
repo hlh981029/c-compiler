@@ -244,7 +244,7 @@ declaration
 ;;
 
 function_definition
-type_specifier declarator function_compound_statement
+type_specifier direct_declarator function_compound_statement
 ;;
 
 argumented_translation_unit

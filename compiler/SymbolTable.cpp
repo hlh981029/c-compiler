@@ -285,8 +285,8 @@ int  useless1 =
 (
 	global_symbol_table.put_symbol(input_function_symbol_item),
 	global_symbol_table.put_symbol(print_function_symbol_item),
-	global_function_table.put_function(hbst::FunctionItem("input", "void")),
-	global_function_table.put_function(hbst::FunctionItem("print", "int")),
+	global_function_table.put_function(hbst::FunctionItem("input", "int")),
+	global_function_table.put_function(hbst::FunctionItem("print", "void")),
 	global_function_table.get_function("print").add_parameter("int"),
 	1
 	);
