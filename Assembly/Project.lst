@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 20:25:46
+Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 20:38:33
 Assembly.asm						     Page 1 - 1
 
 
@@ -4465,7 +4465,6 @@ Assembly.asm						     Page 1 - 1
  0000001C 00000000		    temp$7 sdword ?
 
  00000037			.code
- 00000037			$main:
  00000037			label0:
  00000037  B8 00000001		    mov eax, 1
  0000003C  83 F8 00		    cmp eax, 0
@@ -4483,8 +4482,7 @@ Assembly.asm						     Page 1 - 1
  0000005F  B8 00000001		    mov eax, 1
  00000064  83 F8 00		    cmp eax, 0
  00000067  74 F6		    jz label4
-				label0:
-Assembly.asm(56) : error A2005:symbol redefinition : label0
+ 00000069			label5:
  00000069  B8 00000000		    mov eax, 0
  0000006E  A3 00000010 R	    mov temp$4, eax
  00000073			label6:
@@ -4520,31 +4518,32 @@ Assembly.asm(56) : error A2005:symbol redefinition : label0
  000000C5			label15:
  000000C5  A1 00000018 R	    mov eax, temp$6
  000000CA  83 F8 00		    cmp eax, 0
- 000000CD  75 04		    jnz label18
+ 000000CD  75 16		    jnz label18
  000000CF			label16:
- 000000CF  EB 23		    jmp label22
- 000000D1			label17:
- 000000D1  EB 21		    jmp label22
- 000000D3			label18:
- 000000D3  B8 00000001		    mov eax, 1
- 000000D8  83 F8 00		    cmp eax, 0
- 000000DB  74 F6		    jz label18
+				    jmp label22
+Assembly.asm(93) : error A2006:undefined symbol : label22
+ 000000DA			label17:
+				    jmp label22
+Assembly.asm(95) : error A2006:undefined symbol : label22
+ 000000E5			label18:
+ 000000E5  B8 00000001		    mov eax, 1
+ 000000EA  83 F8 00		    cmp eax, 0
+ 000000ED  74 F6		    jz label18
 				label0:
-Assembly.asm(101) : error A2005:symbol redefinition : label0
- 000000DD  A1 00000000 R	    mov eax, a$0
- 000000E2  A3 0000001C R	    mov temp$7, eax
+Assembly.asm(100) : error A2005:symbol redefinition : label0
+ 000000EF  A1 00000000 R	    mov eax, a$0
+ 000000F4  A3 0000001C R	    mov temp$7, eax
 				label0:
-Assembly.asm(104) : error A2005:symbol redefinition : label0
- 000000E7  A1 00000000 R	    mov eax, a$0
- 000000EC  48			    dec eax
- 000000ED  A3 00000000 R	    mov a$0, eax
- 000000F2			label21:
- 000000F2  EB 93		    jmp label8
- 000000F4			label22:
-				    invoke $$getch
- 000000F4  E8 FFFFFF37	   *	    call   $$getch
+Assembly.asm(103) : error A2005:symbol redefinition : label0
+ 000000F9  A1 00000000 R	    mov eax, a$0
+ 000000FE  48			    dec eax
+ 000000FF  A3 00000000 R	    mov a$0, eax
+ 00000104			label21:
+ 00000104  EB 81		    jmp label8
 				END $main
-Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 20:25:46
+Assembly.asm(109) : error A2006:undefined symbol : $main
+Assembly.asm(109) : error A2148:invalid symbol type in expression : $main
+Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 20:38:33
 Assembly.asm						     Symbols 2 - 1
 
 
@@ -4564,7 +4563,7 @@ Segments and Groups:
 CONST  . . . . . . . . . . . . .	32 Bit	 00000008 DWord	  Public  'CONST'	 ReadOnly
 FLAT . . . . . . . . . . . . . .	GROUP
 _DATA  . . . . . . . . . . . . .	32 Bit	 00000020 DWord	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 000000F9 DWord	  Public  'CODE'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000106 DWord	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -5378,7 +5377,6 @@ Symbols:
                 N a m e                 Type     Value    Attr
 
 $input_format_int  . . . . . . .	Byte	 00000005 CONST	
-$main  . . . . . . . . . . . . .	L Near	 00000037 _TEXT	Public STDCALL
 $output_format_int . . . . . . .	Byte	 00000000 CONST	
 @CodeSize  . . . . . . . . . . .	Number	 00000000h   
 @DataSize  . . . . . . . . . . .	Number	 00000000h   
@@ -7034,14 +7032,14 @@ label13  . . . . . . . . . . . .	L Near	 000000B9 _TEXT
 label14  . . . . . . . . . . . .	L Near	 000000BB _TEXT	
 label15  . . . . . . . . . . . .	L Near	 000000C5 _TEXT	
 label16  . . . . . . . . . . . .	L Near	 000000CF _TEXT	
-label17  . . . . . . . . . . . .	L Near	 000000D1 _TEXT	
-label18  . . . . . . . . . . . .	L Near	 000000D3 _TEXT	
+label17  . . . . . . . . . . . .	L Near	 000000DA _TEXT	
+label18  . . . . . . . . . . . .	L Near	 000000E5 _TEXT	
 label1 . . . . . . . . . . . . .	L Near	 00000041 _TEXT	
-label21  . . . . . . . . . . . .	L Near	 000000F2 _TEXT	
-label22  . . . . . . . . . . . .	L Near	 000000F4 _TEXT	
+label21  . . . . . . . . . . . .	L Near	 00000104 _TEXT	
 label2 . . . . . . . . . . . . .	L Near	 0000004B _TEXT	
 label3 . . . . . . . . . . . . .	L Near	 00000055 _TEXT	
 label4 . . . . . . . . . . . . .	L Near	 0000005F _TEXT	
+label5 . . . . . . . . . . . . .	L Near	 00000069 _TEXT	
 label6 . . . . . . . . . . . . .	L Near	 00000073 _TEXT	
 label7 . . . . . . . . . . . . .	L Near	 0000007D _TEXT	
 label8 . . . . . . . . . . . . .	L Near	 00000087 _TEXT	
@@ -7060,4 +7058,4 @@ temp$6 . . . . . . . . . . . . .	DWord	 00000018 _DATA
 temp$7 . . . . . . . . . . . . .	DWord	 0000001C _DATA	
 
 	   0 Warnings
-	   3 Errors
+	   6 Errors

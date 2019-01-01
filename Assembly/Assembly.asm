@@ -35,7 +35,6 @@ $$getch endp
     temp$7 sdword ?
 
 .code
-$main:
 label0:
     mov eax, 1
     cmp eax, 0
@@ -53,7 +52,7 @@ label4:
     mov eax, 1
     cmp eax, 0
     jz label4
-label0:
+label5:
     mov eax, 0
     mov temp$4, eax
 label6:
@@ -107,6 +106,4 @@ label0:
     mov a$0, eax
 label21:
     jmp label8
-label22:
-    invoke $$getch
 END $main
