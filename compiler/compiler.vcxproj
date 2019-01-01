@@ -22,7 +22,6 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{26511C81-B83A-4A1D-A915-75EA90A893D5}</ProjectGuid>
     <RootNamespace>compiler</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -113,6 +112,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsmGenerator.cpp" />
     <ClCompile Include="ContextFreeGrammar.cpp" />
     <ClCompile Include="GrammerAnalyzer.cpp" />
     <ClCompile Include="hlhNFA.cpp" />
@@ -123,8 +123,10 @@
     <ClCompile Include="Nfa.cpp" />
     <ClCompile Include="Nfa_to_dfa.cpp" />
     <ClCompile Include="RegExp.cpp" />
+    <ClCompile Include="SymbolTable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsmGenerator.h" />
     <ClInclude Include="GrammerAnalyzer.h" />
     <ClInclude Include="hlhNFA.h" />
     <ClInclude Include="intput_and_output.hpp" />
@@ -132,6 +134,7 @@
     <ClInclude Include="Nfa.h" />
     <ClInclude Include="Nfa_to_dfa.h" />
     <ClInclude Include="RegExp.h" />
+    <ClInclude Include="SymbolTable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ContextFreeGrammar.hpp" />

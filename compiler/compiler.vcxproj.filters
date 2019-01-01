@@ -45,6 +45,12 @@
     <ClCompile Include="LR1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="AsmGenerator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolTable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hlhNFA.h">
@@ -66,6 +72,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="LR1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AsmGenerator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolTable.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

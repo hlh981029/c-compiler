@@ -1,40 +1,40 @@
-#include <iostream>
-#include <fstream>
-#include "Nfa.h"
-#include "Nfa_to_dfa.h"
-#include "RegExp.h"
-#include "hlhNFA.h"
-#include "Min_DFA.cpp"
-#include "intput_and_output.hpp"
-#include "ContextFreeGrammar.hpp"
-#include "GrammerAnalyzer.h"
-#include "LR1.h"
+//#include <iostream>
+//#include <fstream>
+//#include "Nfa.h"
+//#include "Nfa_to_dfa.h"
+//#include "RegExp.h"
+//#include "hlhNFA.h"
+//#include "Min_DFA.cpp"
+//#include "intput_and_output.hpp"
+//#include "ContextFreeGrammar.hpp"
+//#include "GrammerAnalyzer.h"
+//#include "LR1.h"
+#include "AsmGenerator.h"
 using namespace std;
 // #define GRAMMAR
- #define HB
+// #define HB
 // #define LEX
-//#define LYH
+// #define LYH
+#define GEN_ASM
 
-
-struct HLH
-{
-	int a;
-};
-
-
-struct set_hash
-{
-	size_t operator()(unordered_set<int> input)const
-	{
-		int result = 0;
-		for each (int x in input)
-		{
-			result += x;
-			result = result << 2;
-		}
-		return result;
-	}
-};
+//struct HLH
+//{
+//	int a;
+//};
+//
+//struct set_hash
+//{
+//	size_t operator()(unordered_set<int> input)const
+//	{
+//		int result = 0;
+//		for each (int x in input)
+//		{
+//			result += x;
+//			result = result << 2;
+//		}
+//		return result;
+//	}
+//};
 
 int main()
 {
@@ -254,7 +254,11 @@ int main()
 	system("pause");
 #endif // LEX
 
-
+#ifdef GEN_ASM
+    AssemblyGenerator asmgen;
+    asmgen.generate_example();
+    asmgen.generate_asm();
+#endif // GEN_ASM
 
 	return 0;
 	}
