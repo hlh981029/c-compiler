@@ -1,4 +1,4 @@
-94
+96
 primary_expression IDENTIFIER action1
 primary_expression CONSTANT action2
 primary_expression ( expression ) action4
@@ -27,9 +27,9 @@ argument_expression_list assignment_expression action26
 argument_expression_list argument_expression_list , assignment_expression action27
 argumented_translation_unit action113 translation_unit
 compound_statement { action101 }
-compound_statement { action102 statement_list }
-compound_statement { action103 declaration_list }
-compound_statement { action104 declaration_list statement_list }
+compound_statement { action102 statement_list } action114
+compound_statement { action103 declaration_list } action115
+compound_statement { action104 declaration_list statement_list } action116
 translation_unit action109 external_declaration
 translation_unit action110 translation_unit external_declaration
 external_declaration action111 function_definition
@@ -93,3 +93,7 @@ selection_statement IF ( expression action514 ) action515 statement action516
 selection_statement IF ( expression action517 ) action518 statement action519 ELSE action520 statement action521
 jump_statement CONTINUE ; action522
 jump_statement BREAK ; action523
+direct_declarator action601 direct_declarator action602 ( parameter_list )
+direct_declarator action603 direct_declarator ( ) action604
+parameter_list parameter_declaration action605
+parameter_list parameter_list , parameter_declaration action606

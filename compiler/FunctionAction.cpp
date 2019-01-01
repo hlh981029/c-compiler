@@ -1,5 +1,5 @@
 #include "GrammerAnalyzer.h"
-
+using namespace hbst;
 void GrammerAnalyzer::action101(hebo::LexicalUnit* root) {
 	return;
 }
@@ -7,14 +7,22 @@ void GrammerAnalyzer::action101(hebo::LexicalUnit* root) {
 void GrammerAnalyzer::action102(hebo::LexicalUnit* root) {
 	root->father->child_node_list[2]->attribute.con_instr = root->father->attribute.con_instr;
 	root->father->child_node_list[2]->attribute.break_instr = root->father->attribute.break_instr;
+    SymbolTable* temptable = new SymbolTable("", this->out_table);
+    this->out_table = temptable;
 	return;
 }
 
 void GrammerAnalyzer::action103(hebo::LexicalUnit* root) {
+    SymbolTable* temptable = new SymbolTable("", this->out_table);
+    this->out_table = temptable;
 	return;
 }
 
 void GrammerAnalyzer::action104(hebo::LexicalUnit* root) {
+    root->father->child_node_list[3]->attribute.con_instr = root->father->attribute.con_instr;
+    root->father->child_node_list[3]->attribute.break_instr = root->father->attribute.break_instr;
+    SymbolTable* temptable = new SymbolTable("", this->out_table);
+    this->out_table = temptable;
 	return;
 }
 
@@ -39,4 +47,60 @@ void GrammerAnalyzer::action113(hebo::LexicalUnit* root) {
 	this->struct_table = &global_struct_table;
 	this->function_table = &global_function_table;
 	return;
+}
+
+void GrammerAnalyzer::action114(hebo::LexicalUnit* root) {
+    this->out_table = out_table->father;
+    return;
+}
+
+void GrammerAnalyzer::action115(hebo::LexicalUnit* root) {
+    this->out_table = out_table->father;
+    return;
+}
+
+void GrammerAnalyzer::action116(hebo::LexicalUnit* root) {
+    this->out_table = out_table->father;
+    return;
+}
+
+void GrammerAnalyzer::action601(hebo::LexicalUnit* root) {
+    root->father->child_node_list[1]->attribute.type = root->father->attribute.type;
+    return;
+}
+
+void GrammerAnalyzer::action602(hebo::LexicalUnit* root) {
+    SymbolItem temp_item;
+    try {
+        temp_item = this->out_table->get_symbol_from_address(root->father->child_node_list[1]->attribute.addr);
+    }
+    catch (std::string &s) {
+        SymbolItem new_symbol_item(root->father->child_node_list[1]->morpheme, "function", 0, 0);
+        this->out_table->put_symbol(new_symbol_item);
+        temp_item = new_symbol_item;
+    }
+    FunctionItem func_item(temp_item.name, root->father->child_node_list[1]->attribute.type);
+    function_table->put_function(func_item);
+    root->father->child_node_list[4]->morpheme = temp_item.name;
+    return;
+}
+
+void GrammerAnalyzer::action603(hebo::LexicalUnit* root) {
+    root->father->child_node_list[1]->attribute.type = root->father->attribute.type;
+    return;
+}
+
+void GrammerAnalyzer::action604(hebo::LexicalUnit* root) {
+    SymbolItem temp_item;
+    try {
+        temp_item = this->out_table->get_symbol_from_address(root->father->child_node_list[1]->attribute.addr);
+    }
+    catch (std::string &s) {
+        SymbolItem new_symbol_item(root->father->child_node_list[1]->morpheme, "function", 0, 0);
+        this->out_table->put_symbol(new_symbol_item);
+        temp_item = new_symbol_item;
+    }
+    FunctionItem func_item(temp_item.name, root->father->child_node_list[1]->attribute.type);
+    function_table->put_function(func_item);
+    return;
 }

@@ -144,9 +144,8 @@ namespace hbst
 
 	SymbolItem::SymbolItem()
 	{
-		std::cerr << "This SymbolItem constructor is not supposed to be called." << std::endl;
-		system("pause");
-	}
+
+    }
 
 	SymbolItem::SymbolItem(std::string _name, std::string _type, int _offset, int _width)
 		: name(_name), type(_type), offset(_offset), width(_width)

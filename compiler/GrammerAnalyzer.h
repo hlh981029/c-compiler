@@ -90,7 +90,10 @@ private:
 	void action110(hebo::LexicalUnit*);
 	void action111(hebo::LexicalUnit*);
 	void action112(hebo::LexicalUnit*);
-	void action113(hebo::LexicalUnit*);
+    void action113(hebo::LexicalUnit*);
+    void action114(hebo::LexicalUnit*);
+    void action115(hebo::LexicalUnit*);
+    void action116(hebo::LexicalUnit*);
 
 
 	void action201(hebo::LexicalUnit*);
@@ -183,14 +186,17 @@ private:
 	void action514(hebo::LexicalUnit*);
 	void action515(hebo::LexicalUnit*);
 	void action516(hebo::LexicalUnit*);
-
 	void action517(hebo::LexicalUnit*);
 	void action518(hebo::LexicalUnit*);
 	void action519(hebo::LexicalUnit*);
 	void action520(hebo::LexicalUnit*);
 	void action521(hebo::LexicalUnit*);
-
 	void action522(hebo::LexicalUnit*);
-
 	void action523(hebo::LexicalUnit*);
+
+    void action601(hebo::LexicalUnit*);
+    void action602(hebo::LexicalUnit*);
+    void action603(hebo::LexicalUnit*);
+    void action604(hebo::LexicalUnit*);
+
 };

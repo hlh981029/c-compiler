@@ -115,10 +115,19 @@ void GrammerAnalyzer::execute_action(int action_number, hebo::LexicalUnit* root)
 		case 112:
 			this->action112(root);
 			break;
-		case 113:
-			this->action113(root);
-			break;
-		default:
+        case 113:
+            this->action113(root);
+            break;
+        case 114:
+            this->action114(root);
+            break;
+        case 115:
+            this->action115(root);
+            break;
+        case 116:
+            this->action116(root);
+            break;
+        default:
 			std::cout << "";
 			break;
 		}
@@ -385,6 +394,25 @@ void GrammerAnalyzer::execute_action(int action_number, hebo::LexicalUnit* root)
 			break;
 		}
 	}
+    else if (action_number > 600 && action_number < 700) {
+        switch (action_number) {
+        case 601:
+            this->action601(root);
+            break;
+        case 602:
+            this->action602(root);
+            break;
+        case 603:
+            this->action603(root);
+            break;
+        case 604:
+            this->action604(root);
+            break;
+        default:
+            std::cout << "";
+            break;
+        }
+    }
 	else {
 		std::cout << "";
 	}

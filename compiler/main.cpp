@@ -121,13 +121,13 @@ int main()
 	hebo::DFA dfa("ans.txt", "test.c");
 	dfa.run();
 	GrammerAnalyzer* grammer_analyzer = new GrammerAnalyzer(dfa.output_sequence);
-    AssemblyGenerator asmgen;
-    asmgen.global_symbol_table = grammer_analyzer->out_table;
-    asmgen.function_table = grammer_analyzer->function_table;
-    asmgen.struct_table = grammer_analyzer->struct_table;
-    asmgen.final_instruction = &grammer_analyzer->final_instruction;
+    //AssemblyGenerator asmgen;
+    //asmgen.global_symbol_table = grammer_analyzer->out_table;
+    //asmgen.function_table = grammer_analyzer->function_table;
+    //asmgen.struct_table = grammer_analyzer->struct_table;
+    //asmgen.final_instruction = &grammer_analyzer->final_instruction;
     //asmgen.generate_example();
-    asmgen.generate_asm();
+    //asmgen.generate_asm();
 #ifdef COMPILE_ASM
     system("compile_asm.bat");
     system("pause");

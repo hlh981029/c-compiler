@@ -9,8 +9,8 @@ namespace hbst
 	class SymbolItem
 	{
 		static int symbol_count;
-		SymbolItem();
 	public:
+		SymbolItem();
 		std::string address;
 		std::string name;
 		std::string type;
