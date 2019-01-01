@@ -4,14 +4,16 @@ void lyh()
 	a = 1;
 }
 
-void hlh(int a)
+void hlh(int aa)
 {
-    int aa;
-	aa = a;
+	int a[3] = {1, 2, 3};
+	int i;
+	i=1;
+	a[1]=0;
+	i=a[2];
+	a[2]=a[1];
 }
 
-void main()
-{
-	int a;
-	a = 1;
+void main(){
+	hlh(1);
 }
