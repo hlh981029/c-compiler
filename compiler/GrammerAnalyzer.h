@@ -23,6 +23,8 @@ private:
 	std::vector<std::vector<std::string*>> action_table;
 	std::vector<std::vector<std::string*>> goto_table;
 	std::vector<std::string> parameter_list;
+    std::vector<int> var_width_list;
+    std::vector<std::string> var_name_list;
 
 public:
     typedef struct {
@@ -198,5 +200,9 @@ private:
     void action602(hebo::LexicalUnit*);
     void action603(hebo::LexicalUnit*);
     void action604(hebo::LexicalUnit*);
+    void action605(hebo::LexicalUnit*);
+    void action606(hebo::LexicalUnit*);
+    void action607(hebo::LexicalUnit*);
+    void action608(hebo::LexicalUnit*);
 
 };

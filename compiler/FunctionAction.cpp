@@ -104,3 +104,32 @@ void GrammerAnalyzer::action604(hebo::LexicalUnit* root) {
     function_table->put_function(func_item);
     return;
 }
+
+void GrammerAnalyzer::action605(hebo::LexicalUnit* root) {
+    this->function_table->get_function(root->father->morpheme).add_parameter(root->father->child_node_list[0]->attribute.type);
+    var_width_list.push_back(root->father->child_node_list[0]->attribute.width);
+    var_name_list.push_back(root->father->child_node_list[0]->morpheme);
+    return;
+}
+
+
+void GrammerAnalyzer::action606(hebo::LexicalUnit* root) {
+    this->function_table->get_function(root->father->morpheme).add_parameter(root->father->child_node_list[0]->attribute.type);
+    var_width_list.push_back(root->father->child_node_list[0]->attribute.width);
+    var_name_list.push_back(root->father->child_node_list[0]->morpheme);
+    return;
+}
+
+void GrammerAnalyzer::action607(hebo::LexicalUnit* root) {
+    root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+    root->father->attribute.width = root->father->child_node_list[0]->attribute.width;
+    root->father->morpheme = root->father->child_node_list[1]->morpheme;
+    return;
+}
+
+void GrammerAnalyzer::action608(hebo::LexicalUnit* root) {
+    root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+    root->father->attribute.width = root->father->child_node_list[0]->attribute.width;
+    root->father->morpheme = "";
+    return;
+}

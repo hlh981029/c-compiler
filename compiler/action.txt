@@ -97,3 +97,5 @@ direct_declarator action601 direct_declarator action602 ( parameter_list )
 direct_declarator action603 direct_declarator ( ) action604
 parameter_list parameter_declaration action605
 parameter_list parameter_list , parameter_declaration action606
+parameter_declaration type_specifier declarator action607
+parameter_declaration type_specifier action608

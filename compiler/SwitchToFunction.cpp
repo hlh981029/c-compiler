@@ -408,6 +408,18 @@ void GrammerAnalyzer::execute_action(int action_number, hebo::LexicalUnit* root)
         case 604:
             this->action604(root);
             break;
+        case 605:
+            this->action604(root);
+            break;
+        case 606:
+            this->action604(root);
+            break;
+        case 607:
+            this->action604(root);
+            break;
+        case 608:
+            this->action604(root);
+            break;
         default:
             std::cout << "";
             break;
