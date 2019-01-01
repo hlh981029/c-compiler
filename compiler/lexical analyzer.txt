@@ -10,6 +10,14 @@ IDENTIFIER     a
 ,              ,              
 IDENTIFIER     b              
 ;              ;              
+IDENTIFIER     a              
+=              =              
+CONSTANT       1              
+;              ;              
+IDENTIFIER     b              
+=              =              
+CONSTANT       0              
+;              ;              
 WHILE          while          
 (              (              
 IDENTIFIER     a              
@@ -17,5 +25,8 @@ OR_OP          ||
 IDENTIFIER     b              
 )              )              
 {              {              
+IDENTIFIER     a              
+DEC_OP         --             
+;              ;              
 }              }              
 }              }              

@@ -165,7 +165,7 @@ void AssemblyGenerator::generate_global_var()
 void AssemblyGenerator::generate_code()
 {
     asm_out << ".code" << endl;
-    three_address_instruction *temp_instruction;
+    GrammerAnalyzer::three_address_instruction *temp_instruction;
     int instruction_size = final_instruction->size();
     string temp_op, temp_arg1, temp_arg2, temp_result;
     int have_no_param = 1;
@@ -418,216 +418,216 @@ void AssemblyGenerator::generate_code()
         }
 
         else if (temp_op == "JMP") {
-            asm_out << "    jmp " << temp_result << endl;
+            asm_out << "    jmp label" << temp_result << endl;
         }
 
         else if (temp_op == "JN") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jn " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jn label" << temp_result << endl;
         }
 
         else if (temp_op == "JNE") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jne " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jne label" << temp_result << endl;
         }
 
         else if (temp_op == "JG") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jg " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jg label" << temp_result << endl;
         }
 
         else if (temp_op == "JNG") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jng " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jng label" << temp_result << endl;
         }
 
         else if (temp_op == "JGE") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jge " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jge label" << temp_result << endl;
         }
 
         else if (temp_op == "JNGE") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jnge " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jnge label" << temp_result << endl;
         }
 
         else if (temp_op == "JL") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jl " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jl label" << temp_result << endl;
         }
 
         else if (temp_op == "JNL") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jnl " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jnl label" << temp_result << endl;
         }
 
         else if (temp_op == "JLE") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jle " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jle label" << temp_result << endl;
         }
 
         else if (temp_op == "JNLE") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jnle " << temp_result << endl;
+            asm_out << "    cmp eax, " << temp_arg2 << endl;
+            asm_out << "    jnle label" << temp_result << endl;
         }
 
         else if (temp_op == "JZ") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jz " << temp_result << endl;
+            asm_out << "    cmp eax, 0" << endl;
+            asm_out << "    jz label" << temp_result << endl;
         }
 
         else if (temp_op == "JNZ") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
-            asm_out << "    com eax, " << temp_arg2 << endl;
-            asm_out << "    jnz " << temp_result << endl;
+            asm_out << "    cmp eax, 0" << endl;
+            asm_out << "    jnz label" << temp_result << endl;
         }
    }
 }
 
-void AssemblyGenerator::generate_example()
-{
-    global_symbol_table = new SymbolTable;
-    function_table = new FunctionTable;
-    struct_table = new StructTable;
-    final_instruction = new vector<three_address_instruction*>;
-
-    // 三地址指令
-    add_instruction(new three_address_instruction(100   , "FUNC"        , "test_1"                  , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(101   , "PARAM"       , "test_1_int_1$0"          , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(102   , "CALL"        , "test_2"                  , ""                    , "temp$2"              ));
-    add_instruction(new three_address_instruction(103   , "="           , "temp$2"                  , ""                    , "test_1_int_2$1"      ));
-    add_instruction(new three_address_instruction(104   , "PARAM"       , "test_1_int_2$1"          , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(105   , "CALL"        , "print"                   , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(106   , "ENDF"        , "test_1"                  , ""                    , ""                    ));
-
-    add_instruction(new three_address_instruction(200   , "FUNC"        , "test_2"                  , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(201   , "+"           , "test_2_int_1$3"          , "10"                  , "temp$5"              ));
-    add_instruction(new three_address_instruction(202   , "="           , "temp$5"                  , ""                    , "test_2_int_2$4"      ));
-    add_instruction(new three_address_instruction(203   , "RET"         , "test_2_int_2$4"          , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(204   , "ENDF"        , "test_2"                  , ""                    , ""                    ));
-
-    add_instruction(new three_address_instruction(300   , "FUNC"        , "test_3"                  , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(301   , "-"           , "test_3_int_1$7"          , "1"                   , "temp$9"              ));
-    add_instruction(new three_address_instruction(302   , "*"           , "temp$9"                  , "4"                   , "temp$9"              ));
-    add_instruction(new three_address_instruction(303   , "=[]"         , "test_3_int_array$6"      , "temp$9"              , "temp$10"             ));
-    add_instruction(new three_address_instruction(304   , "="           , "temp$10"                 , ""                    , "test_3_int_2$8"      ));
-    add_instruction(new three_address_instruction(305   , "[]="         , "test_3_int_array$6"      , "0"                   , "test_3_int_2$8"      ));
-    add_instruction(new three_address_instruction(306   , "RET"         , "test_3_int_2$8"          , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(307   , "ENDF"        , "test_3"                  , ""                    , ""                    ));
-
-    add_instruction(new three_address_instruction(0     , "FUNC"        , "main"                    , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(1     , "[]="         , "main_int_array_1$12"     , "0"                   , "10"                  ));
-    add_instruction(new three_address_instruction(2     , "[]="         , "main_int_array_1$12"     , "4"                   , "20"                  ));
-    add_instruction(new three_address_instruction(3     , "PARAM"       , "main_int_array_1$12"     , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(4     , "PARAM"       , "2"                       , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(5     , "CALL"        , "test_3"                  , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(6     , "=[]"         , "main_int_array_1$12"     , "0"                   , "temp$13"             ));
-    add_instruction(new three_address_instruction(7     , "PARAM"       , "temp$13"                 , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(8     , "CALL"        , "print"                   , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(9     , "="           , "10"                      , ""                    , "main_int_1$11"       ));
-    add_instruction(new three_address_instruction(10    , "PARAM"       , "main_int_1$11"           , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(11    , "CALL"        , "test_1"                  , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(12    , "RET"         , "0"                       , ""                    , ""                    ));
-    add_instruction(new three_address_instruction(13    , "ENDF"        , "main"                    , ""                    , ""                    ));
-
-    // 符号表
-    SymbolItem *temp;
-    SymbolTable
-        *symbol_input,
-        *symbol_print,
-        *symbol_test_1,
-        *symbol_test_2,
-        *symbol_test_3,
-        *symbol_main,
-        *symbol_table_2;
-
-    // 函数符号表 新建符号表
-    symbol_input        =   new SymbolTable(global_symbol_table);
-    symbol_print        =   new SymbolTable(global_symbol_table);
-    symbol_test_1       =   new SymbolTable(global_symbol_table);
-    symbol_test_2       =   new SymbolTable(global_symbol_table);
-    symbol_test_3       =   new SymbolTable(global_symbol_table);
-    symbol_main         =   new SymbolTable(global_symbol_table);
-
-    // 函数符号表 命名
-    global_symbol_table ->  symbol_table_name = "global";
-    symbol_input        ->  symbol_table_name = "input";
-    symbol_print        ->  symbol_table_name = "print";
-    symbol_test_1       ->  symbol_table_name = "test_1";
-    symbol_test_2       ->  symbol_table_name = "test_2";
-    symbol_test_3       ->  symbol_table_name = "test_3";
-    symbol_main         ->  symbol_table_name = "main";
-
-
-    // 内层符号表 新建符号表
-    symbol_table_2       =   new SymbolTable(symbol_test_1);
-
-    // 函数符号表 插入内置函数符号
-    add_symbol(SymbolItem("input"               , "function"        , 0             , "input"                   ));
-    add_symbol(SymbolItem("print"               , "function"        , 0             , "print"                   ));
-    add_symbol(SymbolItem("$getch"              , "function"        , 0             , "$getch"                  ));
-    
-    // 函数符号表 插入自定义函数符号
-    add_symbol(SymbolItem("test_1"              , "function"        , 0             , "test_1"                  ));
-    add_symbol(SymbolItem("test_2"              , "function"        , 0             , "test_2"                  ));
-    add_symbol(SymbolItem("test_3"              , "function"        , 0             , "test_3"                  ));
-    add_symbol(SymbolItem("main"                , "function"        , 0             , "main"                    ));
-    
-    // 全局符号表
-    add_symbol(SymbolItem("global_int_1"        , "int"             , 4             , "global_int_1$0"          ));
-    add_symbol(SymbolItem("global_int_2"        , "int"             , 4             , "global_int_2$0"          ));
-    add_symbol(SymbolItem("global_int_array_1"  , "int[10]"         , 40            , "global_int_array_1$1"    ));
-    
-    // 函数符号表
-    add_symbol(SymbolItem("test_1_int_1"        , "int"             , 4             , "test_1_int_1$0"          ), symbol_test_1        );
-    add_symbol(SymbolItem("test_1_int_2"        , "int"             , 4             , "test_1_int_2$1"          ), symbol_test_1        );
-    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$2"                  ), symbol_test_1        );
-
-    add_symbol(SymbolItem("test_2_int_1"        , "int"             , 4             , "test_2_int_1$3"          ), symbol_test_2        );
-    add_symbol(SymbolItem("test_2_int_2"        , "int"             , 4             , "test_2_int_2$4"          ), symbol_test_2        );
-    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$5"                  ), symbol_test_2        );
-
-    add_symbol(SymbolItem("test_3_int_array"    , "int[10]"         , 4             , "test_3_int_array$6"      ), symbol_test_3        );
-    add_symbol(SymbolItem("test_3_int_1"        , "int"             , 4             , "test_3_int_1$7"          ), symbol_test_3        );
-    add_symbol(SymbolItem("test_3_int_2"        , "int"             , 4             , "test_3_int_2$8"          ), symbol_test_3        );
-    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$9"                  ), symbol_test_3        );
-    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$10"                 ), symbol_test_3        );
-
-    add_symbol(SymbolItem("main_int_1"          , "int"             , 4             , "main_int_1$11"           ), symbol_main          );
-    add_symbol(SymbolItem("main_int_array_1"    , "int[10]"         , 4             , "main_int_array_1$12"     ), symbol_main          );
-    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$13"                 ), symbol_main          );
-    
-    // 函数表
-    FunctionItem *temp_function;
-    temp_function = new FunctionItem("input"        , "int"         ); 
-    add_function(temp_function);
-    temp_function = new FunctionItem("print"        , "void"        ); temp_function->parameter_vector.push_back("int");
-    add_function(temp_function);
-    temp_function = new FunctionItem("$getch"       , "void"        ); 
-    add_function(temp_function);
-    temp_function = new FunctionItem("test_1"       , "void"        ); temp_function->parameter_vector.push_back("int");
-    add_function(temp_function);
-    temp_function = new FunctionItem("test_2"       , "int"         ); temp_function->parameter_vector.push_back("int");
-    add_function(temp_function);
-    temp_function = new FunctionItem("test_3"       , "void"        ); temp_function->parameter_vector.push_back("int[10]"); temp_function->parameter_vector.push_back("int");
-    add_function(temp_function);
-    temp_function = new FunctionItem("main"         , "int"         ); 
-    add_function(temp_function);
-
-    // 结构体表
-
-}
+//void AssemblyGenerator::generate_example()
+//{
+//    global_symbol_table = new SymbolTable;
+//    function_table = new FunctionTable;
+//    struct_table = new StructTable;
+//    final_instruction = new vector<three_address_instruction*>;
+//
+//    // 三地址指令
+//    add_instruction(new three_address_instruction(100   , "FUNC"        , "test_1"                  , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(101   , "PARAM"       , "test_1_int_1$0"          , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(102   , "CALL"        , "test_2"                  , ""                    , "temp$2"              ));
+//    add_instruction(new three_address_instruction(103   , "="           , "temp$2"                  , ""                    , "test_1_int_2$1"      ));
+//    add_instruction(new three_address_instruction(104   , "PARAM"       , "test_1_int_2$1"          , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(105   , "CALL"        , "print"                   , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(106   , "ENDF"        , "test_1"                  , ""                    , ""                    ));
+//
+//    add_instruction(new three_address_instruction(200   , "FUNC"        , "test_2"                  , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(201   , "+"           , "test_2_int_1$3"          , "10"                  , "temp$5"              ));
+//    add_instruction(new three_address_instruction(202   , "="           , "temp$5"                  , ""                    , "test_2_int_2$4"      ));
+//    add_instruction(new three_address_instruction(203   , "RET"         , "test_2_int_2$4"          , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(204   , "ENDF"        , "test_2"                  , ""                    , ""                    ));
+//
+//    add_instruction(new three_address_instruction(300   , "FUNC"        , "test_3"                  , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(301   , "-"           , "test_3_int_1$7"          , "1"                   , "temp$9"              ));
+//    add_instruction(new three_address_instruction(302   , "*"           , "temp$9"                  , "4"                   , "temp$9"              ));
+//    add_instruction(new three_address_instruction(303   , "=[]"         , "test_3_int_array$6"      , "temp$9"              , "temp$10"             ));
+//    add_instruction(new three_address_instruction(304   , "="           , "temp$10"                 , ""                    , "test_3_int_2$8"      ));
+//    add_instruction(new three_address_instruction(305   , "[]="         , "test_3_int_array$6"      , "0"                   , "test_3_int_2$8"      ));
+//    add_instruction(new three_address_instruction(306   , "RET"         , "test_3_int_2$8"          , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(307   , "ENDF"        , "test_3"                  , ""                    , ""                    ));
+//
+//    add_instruction(new three_address_instruction(0     , "FUNC"        , "main"                    , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(1     , "[]="         , "main_int_array_1$12"     , "0"                   , "10"                  ));
+//    add_instruction(new three_address_instruction(2     , "[]="         , "main_int_array_1$12"     , "4"                   , "20"                  ));
+//    add_instruction(new three_address_instruction(3     , "PARAM"       , "main_int_array_1$12"     , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(4     , "PARAM"       , "2"                       , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(5     , "CALL"        , "test_3"                  , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(6     , "=[]"         , "main_int_array_1$12"     , "0"                   , "temp$13"             ));
+//    add_instruction(new three_address_instruction(7     , "PARAM"       , "temp$13"                 , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(8     , "CALL"        , "print"                   , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(9     , "="           , "10"                      , ""                    , "main_int_1$11"       ));
+//    add_instruction(new three_address_instruction(10    , "PARAM"       , "main_int_1$11"           , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(11    , "CALL"        , "test_1"                  , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(12    , "RET"         , "0"                       , ""                    , ""                    ));
+//    add_instruction(new three_address_instruction(13    , "ENDF"        , "main"                    , ""                    , ""                    ));
+//
+//    // 符号表
+//    SymbolItem *temp;
+//    SymbolTable
+//        *symbol_input,
+//        *symbol_print,
+//        *symbol_test_1,
+//        *symbol_test_2,
+//        *symbol_test_3,
+//        *symbol_main,
+//        *symbol_table_2;
+//
+//    // 函数符号表 新建符号表
+//    symbol_input        =   new SymbolTable(global_symbol_table);
+//    symbol_print        =   new SymbolTable(global_symbol_table);
+//    symbol_test_1       =   new SymbolTable(global_symbol_table);
+//    symbol_test_2       =   new SymbolTable(global_symbol_table);
+//    symbol_test_3       =   new SymbolTable(global_symbol_table);
+//    symbol_main         =   new SymbolTable(global_symbol_table);
+//
+//    // 函数符号表 命名
+//    global_symbol_table ->  symbol_table_name = "global";
+//    symbol_input        ->  symbol_table_name = "input";
+//    symbol_print        ->  symbol_table_name = "print";
+//    symbol_test_1       ->  symbol_table_name = "test_1";
+//    symbol_test_2       ->  symbol_table_name = "test_2";
+//    symbol_test_3       ->  symbol_table_name = "test_3";
+//    symbol_main         ->  symbol_table_name = "main";
+//
+//
+//    // 内层符号表 新建符号表
+//    symbol_table_2       =   new SymbolTable(symbol_test_1);
+//
+//    // 函数符号表 插入内置函数符号
+//    add_symbol(SymbolItem("input"               , "function"        , 0             , "input"                   ));
+//    add_symbol(SymbolItem("print"               , "function"        , 0             , "print"                   ));
+//    add_symbol(SymbolItem("$getch"              , "function"        , 0             , "$getch"                  ));
+//    
+//    // 函数符号表 插入自定义函数符号
+//    add_symbol(SymbolItem("test_1"              , "function"        , 0             , "test_1"                  ));
+//    add_symbol(SymbolItem("test_2"              , "function"        , 0             , "test_2"                  ));
+//    add_symbol(SymbolItem("test_3"              , "function"        , 0             , "test_3"                  ));
+//    add_symbol(SymbolItem("main"                , "function"        , 0             , "main"                    ));
+//    
+//    // 全局符号表
+//    add_symbol(SymbolItem("global_int_1"        , "int"             , 4             , "global_int_1$0"          ));
+//    add_symbol(SymbolItem("global_int_2"        , "int"             , 4             , "global_int_2$0"          ));
+//    add_symbol(SymbolItem("global_int_array_1"  , "int[10]"         , 40            , "global_int_array_1$1"    ));
+//    
+//    // 函数符号表
+//    add_symbol(SymbolItem("test_1_int_1"        , "int"             , 4             , "test_1_int_1$0"          ), symbol_test_1        );
+//    add_symbol(SymbolItem("test_1_int_2"        , "int"             , 4             , "test_1_int_2$1"          ), symbol_test_1        );
+//    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$2"                  ), symbol_test_1        );
+//
+//    add_symbol(SymbolItem("test_2_int_1"        , "int"             , 4             , "test_2_int_1$3"          ), symbol_test_2        );
+//    add_symbol(SymbolItem("test_2_int_2"        , "int"             , 4             , "test_2_int_2$4"          ), symbol_test_2        );
+//    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$5"                  ), symbol_test_2        );
+//
+//    add_symbol(SymbolItem("test_3_int_array"    , "int[10]"         , 4             , "test_3_int_array$6"      ), symbol_test_3        );
+//    add_symbol(SymbolItem("test_3_int_1"        , "int"             , 4             , "test_3_int_1$7"          ), symbol_test_3        );
+//    add_symbol(SymbolItem("test_3_int_2"        , "int"             , 4             , "test_3_int_2$8"          ), symbol_test_3        );
+//    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$9"                  ), symbol_test_3        );
+//    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$10"                 ), symbol_test_3        );
+//
+//    add_symbol(SymbolItem("main_int_1"          , "int"             , 4             , "main_int_1$11"           ), symbol_main          );
+//    add_symbol(SymbolItem("main_int_array_1"    , "int[10]"         , 4             , "main_int_array_1$12"     ), symbol_main          );
+//    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$13"                 ), symbol_main          );
+//    
+//    // 函数表
+//    FunctionItem *temp_function;
+//    temp_function = new FunctionItem("input"        , "int"         ); 
+//    add_function(temp_function);
+//    temp_function = new FunctionItem("print"        , "void"        ); temp_function->parameter_vector.push_back("int");
+//    add_function(temp_function);
+//    temp_function = new FunctionItem("$getch"       , "void"        ); 
+//    add_function(temp_function);
+//    temp_function = new FunctionItem("test_1"       , "void"        ); temp_function->parameter_vector.push_back("int");
+//    add_function(temp_function);
+//    temp_function = new FunctionItem("test_2"       , "int"         ); temp_function->parameter_vector.push_back("int");
+//    add_function(temp_function);
+//    temp_function = new FunctionItem("test_3"       , "void"        ); temp_function->parameter_vector.push_back("int[10]"); temp_function->parameter_vector.push_back("int");
+//    add_function(temp_function);
+//    temp_function = new FunctionItem("main"         , "int"         ); 
+//    add_function(temp_function);
+//
+//    // 结构体表
+//
+//}
 
 void AssemblyGenerator::close_file()
 {
@@ -651,7 +651,7 @@ void AssemblyGenerator::add_function(FunctionItem* i)
     function_table->function_item_vector.push_back(*i);
 }
 
-void AssemblyGenerator::add_instruction(three_address_instruction *i)
+void AssemblyGenerator::add_instruction(GrammerAnalyzer::three_address_instruction *i)
 {
     final_instruction->push_back(i);
 }
@@ -666,7 +666,3 @@ SymbolTable * AssemblyGenerator::get_function_symbol_table(string name)
     }
 }
 
-
-three_address_instruction::three_address_instruction(int i, std::string o, std::string a1, std::string a2, std::string re)
-    :index(i), op(o), arg1(a1), arg2(a2), result(re)
-{ }

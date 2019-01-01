@@ -22,24 +22,22 @@ private:
 	int table_number;
 	std::vector<std::vector<std::string*>> action_table;
 	std::vector<std::vector<std::string*>> goto_table;
-	hbst::SymbolTable* out_table;
-	hbst::StructTable* struct_table;
-	hbst::FunctionTable* function_table;
 	std::vector<std::string> parameter_list;
 
-	typedef struct {
-		int index;
-		std::string op;
-		std::string arg1;
-		std::string arg2;
-		std::string result;
-	}three_address_instruction;
-	std::vector<three_address_instruction*> final_instruction;
-
 public:
+    typedef struct {
+        int index;
+        std::string op;
+        std::string arg1;
+        std::string arg2;
+        std::string result;
+    }three_address_instruction;
+    std::vector<three_address_instruction*> final_instruction;
+    hbst::SymbolTable* out_table;
+    hbst::StructTable* struct_table;
+    hbst::FunctionTable* function_table;
 	GrammerAnalyzer(std::vector<hebo::LexicalUnit>);
 	hebo::LexicalUnit* root;
-
 private:
 	void initialization();
 	hebo::LexicalUnit* init_tree();

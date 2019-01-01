@@ -1,21 +1,20 @@
-//#include <iostream>
-//#include <fstream>
-//#include "Nfa.h"
-//#include "Nfa_to_dfa.h"
-//#include "RegExp.h"
-//#include "hlhNFA.h"
-//#include "Min_DFA.cpp"
-//#include "intput_and_output.hpp"
-//#include "ContextFreeGrammar.hpp"
-//#include "GrammerAnalyzer.h"
-//#include "LR1.h"
+#include <iostream>
+#include <fstream>
+#include "Nfa.h"
+#include "Nfa_to_dfa.h"
+#include "RegExp.h"
+#include "hlhNFA.h"
+#include "Min_DFA.cpp"
+#include "intput_and_output.hpp"
+#include "ContextFreeGrammar.hpp"
+#include "GrammerAnalyzer.h"
+#include "LR1.h"
 #include "AsmGenerator.h"
 using namespace std;
 // #define GRAMMAR
-// #define HB
+ #define HB
 // #define LEX
-// #define LYH
-#define GEN_ASM
+ //#define LYH
 
 //struct HLH
 //{
@@ -122,6 +121,13 @@ int main()
 	hebo::DFA dfa("ans.txt", "test.c");
 	dfa.run();
 	GrammerAnalyzer* grammer_analyzer = new GrammerAnalyzer(dfa.output_sequence);
+    AssemblyGenerator asmgen;
+    asmgen.global_symbol_table = grammer_analyzer->out_table;
+    asmgen.function_table = grammer_analyzer->function_table;
+    asmgen.struct_table = grammer_analyzer->struct_table;
+    asmgen.final_instruction = &grammer_analyzer->final_instruction;
+    //asmgen.generate_example();
+    asmgen.generate_asm();
 	return 0;
 #endif // HB
 
@@ -253,12 +259,6 @@ int main()
 	Min_DFA mdfa(ntd.dfa_end, ntd.dfa_map, ntd.dfa_s, ntd.n_dfa_states, ntd.n_chars);
 	system("pause");
 #endif // LEX
-
-#ifdef GEN_ASM
-    AssemblyGenerator asmgen;
-    asmgen.generate_example();
-    asmgen.generate_asm();
-#endif // GEN_ASM
 
 	return 0;
 	}
