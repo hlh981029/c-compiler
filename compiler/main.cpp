@@ -13,9 +13,9 @@
 using namespace std;
 // #define GRAMMAR
  #define HB
-#define COMPILE_ASM
+// #define COMPILE_ASM
 // #define LEX
- //#define LYH
+// #define LYH
 
 //struct HLH
 //{

@@ -416,10 +416,10 @@ void AssemblyGenerator::generate_code()
             asm_out << "    jmp label" << temp_result << endl;
         }
 
-        else if (temp_op == "JN") {
+        else if (temp_op == "JE") {
             asm_out << "    mov eax, " << temp_arg1 << endl;
             asm_out << "    cmp eax, " << temp_arg2 << endl;
-            asm_out << "    jn label" << temp_result << endl;
+            asm_out << "    je label" << temp_result << endl;
         }
 
         else if (temp_op == "JNE") {

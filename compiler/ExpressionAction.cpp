@@ -120,6 +120,7 @@ void GrammerAnalyzer::action10(hebo::LexicalUnit* root) {
 	assignment->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assignment);
 	three_address_instruction* add = new three_address_instruction();
+    add->index = this->final_instruction.size();
 	add->op = "++";
 	add->arg1 = root->father->child_node_list[0]->attribute.addr;
 	add->arg2 = "-";
