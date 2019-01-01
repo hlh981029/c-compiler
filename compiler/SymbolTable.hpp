@@ -38,6 +38,7 @@ namespace hbst
 		SymbolItem& get_symbol_from_address(std::string symbol_address) throw(std::string);
 		
 
+
 		~SymbolTable();
 	};
 

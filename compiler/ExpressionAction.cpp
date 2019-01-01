@@ -17,6 +17,7 @@ void GrammerAnalyzer::action2(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[0]->morpheme;
 	assignment->arg2 = "-";

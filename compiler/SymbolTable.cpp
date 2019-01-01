@@ -133,7 +133,7 @@ namespace hbst
 		throw std::string("no such symbol in this symbol table");
 	}
 
-	
+
 	SymbolTable::~SymbolTable()
 	{
 
@@ -166,6 +166,7 @@ namespace hbst
 		if (name.empty())
 		{
 			address = "temp" + address;
+			name = address;
 		}
 	}
 
