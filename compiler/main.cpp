@@ -13,6 +13,7 @@
 using namespace std;
 // #define GRAMMAR
  #define HB
+#define COMPILE_ASM
 // #define LEX
  //#define LYH
 
@@ -128,6 +129,10 @@ int main()
     asmgen.final_instruction = &grammer_analyzer->final_instruction;
     //asmgen.generate_example();
     asmgen.generate_asm();
+#ifdef COMPILE_ASM
+    system("compile_asm.bat");
+    system("pause");
+#endif // COMPILE_ASM
 	return 0;
 #endif // HB
 

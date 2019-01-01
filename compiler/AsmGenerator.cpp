@@ -1,7 +1,5 @@
 #include "AsmGenerator.h"
 using namespace std;
-//#define COMPILE_ASM
-
 
 AssemblyGenerator::AssemblyGenerator()
 {
@@ -20,10 +18,7 @@ void AssemblyGenerator::generate_asm() {
     generate_code();
     generate_footer();
     close_file();
-#ifdef COMPILE_ASM
-    system("compile_asm.bat");
-    system("pause");
-#endif // COMPILE_ASM
+
 }
 
 void AssemblyGenerator::generate_header()
