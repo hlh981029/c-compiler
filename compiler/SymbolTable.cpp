@@ -267,7 +267,7 @@ namespace hbst
 hbst::SymbolTable global_symbol_table("global");
 hbst::StructTable global_struct_table;
 hbst::FunctionTable global_function_table;
-
+std::map<std::string, int> constant_map;
 
 auto input_function_symbol_item = hbst::SymbolItem("input", "function", 0, 0);
 auto print_function_symbol_item = hbst::SymbolItem("print", "function", 0, 0);

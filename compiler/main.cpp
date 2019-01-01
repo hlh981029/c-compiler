@@ -11,9 +11,9 @@
 #include "LR1.h"
 using namespace std;
 // #define GRAMMAR
- #define HB
+#define HB
 // #define LEX
- //#define LYH
+// #define LYH
 
 //struct HLH
 //{

@@ -148,7 +148,6 @@ IDENTIFIER
 ( direct_declarator )
 IDENTIFIER [ assignment_expression ]
 direct_declarator ( parameter_list )
-direct_declarator ( identifier_list )
 direct_declarator ( )
 ;;
 
@@ -162,11 +161,6 @@ type_specifier declarator
 type_specifier
 ;;
 
-identifier_list
-IDENTIFIER
-identifier_list , IDENTIFIER
-;;
-
 type_name
 type_specifier
 ;;
@@ -178,12 +172,11 @@ assignment_expression
 ;;
 
 initializer_list
-initializer
-initializer_list , initializer
+assignment_expression
+initializer_list , assignment_expression
 ;;
 
 statement
-labeled_statement
 compound_statement
 expression_statement
 selection_statement
@@ -191,13 +184,15 @@ iteration_statement
 jump_statement
 ;;
 
-labeled_statement
-IDENTIFIER : statement
-CASE assignment_expression : statement
-DEFAULT : statement
-;;
 
 compound_statement
+{ }
+{ statement_list }
+{ declaration_list }
+{ declaration_list statement_list }
+;;
+
+function_compound_statement
 { }
 { statement_list }
 { declaration_list }
@@ -232,7 +227,6 @@ FOR ( expression_statement expression_statement expression ) statement
 ;;
 
 jump_statement
-GOTO IDENTIFIER ;
 CONTINUE ;
 BREAK ;
 RETURN ;
@@ -250,10 +244,7 @@ declaration
 ;;
 
 function_definition
-type_specifier declarator declaration_list compound_statement
-type_specifier declarator compound_statement
-declarator declaration_list compound_statement
-declarator compound_statement
+type_specifier declarator function_compound_statement
 ;;
 
 argumented_translation_unit

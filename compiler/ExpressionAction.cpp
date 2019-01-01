@@ -13,9 +13,11 @@ void GrammerAnalyzer::action1(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action2(hebo::LexicalUnit* root) {
+
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
+	constant_map.insert(std::make_pair(temp.address, std::atoi(root->father->child_node_list[0]->morpheme.c_str())));
 	three_address_instruction* assignment = new three_address_instruction();
 	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
@@ -45,11 +47,11 @@ void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 	if (type[type.size() - 1] != ']') {
 		this->say_error();
 	}
-	if (root->father->child_node_list[2]->attribute.type != "int") {
+	if (this->out_table->get_symbol_from_address(root->father->child_node_list[2]->attribute.addr).type != "int") {
 		this->say_error();
 	}
 	root->father->attribute.type = root->father->attribute.array_info.element_type;
-	if (root->father->attribute.type == "int") {
+	if (this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).type.substr(0, 3) == "int") {
 		hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 		this->out_table->put_symbol(temp);
 		root->father->attribute.addr = temp.address;
@@ -63,10 +65,11 @@ void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 	three_address_instruction* assignment = new three_address_instruction();
 	assignment->index = this->final_instruction.size();
 	assignment->op = "*";
-	assignment->arg1 = std::to_string(root->father->attribute.array_info.element_width);
+	assignment->arg1 = std::to_string(4);
 	assignment->arg2 = root->father->child_node_list[2]->attribute.addr;
 	assignment->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assignment);
+	root->father->attribute.array_info.pos = assignment->result;
 	return;
 }
 
@@ -151,6 +154,8 @@ void GrammerAnalyzer::action11(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action12(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 

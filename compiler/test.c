@@ -1,9 +1,7 @@
 void main()
 {
-	int a, b;
-    a = 1;
-    b = 0;
-	while(a||b){
-        a--;
-	}
+	int a[3] = {1, 2, 3};
+	int i;
+	i=a[1];
+
 }

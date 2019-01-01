@@ -3,6 +3,7 @@
 #include<vector>
 #include<iostream>
 #include<sstream>
+#include<map>
 namespace hbst
 {
 	class SymbolItem
@@ -85,6 +86,7 @@ namespace hbst
 		FunctionItem& get_function(std::string name) throw(std::string);
 	};
 }
+extern std::map<std::string, int> constant_map;
 extern hbst::SymbolTable global_symbol_table;
 extern hbst::StructTable global_struct_table;
 extern hbst::FunctionTable global_function_table;

@@ -16,6 +16,7 @@ namespace hebo
 		std::string element_type;
 		std::string pos;
 		int element_width;
+		std::vector<std::string> element_addr;
 	}array_info;
 	typedef struct {
 
@@ -31,6 +32,7 @@ namespace hebo
 			int width;
 			std::string type;
 			std::string addr;
+			int const_value;
 
 			std::string op_value;
 			bool if_struct;

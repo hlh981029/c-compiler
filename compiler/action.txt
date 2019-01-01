@@ -1,4 +1,4 @@
-100
+94
 primary_expression IDENTIFIER action1
 primary_expression CONSTANT action2
 primary_expression ( expression ) action4
@@ -25,21 +25,15 @@ cast_expression unary_expression action24
 cast_expression ( type_name ) cast_expression action25
 argument_expression_list assignment_expression action26
 argument_expression_list argument_expression_list , assignment_expression action27
-
 argumented_translation_unit action113 translation_unit
 compound_statement { action101 }
 compound_statement { action102 statement_list }
 compound_statement { action103 declaration_list }
 compound_statement { action104 declaration_list statement_list }
-function_definition type_specifier declarator declaration_list compound_statement
-function_definition type_specifier declarator compound_statement
-function_definition declarator declaration_list compound_statement
-function_definition declarator compound_statement
 translation_unit action109 external_declaration
 translation_unit action110 translation_unit external_declaration
 external_declaration action111 function_definition
 external_declaration action112 declaration
-
 type_specifier VOID action201
 type_specifier INT action203
 type_specifier struct_or_union_specifier action204
@@ -52,16 +46,19 @@ declaration type_specifier action218 init_declarator_list ;
 init_declarator_list action219 init_declarator
 init_declarator_list action220 init_declarator_list , action221 init_declarator
 type_name type_specifier action222
-
+init_declarator action223 declarator = initializer action224
+initializer assignment_expression action225
+initializer { initializer_list } action226
+initializer { initializer_list , } action227
+initializer_list assignment_expression action228
+initializer_list initializer_list , assignment_expression action229
 statement_list action301 statement
 statement_list action302 statement_list action303 statement
 statement action304 jump_statement
 statement action305 compound_statement
 statement selection_statement
-statement labeled_statement
 statement expression_statement
 statement iteration_statement
-
 multiplicative_expression cast_expression action401
 multiplicative_expression multiplicative_expression * cast_expression action402
 multiplicative_expression multiplicative_expression / cast_expression action403
@@ -89,12 +86,10 @@ assignment_expression unary_expression = assignment_expression action424
 expression assignment_expression action425
 expression expression , assignment_expression action426
 expression_statement expression ; action427
-
 iteration_statement WHILE ( action501 expression action502 ) action503 statement action504
 iteration_statement FOR ( expression_statement action505 expression_statement action506 ) action507 statement action508
 iteration_statement FOR ( expression_statement action509 expression_statement action510 expression action511 ) action512 statement action513
 selection_statement IF ( expression action514 ) action515 statement action516
 selection_statement IF ( expression action517 ) action518 statement action519 ELSE action520 statement action521
-
 jump_statement CONTINUE ; action522
 jump_statement BREAK ; action523
