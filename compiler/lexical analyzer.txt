@@ -6,6 +6,7 @@ IDENTIFIER     main
 )              )              
 {              {              
 INT            int            
+<<<<<<< HEAD
 IDENTIFIER     hun            
 ,              ,              
 IDENTIFIER     ten            
@@ -90,3 +91,29 @@ IDENTIFIER     n
 }              }              
 }              }              
 }              }              
+=======
+IDENTIFIER     a              
+[              [              
+CONSTANT       3              
+]              ]              
+=              =              
+{              {              
+CONSTANT       1              
+,              ,              
+CONSTANT       2              
+,              ,              
+CONSTANT       3              
+}              }              
+;              ;              
+INT            int            
+IDENTIFIER     i              
+;              ;              
+IDENTIFIER     i              
+=              =              
+IDENTIFIER     a              
+[              [              
+CONSTANT       1              
+]              ]              
+;              ;              
+}              }              
+>>>>>>> 7a095d2ce1d14ee88d65fab98c9e577b9def28b1

@@ -12,8 +12,7 @@
 #include "AsmGenerator.h"
 using namespace std;
 // #define GRAMMAR
- #define HB
-// #define COMPILE_ASM
+#define HB
 // #define LEX
 // #define LYH
 

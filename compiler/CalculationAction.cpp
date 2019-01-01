@@ -432,20 +432,85 @@ void GrammerAnalyzer::action424(hebo::LexicalUnit* root) {
 		this->say_error();
 		return;
 	}
-	three_address_instruction* assign_1 = new three_address_instruction();
-	assign_1->index = this->final_instruction.size();
-	assign_1->op = "=";
-	assign_1->arg1 = root->father->child_node_list[2]->attribute.addr;
-	assign_1->arg2 = "-";
-	assign_1->result = root->father->child_node_list[0]->attribute.addr;
-	this->final_instruction.push_back(assign_1);
-	three_address_instruction* assign_2 = new three_address_instruction();
-	assign_2->index = this->final_instruction.size();
-	assign_2->op = "=";
-	assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
-	assign_2->arg2 = "-";
-	assign_2->result = root->father->attribute.addr;
-	this->final_instruction.push_back(assign_2);
+	if(root->father->child_node_list[0]->attribute.array_info.name == ""){
+		if (root->father->child_node_list[2]->attribute.array_info.name == "") {
+			three_address_instruction* assign_1 = new three_address_instruction();
+			assign_1->index = this->final_instruction.size();
+			assign_1->op = "=";
+			assign_1->arg1 = root->father->child_node_list[2]->attribute.addr;
+			assign_1->arg2 = "-";
+			assign_1->result = root->father->child_node_list[0]->attribute.addr;
+			this->final_instruction.push_back(assign_1);
+			three_address_instruction* assign_2 = new three_address_instruction();
+			assign_2->index = this->final_instruction.size();
+			assign_2->op = "=";
+			assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
+			assign_2->arg2 = "-";
+			assign_2->result = root->father->attribute.addr;
+			this->final_instruction.push_back(assign_2);
+		}
+		else {
+			three_address_instruction* assign_1 = new three_address_instruction();
+			assign_1->index = this->final_instruction.size();
+			assign_1->op = "=[]";
+			assign_1->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
+			assign_1->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
+			assign_1->result = root->father->child_node_list[0]->attribute.addr;
+			this->final_instruction.push_back(assign_1);
+			three_address_instruction* assign_2 = new three_address_instruction();
+			assign_2->index = this->final_instruction.size();
+			assign_2->op = "=[]";
+			assign_2->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
+			assign_2->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
+			assign_2->result = root->father->attribute.addr;
+			this->final_instruction.push_back(assign_2);
+		}
+
+	}
+	else {
+		if (root->father->child_node_list[2]->attribute.array_info.name == "") {
+			three_address_instruction* assign_1 = new three_address_instruction();
+			assign_1->index = this->final_instruction.size();
+			assign_1->op = "[]=";
+			assign_1->arg1 = root->father->child_node_list[0]->attribute.array_info.name;
+			assign_1->arg2 = root->father->child_node_list[0]->attribute.array_info.pos;
+			assign_1->result = root->father->child_node_list[2]->attribute.addr;
+			this->final_instruction.push_back(assign_1);
+			three_address_instruction* assign_2 = new three_address_instruction();
+			assign_2->index = this->final_instruction.size();
+			assign_2->op = "=";
+			assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
+			assign_2->arg2 = "-";
+			assign_2->result = root->father->attribute.addr;
+			this->final_instruction.push_back(assign_2);
+		}
+		else {
+			hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
+			this->out_table->put_symbol(temp);
+			three_address_instruction* assign_1 = new three_address_instruction();
+			assign_1->index = this->final_instruction.size();
+			assign_1->op = "=[]";
+			assign_1->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
+			assign_1->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
+			assign_1->result = temp.address;
+			this->final_instruction.push_back(assign_1);
+			three_address_instruction* assign_2 = new three_address_instruction();
+			assign_2->index = this->final_instruction.size();
+			assign_2->op = "[]=";
+			assign_2->arg1 = root->father->child_node_list[0]->attribute.array_info.name;
+			assign_2->arg2 = root->father->child_node_list[0]->attribute.array_info.pos;
+			assign_2->result = temp.address;
+			this->final_instruction.push_back(assign_2);
+			three_address_instruction* assign_3 = new three_address_instruction();
+			assign_3->index = this->final_instruction.size();
+			assign_3->op = "=";
+			assign_3->arg1 = temp.address;
+			assign_3->arg2 = "-";
+			assign_3->result = root->father->attribute.addr;
+			this->final_instruction.push_back(assign_3);
+		}
+	}
+
 	return;
 }
 

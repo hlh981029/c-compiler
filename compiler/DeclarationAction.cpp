@@ -38,8 +38,9 @@ void GrammerAnalyzer::action211(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action212(hebo::LexicalUnit* root) {
-	root->father->attribute.type = root->father->attribute.type + "[" + root->father->child_node_list[2]->attribute.addr + "]";
-	root->father->attribute.width = root->father->attribute.width * std::atoi(root->father->child_node_list[2]->attribute.addr.c_str());
+	root->father->morpheme = root->father->child_node_list[0]->morpheme;
+	root->father->attribute.type = root->father->attribute.type + "[" + std::to_string(constant_map[root->father->child_node_list[2]->attribute.addr]) + "]";
+	root->father->attribute.width = root->father->attribute.width * constant_map[root->father->child_node_list[2]->attribute.addr];
 	return;
 }
 
@@ -138,5 +139,119 @@ void GrammerAnalyzer::action221(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action222(hebo::LexicalUnit* root) {
 	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	return;
+}
+
+void GrammerAnalyzer::action223(hebo::LexicalUnit* root) {
+	hebo::LexicalUnit* init_declarator = root->father;
+	hebo::LexicalUnit* declarator = root->father->child_node_list[1];
+	hebo::LexicalUnit* initializer = root->father->child_node_list[3];
+	if (init_declarator->attribute.if_struct == true) {
+		declarator->attribute.struct_info = init_declarator->attribute.struct_info;
+	}
+	declarator->attribute.if_struct = init_declarator->attribute.if_struct;
+	declarator->attribute.type = init_declarator->attribute.type;
+	declarator->attribute.width = init_declarator->attribute.width;
+	return;
+}
+
+void GrammerAnalyzer::action224(hebo::LexicalUnit* root) {
+	hebo::LexicalUnit* declarator = root->father->child_node_list[1];
+	hebo::LexicalUnit* initializer = root->father->child_node_list[3];
+	hbst::SymbolItem temp_item = hbst::SymbolItem(declarator->morpheme, declarator->attribute.type, 0, declarator->attribute.width);
+	this->out_table->put_symbol(temp_item);
+	declarator->attribute.addr = temp_item.address;
+	if (initializer->attribute.type == "") {
+		initializer->attribute.type = this->out_table->get_symbol_from_address(initializer->attribute.addr).type;
+	}
+	if (declarator->attribute.type != initializer->attribute.type) {
+		this->say_error();
+	}
+	else {
+		std::string type = root->father->child_node_list[1]->attribute.type;
+		if (type.substr(0, 6) == "struct" && type[type.size() - 1] != ']') {
+			three_address_instruction* assign = new three_address_instruction();
+			assign->index = this->final_instruction.size();
+			assign->op = "=";
+			assign->arg1 = initializer->attribute.addr;
+			assign->arg2 = "-";
+			assign->result = declarator->attribute.addr;
+			this->final_instruction.push_back(assign);
+		}
+		else if (type.substr(0, 6) == "struct" && type[type.size() - 1] == ']') {
+			this->say_error();
+		}
+		else if (type.substr(0, 4) == "int[") {
+			int temp_size = initializer->attribute.array_info.element_addr.size();
+			if (temp_size == 0) {
+				this->say_error();
+			}
+			else {
+				if (declarator->attribute.width / 4 != temp_size) {
+					this->say_error();
+				}
+				else {
+					for (int tt = 0; tt < temp_size; tt++) {
+						three_address_instruction* copy = new three_address_instruction();
+						copy->index = this->final_instruction.size();
+						copy->op = "[]=";
+						copy->arg1 = declarator->attribute.addr;
+						copy->arg2 = std::to_string(tt*4);
+						copy->result = initializer->attribute.array_info.element_addr[tt];
+						this->final_instruction.push_back(copy);
+					}
+				}
+			}
+		}
+		else if (type == "int")
+		{
+			three_address_instruction* copy = new three_address_instruction();
+			copy->index = this->final_instruction.size();
+			copy->op = "=";
+			copy->arg1 = initializer->attribute.addr;
+			copy->result = declarator->attribute.addr;
+			this->final_instruction.push_back(copy);
+		}
+		else {
+			this->say_error();
+		}
+	}
+	return;
+}
+
+void GrammerAnalyzer::action225(hebo::LexicalUnit* root) {
+	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	return;
+}
+
+void GrammerAnalyzer::action226(hebo::LexicalUnit* root) {
+	root->father->attribute.array_info.element_addr = root->father->child_node_list[1]->attribute.array_info.element_addr;
+	root->father->attribute.type = "int[" + std::to_string(root->father->child_node_list[1]->attribute.array_info.element_addr.size()) + "]";
+	return;
+}
+
+void GrammerAnalyzer::action227(hebo::LexicalUnit* root) {
+	root->father->attribute.array_info.element_addr = root->father->child_node_list[1]->attribute.array_info.element_addr;
+	return;
+}
+
+void GrammerAnalyzer::action228(hebo::LexicalUnit* root) {
+	hebo::LexicalUnit* assignment = root->father->child_node_list[0];
+	root->father->attribute.array_info.element_addr.push_back(assignment->attribute.addr);
+	assignment->attribute.type = this->out_table->get_symbol_from_address(assignment->attribute.addr).type;
+	if (assignment->attribute.type != "int") {
+		this->say_error();
+	}
+	return;
+}
+
+void GrammerAnalyzer::action229(hebo::LexicalUnit* root) {
+	hebo::LexicalUnit* assignment = root->father->child_node_list[2];
+	assignment->attribute.type = this->out_table->get_symbol_from_address(assignment->attribute.addr).type;
+	root->father->attribute.array_info.element_addr = root->father->child_node_list[0]->attribute.array_info.element_addr;
+	root->father->attribute.array_info.element_addr.push_back(assignment->attribute.addr);
+	if (assignment->attribute.type != "int") {
+		this->say_error();
+	}
 	return;
 }
