@@ -61,6 +61,7 @@ void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 		root->father->attribute.addr = this->out_table->get_symbol(name).address;
 	}
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "*";
 	assignment->arg1 = std::to_string(root->father->attribute.array_info.element_width);
 	assignment->arg2 = root->father->child_node_list[2]->attribute.addr;
@@ -74,6 +75,7 @@ void GrammerAnalyzer::action7(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* call = new three_address_instruction();
+	call->index = this->final_instruction.size();
 	call->op = "CALL";
 	call->arg1 = root->father->child_node_list[0]->attribute.addr;
 	call->arg2 = "-";
@@ -91,6 +93,7 @@ void GrammerAnalyzer::action8(hebo::LexicalUnit* root) {
 	}
 	else {
 		three_address_instruction* call = new three_address_instruction();
+		call->index = this->final_instruction.size();
 		call->op = "CALL";
 		call->arg1 = root->father->child_node_list[0]->attribute.addr;
 		call->arg2 = std::to_string(this->parameter_list.size());
@@ -110,6 +113,7 @@ void GrammerAnalyzer::action10(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[0]->attribute.addr;
 	assignment->arg2 = "-";
@@ -129,12 +133,14 @@ void GrammerAnalyzer::action11(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[0]->attribute.addr;
 	assignment->arg2 = "-";
 	assignment->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assignment);
 	three_address_instruction* subtract = new three_address_instruction();
+	subtract->index = this->final_instruction.size();
 	subtract->op = "--";
 	subtract->arg1 = root->father->child_node_list[0]->attribute.addr;
 	subtract->arg2 = "-";
@@ -153,12 +159,14 @@ void GrammerAnalyzer::action13(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* add = new three_address_instruction();
+	add->index = this->final_instruction.size();
 	add->op = "++";
 	add->arg1 = root->father->child_node_list[1]->attribute.addr;
 	add->arg2 = "-";
 	add->result = root->father->child_node_list[1]->attribute.addr;
 	this->final_instruction.push_back(add);
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[1]->attribute.addr;
 	assignment->arg2 = "-";
@@ -172,12 +180,14 @@ void GrammerAnalyzer::action14(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* add = new three_address_instruction();
+	add->index = this->final_instruction.size();
 	add->op = "--";
 	add->arg1 = root->father->child_node_list[1]->attribute.addr;
 	add->arg2 = "-";
 	add->result = root->father->child_node_list[1]->attribute.addr;
 	this->final_instruction.push_back(add);
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[1]->attribute.addr;
 	assignment->arg2 = "-";
@@ -192,6 +202,7 @@ void GrammerAnalyzer::action15(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = temp.address;
 	if (root->father->child_node_list[0]->attribute.op_value == "-") {
 		three_address_instruction* minus = new three_address_instruction();
+		minus->index = this->final_instruction.size();
 		minus->op = "MINUS";
 		minus->arg1 = root->father->child_node_list[2]->attribute.addr;
 		minus->arg2 = "-";
@@ -200,6 +211,7 @@ void GrammerAnalyzer::action15(hebo::LexicalUnit* root) {
 	}
 	else if (root->father->child_node_list[0]->attribute.op_value == "!") {
 		three_address_instruction* fei = new three_address_instruction();
+		fei->index = this->final_instruction.size();
 		fei->op = "!";
 		fei->arg1 = root->father->child_node_list[2]->attribute.addr;
 		fei->arg2 = "-";
@@ -217,6 +229,7 @@ void GrammerAnalyzer::action16(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[1]->attribute.width;
 	assignment->arg2 = "-";
@@ -230,6 +243,7 @@ void GrammerAnalyzer::action17(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[2]->attribute.width;
 	assignment->arg2 = "-";
@@ -278,6 +292,7 @@ void GrammerAnalyzer::action25(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	three_address_instruction* assignment = new three_address_instruction();
+	assignment->index = this->final_instruction.size();
 	assignment->op = "=";
 	assignment->arg1 = root->father->child_node_list[0]->attribute.addr;
 	assignment->arg2 = "-";
@@ -288,6 +303,7 @@ void GrammerAnalyzer::action25(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action26(hebo::LexicalUnit* root) {
 	three_address_instruction* param = new three_address_instruction();
+	param->index = this->final_instruction.size();
 	param->op = "PARAM";
 	param->arg1 = root->father->child_node_list[0]->attribute.addr;
 	param->arg2 = "-";
@@ -300,6 +316,7 @@ void GrammerAnalyzer::action26(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action27(hebo::LexicalUnit* root) {
 	three_address_instruction* param = new three_address_instruction();
+	param->index = this->final_instruction.size();
 	param->op = "PARAM";
 	param->arg1 = root->father->child_node_list[0]->attribute.addr;
 	param->arg2 = "-";
