@@ -9,6 +9,10 @@ void GrammerAnalyzer::action401(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action402(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -19,10 +23,15 @@ void GrammerAnalyzer::action402(hebo::LexicalUnit* root) {
 	multiply->arg2 = root->father->child_node_list[2]->attribute.addr;
 	multiply->result = root->father->attribute.addr;
 	this->final_instruction.push_back(multiply);
+	root->father->attribute.type = "int";
 	return;
 }
 
 void GrammerAnalyzer::action403(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -33,10 +42,15 @@ void GrammerAnalyzer::action403(hebo::LexicalUnit* root) {
 	divide->arg2 = root->father->child_node_list[2]->attribute.addr;
 	divide->result = root->father->attribute.addr;
 	this->final_instruction.push_back(divide);
+	root->father->attribute.type = "int";
 	return;
 }
 
 void GrammerAnalyzer::action404(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -47,6 +61,7 @@ void GrammerAnalyzer::action404(hebo::LexicalUnit* root) {
 	mo->arg2 = root->father->child_node_list[2]->attribute.addr;
 	mo->result = root->father->attribute.addr;
 	this->final_instruction.push_back(mo);
+	root->father->attribute.type = "int";
 	return;
 }
 
@@ -59,6 +74,10 @@ void GrammerAnalyzer::action405(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action406(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -69,10 +88,15 @@ void GrammerAnalyzer::action406(hebo::LexicalUnit* root) {
 	add->arg2 = root->father->child_node_list[2]->attribute.addr;
 	add->result = root->father->attribute.addr;
 	this->final_instruction.push_back(add);
+	root->father->attribute.type = "int";
 	return;
 }
 
 void GrammerAnalyzer::action407(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -83,6 +107,7 @@ void GrammerAnalyzer::action407(hebo::LexicalUnit* root) {
 	subtract->arg2 = root->father->child_node_list[2]->attribute.addr;
 	subtract->result = root->father->attribute.addr;
 	this->final_instruction.push_back(subtract);
+	root->father->attribute.type = "int";
 	return;
 }
 
@@ -103,6 +128,10 @@ void GrammerAnalyzer::action409(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action410(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -134,10 +163,15 @@ void GrammerAnalyzer::action410(hebo::LexicalUnit* root) {
 	assign_true->arg2 = "-";
 	assign_true->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_true);
+	root->father->attribute.type = "int";
 	return;
 }
 
 void GrammerAnalyzer::action411(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -169,10 +203,15 @@ void GrammerAnalyzer::action411(hebo::LexicalUnit* root) {
 	assign_true->arg2 = "-";
 	assign_true->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_true);
+	root->father->attribute.type = "int";
 	return;
 }
 
 void GrammerAnalyzer::action412(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -204,10 +243,15 @@ void GrammerAnalyzer::action412(hebo::LexicalUnit* root) {
 	assign_true->arg2 = "-";
 	assign_true->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_true);
+	root->father->attribute.type = "int";
 	return;
 }
 
 void GrammerAnalyzer::action413(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -239,6 +283,7 @@ void GrammerAnalyzer::action413(hebo::LexicalUnit* root) {
 	assign_true->arg2 = "-";
 	assign_true->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_true);
+	root->father->attribute.type = "int";
 	return;
 }
 
@@ -251,6 +296,10 @@ void GrammerAnalyzer::action414(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action415(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -282,10 +331,15 @@ void GrammerAnalyzer::action415(hebo::LexicalUnit* root) {
 	assign_true->arg2 = "-";
 	assign_true->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_true);
+	root->father->attribute.type = "int";
 	return;
 }
 
 void GrammerAnalyzer::action416(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -317,6 +371,7 @@ void GrammerAnalyzer::action416(hebo::LexicalUnit* root) {
 	assign_true->arg2 = "-";
 	assign_true->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_true);
+	root->father->attribute.type = "int";
 	return;
 }
 
@@ -329,6 +384,10 @@ void GrammerAnalyzer::action417(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action418(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -339,6 +398,7 @@ void GrammerAnalyzer::action418(hebo::LexicalUnit* root) {
 	operation->arg2 = root->father->child_node_list[2]->attribute.addr;
 	operation->result = root->father->attribute.addr;
 	this->final_instruction.push_back(operation);
+	root->father->attribute.type = "int";
 	return;
 }
 
@@ -351,6 +411,10 @@ void GrammerAnalyzer::action419(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action420(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -389,6 +453,7 @@ void GrammerAnalyzer::action420(hebo::LexicalUnit* root) {
 	assign_false->arg2 = "-";
 	assign_false->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_false);
+	root->father->attribute.type = "int";
 	return;
 }
 
@@ -402,6 +467,10 @@ void GrammerAnalyzer::action421(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action422(hebo::LexicalUnit* root) {
+	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error();
+		return;
+	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
@@ -440,6 +509,7 @@ void GrammerAnalyzer::action422(hebo::LexicalUnit* root) {
 	assign_true->arg2 = "-";
 	assign_true->result = root->father->attribute.addr;
 	this->final_instruction.push_back(assign_true);
+	root->father->attribute.type = "int";
 	return;
 }
 
@@ -459,85 +529,107 @@ void GrammerAnalyzer::action424(hebo::LexicalUnit* root) {
 		this->say_error();
 		return;
 	}
-	if(root->father->child_node_list[0]->attribute.array_info.name == ""){
-		if (root->father->child_node_list[2]->attribute.array_info.name == "") {
-			three_address_instruction* assign_1 = new three_address_instruction();
-			assign_1->index = this->final_instruction.size();
-			assign_1->op = "=";
-			assign_1->arg1 = root->father->child_node_list[2]->attribute.addr;
-			assign_1->arg2 = "-";
-			assign_1->result = root->father->child_node_list[0]->attribute.addr;
-			this->final_instruction.push_back(assign_1);
-			three_address_instruction* assign_2 = new three_address_instruction();
-			assign_2->index = this->final_instruction.size();
-			assign_2->op = "=";
-			assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
-			assign_2->arg2 = "-";
-			assign_2->result = root->father->attribute.addr;
-			this->final_instruction.push_back(assign_2);
+	std::string temp_type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.type = temp_type;
+	if (temp_type == "int") {
+		if (root->father->child_node_list[0]->attribute.array_info.name == "") {
+			if (root->father->child_node_list[2]->attribute.array_info.name == "") {
+				three_address_instruction* assign_1 = new three_address_instruction();
+				assign_1->index = this->final_instruction.size();
+				assign_1->op = "=";
+				assign_1->arg1 = root->father->child_node_list[2]->attribute.addr;
+				assign_1->arg2 = "-";
+				assign_1->result = root->father->child_node_list[0]->attribute.addr;
+				this->final_instruction.push_back(assign_1);
+				three_address_instruction* assign_2 = new three_address_instruction();
+				assign_2->index = this->final_instruction.size();
+				assign_2->op = "=";
+				assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
+				assign_2->arg2 = "-";
+				assign_2->result = root->father->attribute.addr;
+				this->final_instruction.push_back(assign_2);
+			}
+			else {
+				three_address_instruction* assign_1 = new three_address_instruction();
+				assign_1->index = this->final_instruction.size();
+				assign_1->op = "=[]";
+				assign_1->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
+				assign_1->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
+				assign_1->result = root->father->child_node_list[0]->attribute.addr;
+				this->final_instruction.push_back(assign_1);
+				three_address_instruction* assign_2 = new three_address_instruction();
+				assign_2->index = this->final_instruction.size();
+				assign_2->op = "=[]";
+				assign_2->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
+				assign_2->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
+				assign_2->result = root->father->attribute.addr;
+				this->final_instruction.push_back(assign_2);
+			}
+
 		}
 		else {
-			three_address_instruction* assign_1 = new three_address_instruction();
-			assign_1->index = this->final_instruction.size();
-			assign_1->op = "=[]";
-			assign_1->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
-			assign_1->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
-			assign_1->result = root->father->child_node_list[0]->attribute.addr;
-			this->final_instruction.push_back(assign_1);
-			three_address_instruction* assign_2 = new three_address_instruction();
-			assign_2->index = this->final_instruction.size();
-			assign_2->op = "=[]";
-			assign_2->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
-			assign_2->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
-			assign_2->result = root->father->attribute.addr;
-			this->final_instruction.push_back(assign_2);
+			if (root->father->child_node_list[2]->attribute.array_info.name == "") {
+				three_address_instruction* assign_1 = new three_address_instruction();
+				assign_1->index = this->final_instruction.size();
+				assign_1->op = "[]=";
+				assign_1->arg1 = root->father->child_node_list[0]->attribute.array_info.name;
+				assign_1->arg2 = root->father->child_node_list[0]->attribute.array_info.pos;
+				assign_1->result = root->father->child_node_list[2]->attribute.addr;
+				this->final_instruction.push_back(assign_1);
+				three_address_instruction* assign_2 = new three_address_instruction();
+				assign_2->index = this->final_instruction.size();
+				assign_2->op = "=";
+				assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
+				assign_2->arg2 = "-";
+				assign_2->result = root->father->attribute.addr;
+				this->final_instruction.push_back(assign_2);
+			}
+			else {
+				hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
+				this->out_table->put_symbol(temp);
+				three_address_instruction* assign_1 = new three_address_instruction();
+				assign_1->index = this->final_instruction.size();
+				assign_1->op = "=[]";
+				assign_1->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
+				assign_1->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
+				assign_1->result = temp.address;
+				this->final_instruction.push_back(assign_1);
+				three_address_instruction* assign_2 = new three_address_instruction();
+				assign_2->index = this->final_instruction.size();
+				assign_2->op = "[]=";
+				assign_2->arg1 = root->father->child_node_list[0]->attribute.array_info.name;
+				assign_2->arg2 = root->father->child_node_list[0]->attribute.array_info.pos;
+				assign_2->result = temp.address;
+				this->final_instruction.push_back(assign_2);
+				three_address_instruction* assign_3 = new three_address_instruction();
+				assign_3->index = this->final_instruction.size();
+				assign_3->op = "=";
+				assign_3->arg1 = temp.address;
+				assign_3->arg2 = "-";
+				assign_3->result = root->father->attribute.addr;
+				this->final_instruction.push_back(assign_3);
+			}
 		}
-
+	}
+	else if (temp_type.substr(0, 6) == "struct" && temp_type[temp_type.size() - 1] != ']') {
+		three_address_instruction* assign_1 = new three_address_instruction();
+		assign_1->index = this->final_instruction.size();
+		assign_1->op = "=";
+		assign_1->arg1 = root->father->child_node_list[2]->attribute.addr;
+		assign_1->arg2 = "-";
+		assign_1->result = root->father->child_node_list[0]->attribute.addr;
+		this->final_instruction.push_back(assign_1);
+		three_address_instruction* assign_2 = new three_address_instruction();
+		assign_2->index = this->final_instruction.size();
+		assign_2->op = "=";
+		assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
+		assign_2->arg2 = "-";
+		assign_2->result = root->father->attribute.addr;
+		this->final_instruction.push_back(assign_2);
 	}
 	else {
-		if (root->father->child_node_list[2]->attribute.array_info.name == "") {
-			three_address_instruction* assign_1 = new three_address_instruction();
-			assign_1->index = this->final_instruction.size();
-			assign_1->op = "[]=";
-			assign_1->arg1 = root->father->child_node_list[0]->attribute.array_info.name;
-			assign_1->arg2 = root->father->child_node_list[0]->attribute.array_info.pos;
-			assign_1->result = root->father->child_node_list[2]->attribute.addr;
-			this->final_instruction.push_back(assign_1);
-			three_address_instruction* assign_2 = new three_address_instruction();
-			assign_2->index = this->final_instruction.size();
-			assign_2->op = "=";
-			assign_2->arg1 = root->father->child_node_list[2]->attribute.addr;
-			assign_2->arg2 = "-";
-			assign_2->result = root->father->attribute.addr;
-			this->final_instruction.push_back(assign_2);
-		}
-		else {
-			hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
-			this->out_table->put_symbol(temp);
-			three_address_instruction* assign_1 = new three_address_instruction();
-			assign_1->index = this->final_instruction.size();
-			assign_1->op = "=[]";
-			assign_1->arg1 = root->father->child_node_list[2]->attribute.array_info.name;
-			assign_1->arg2 = root->father->child_node_list[2]->attribute.array_info.pos;
-			assign_1->result = temp.address;
-			this->final_instruction.push_back(assign_1);
-			three_address_instruction* assign_2 = new three_address_instruction();
-			assign_2->index = this->final_instruction.size();
-			assign_2->op = "[]=";
-			assign_2->arg1 = root->father->child_node_list[0]->attribute.array_info.name;
-			assign_2->arg2 = root->father->child_node_list[0]->attribute.array_info.pos;
-			assign_2->result = temp.address;
-			this->final_instruction.push_back(assign_2);
-			three_address_instruction* assign_3 = new three_address_instruction();
-			assign_3->index = this->final_instruction.size();
-			assign_3->op = "=";
-			assign_3->arg1 = temp.address;
-			assign_3->arg2 = "-";
-			assign_3->result = root->father->attribute.addr;
-			this->final_instruction.push_back(assign_3);
-		}
+		this->say_error();
 	}
-
 	return;
 }
 
