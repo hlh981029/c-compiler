@@ -64,7 +64,7 @@ void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 	if (this->out_table->get_symbol_from_address(root->father->child_node_list[2]->attribute.addr).type != "int") {
 		this->say_error();
 	}
-	if (this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).type.substr(0, 3) == "int") {
+	if (type.substr(0, 3) == "int") {
 		hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
 		this->out_table->put_symbol(temp);
 		root->father->attribute.addr = temp.address;
@@ -79,10 +79,10 @@ void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 		root->father->attribute.array_info.pos = assignment->result;
 		root->father->attribute.type = "int";
 	}
-	else if (root->father->attribute.type.substr(0, 6) == "struct" && root->father->attribute.type[root->father->attribute.type.size() - 1] != ']') {
-		std::string name = root->father->child_node_list[0]->morpheme + "$" + root->father->child_node_list[2]->attribute.addr;
+	else if (type.substr(0, 6) == "struct" && type[type.size() - 1] == ']') {
+		std::string name = root->father->child_node_list[0]->morpheme + "$" + std::to_string(constant_map[root->father->child_node_list[2]->attribute.addr]);
 		root->father->attribute.addr = this->out_table->get_symbol(name).address;
-
+		root->father->attribute.type = type.substr(0, type.rfind('['));
 	}
 	return;
 }
@@ -126,6 +126,14 @@ void GrammerAnalyzer::action8(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action9(hebo::LexicalUnit* root) {
+	std::string temp_address = this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).address;
+	std::string type = this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).type;
+	if ((type.rfind("struct") >= type.size()) || (type.find('[') < type.size())) {
+		this->say_error();
+	}
+	std::string target = root->father->child_node_list[0]->morpheme + "$" + root->father->child_node_list[2]->morpheme;
+	root->father->attribute.addr = this->out_table->get_symbol(target).address;
+	root->father->attribute.type = this->struct_table->get_struct(temp_address).symbol_table.get_symbol(root->father->child_node_list[2]->morpheme).type;
 	return;
 }
 
