@@ -26,7 +26,7 @@ private:
 
 public:
     typedef struct {
-        int index;
+        int index = -1;
         std::string op;
         std::string arg1;
         std::string arg2;
