@@ -22,11 +22,14 @@ CONSTANT       3
 INT            int            
 IDENTIFIER     i              
 ;              ;              
-IDENTIFIER     i              
+IDENTIFIER     a              
+[              [              
+CONSTANT       2              
+]              ]              
 =              =              
 IDENTIFIER     a              
 [              [              
-CONSTANT       1              
+CONSTANT       3              
 ]              ]              
 ;              ;              
 }              }              

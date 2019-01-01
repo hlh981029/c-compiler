@@ -2,6 +2,9 @@
 
 void GrammerAnalyzer::action401(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos; 
 	return;
 }
 
@@ -49,6 +52,9 @@ void GrammerAnalyzer::action404(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action405(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
@@ -82,11 +88,17 @@ void GrammerAnalyzer::action407(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action408(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
 void GrammerAnalyzer::action409(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
@@ -232,6 +244,9 @@ void GrammerAnalyzer::action413(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action414(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
@@ -307,6 +322,9 @@ void GrammerAnalyzer::action416(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action417(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
@@ -326,6 +344,9 @@ void GrammerAnalyzer::action418(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action419(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
@@ -374,6 +395,9 @@ void GrammerAnalyzer::action420(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action421(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
@@ -421,6 +445,9 @@ void GrammerAnalyzer::action422(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action423(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
@@ -516,11 +543,17 @@ void GrammerAnalyzer::action424(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action425(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
 void GrammerAnalyzer::action426(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[2]->attribute.addr;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+	root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
 	return;
 }
 
