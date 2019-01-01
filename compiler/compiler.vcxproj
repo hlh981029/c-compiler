@@ -113,7 +113,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AsmGenerator.cpp" />
+    <ClCompile Include="CalculationAction.cpp" />
+    <ClCompile Include="DeclarationAction.cpp" />
+    <ClCompile Include="ExpressionAction.cpp" />
     <ClCompile Include="ContextFreeGrammar.cpp" />
+    <ClCompile Include="ControlAction.cpp" />
+    <ClCompile Include="FunctionAction.cpp" />
     <ClCompile Include="GrammerAnalyzer.cpp" />
     <ClCompile Include="hlhNFA.cpp" />
     <ClCompile Include="input_and_output.cpp" />
@@ -123,6 +128,8 @@
     <ClCompile Include="Nfa.cpp" />
     <ClCompile Include="Nfa_to_dfa.cpp" />
     <ClCompile Include="RegExp.cpp" />
+    <ClCompile Include="StatementAction.cpp" />
+    <ClCompile Include="SwitchToFunction.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
   </ItemGroup>
   <ItemGroup>

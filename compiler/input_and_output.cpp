@@ -218,15 +218,7 @@ namespace hebo
 		lexical_unit.name = status_to_pattern[current_status];
 		lexical_unit.morpheme = current_string;
 
-		if (lexical_unit.name == "ID")
-		{
-			lexical_unit.value = update_word_list();
-		}
-		else if (lexical_unit.name == "NUMBER")
-		{
-			lexical_unit.value += current_string;
-		}
-		else if (lexical_unit.name == "BLANK")
+		if (lexical_unit.name == "BLANK")
 		{
 			return;
 		}
@@ -240,15 +232,7 @@ namespace hebo
 		current_string = std::string("1");
 	}
 
-	value DFA::update_word_list()
-	{
-		if (!word_list.count(current_string))
-		{
-			auto it = word_list.insert(std::make_pair(current_string, uint2string((unsigned int)&current_string)));
-			(*(it.first)).second = uint2string((unsigned int)&(*(it.first)));
-		}
-		return word_list[current_string];
-	}
+
 
 	void DFA::run()
 	{
@@ -285,7 +269,6 @@ namespace hebo
 		output
 			<< std::setw(15) << "Name"
 			<< std::setw(15) << "Morpheme"
-			<< std::setw(15) << "Value"
 			<< std::endl << std::endl;
 
 		for (int i = 0; i < output_sequence.size(); i++)
@@ -293,7 +276,6 @@ namespace hebo
 			output
 				<< std::setw(15) << output_sequence[i].name
 				<< std::setw(15) << output_sequence[i].morpheme
-				<< std::setw(15) << output_sequence[i].value
 				<< std::endl;
 		}
 	}

@@ -8,15 +8,60 @@
 #include<cstdlib>
 #include<sstream>
 #include <iomanip>
+#include "SymbolTable.hpp"
 namespace hebo
 {
+	typedef struct {
+		std::string name;
+		std::string element_type;
+		std::string pos;
+		int element_width;
+	}array_info;
+	typedef struct {
+
+	}struct_info;
 	class LexicalUnit
 	{
 	public:
 		std::string name;
+		bool if_action;
+		int action_num;
 		std::string morpheme;
-		std::string value;
+		struct attribute {
+			int width;
+			std::string type;
+			std::string addr;
+
+			std::string op_value;
+			bool if_struct;
+
+			array_info array_info;
+			struct_info struct_info;
+
+			int param_number;
+
+			int instr;
+			int next_instr;
+			int true_instr;
+			int false_instr;
+			int con_instr;
+			int break_instr;
+		} attribute;
 		std::vector<LexicalUnit*> child_node_list;
+		LexicalUnit* father;
+
+		LexicalUnit() {
+			this->if_action = false;
+			this->action_num = -1;
+			this->father = NULL;
+			this->attribute.instr = -1;
+			this->attribute.next_instr = -1;
+			this->attribute.true_instr = -1;
+			this->attribute.false_instr = -1;
+			this->attribute.con_instr = -1;
+			this->attribute.break_instr = -1;
+			this->attribute.if_struct = false;
+		}
 	};
 	typedef std::string morpheme;
 	typedef std::string value;
@@ -54,7 +99,6 @@ namespace hebo
 		void deal_with_multiplied_note();
 		void deal_with_line_note();
 		void update_output_sequence();
-		value update_word_list();
 		void run();
 		DFA& operator<<(std::ifstream& input);
 		void print_current_string();
