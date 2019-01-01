@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 19:50:22
+Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 20:25:46
 Assembly.asm						     Page 1 - 1
 
 
@@ -4418,21 +4418,10 @@ Assembly.asm						     Page 1 - 1
 				includelib msvcrt.lib
 				includelib kernel32.lib
 
-				$test_1 proto,
-				    test_1_int_1$0:sdword
-				$test_2 proto,
-				    test_2_int_1$3:sdword,
-				    temp: ptr sdword
-				$test_3 proto,
-				    test_3_int_array$6:ptr sdword,
-				    test_3_int_1$7:sdword
-				$main proto,
-				    temp: ptr sdword
  00000000			.const
  00000000 25 64 0D 0A 00	$output_format_int byte "%d", 0DH, 0AH, 0
  00000005 25 64 00		$input_format_int byte "%d", 0
  00000000			.code
-
  00000000			$print proc,
 				    val: dword
  00000000  55		   *	    push   ebp
@@ -4466,173 +4455,96 @@ Assembly.asm						     Page 1 - 1
  00000037			$$getch endp
 
  00000000			.data
- 00000000 00000000		    global_int_1$0 sdword ?
- 00000004 00000000		    global_int_2$0 sdword ?
- 00000008  0000000A [		    global_int_array_1$1 sdword 10 dup(?)
-	    00000000
-	   ]
+ 00000000 00000000		    a$0 sdword ?
+ 00000004 00000000		    b$1 sdword ?
+ 00000008 00000000		    temp$2 sdword ?
+ 0000000C 00000000		    temp$3 sdword ?
+ 00000010 00000000		    temp$4 sdword ?
+ 00000014 00000000		    temp$5 sdword ?
+ 00000018 00000000		    temp$6 sdword ?
+ 0000001C 00000000		    temp$7 sdword ?
 
  00000037			.code
-
- 00000037  C7 05 00000000 R	mov global_int_1$0, 10
-	   0000000A
- 00000041			label100:
- 00000041			$test_1 PROC,
-				    test_1_int_1$0:sdword
-				    LOCAL test_1_int_2$1:sdword,
-				        temp$2:sdword,
-				        $end_of_local:dword
- 00000041  55		   *	    push   ebp
- 00000042  8B EC	   *	    mov    ebp, esp
- 00000044  83 C4 F4	   *	    add    esp, 0FFFFFFF4h
- 00000047			label101:
- 00000047			label102:
-				    INVOKE $test_2, test_1_int_1$0, ADDR temp$2
- 00000047  8D 45 F8	   *	    lea    eax, sdword  ptr ss:[ebp]+0FFFFFFF8h
- 0000004A  50		   *	    push   eax
- 0000004B  FF 75 08	   *	    push   dword  ptr ss:[ebp]+000000008h
- 0000004E  E8 00000012	   *	    call   $test_2
- 00000053			label103:
- 00000053  8B 45 F8		    mov eax, temp$2
- 00000056  89 45 FC		    mov test_1_int_2$1, eax
- 00000059			label104:
- 00000059			label105:
-				    INVOKE $print, test_1_int_2$1
- 00000059  FF 75 FC	   *	    push   dword  ptr ss:[ebp]+0FFFFFFFCh
- 0000005C  E8 FFFFFF9F	   *	    call   $print
- 00000061			label106:
- 00000061			test_1_end:
-				    ret
- 00000061  C9		   *	    leave  
- 00000062  C2 0004	   *	    ret    00004h
- 00000065			$test_1 ENDP
-Assembly.asm(64) : warning A6004:procedure argument or local not referenced : $end_of_local
- 00000065			label200:
- 00000065			$test_2 PROC,
-				    test_2_int_1$3:sdword,
-				    temp: ptr sdword
-
-				    LOCAL test_2_int_2$4:sdword,
-				        temp$5:sdword,
-				        $end_of_local:dword
- 00000065  55		   *	    push   ebp
- 00000066  8B EC	   *	    mov    ebp, esp
- 00000068  83 C4 F4	   *	    add    esp, 0FFFFFFF4h
- 0000006B			label201:
- 0000006B  8B 45 08		    mov eax, test_2_int_1$3
- 0000006E  83 C0 0A		    add eax, 10
- 00000071  89 45 F8		    mov temp$5, eax
- 00000074			label202:
- 00000074  8B 45 F8		    mov eax, temp$5
- 00000077  89 45 FC		    mov test_2_int_2$4, eax
- 0000007A			label203:
- 0000007A  8B 45 FC		    mov eax, test_2_int_2$4
- 0000007D  8B 75 0C		    mov esi, temp
- 00000080  89 06		    mov [esi], eax
- 00000082  EB 00		    jmp test_2_end
- 00000084			label204:
- 00000084			test_2_end:
-				    ret
- 00000084  C9		   *	    leave  
- 00000085  C2 0008	   *	    ret    00008h
- 00000088			$test_2 ENDP
-Assembly.asm(88) : warning A6004:procedure argument or local not referenced : $end_of_local
- 00000088			label300:
- 00000088			$test_3 PROC,
-				    test_3_int_array$6:ptr sdword,
-				    test_3_int_1$7:sdword
-				    LOCAL test_3_int_2$8:sdword,
-				        temp$9:sdword,
-				        temp$10:sdword,
-				        $end_of_local:dword
- 00000088  55		   *	    push   ebp
- 00000089  8B EC	   *	    mov    ebp, esp
- 0000008B  83 C4 F0	   *	    add    esp, 0FFFFFFF0h
- 0000008E			label301:
- 0000008E  8B 45 0C		    mov eax, test_3_int_1$7
- 00000091  83 E8 01		    sub eax, 1
- 00000094  89 45 F8		    mov temp$9, eax
- 00000097			label302:
- 00000097  8B 45 F8		    mov eax, temp$9
- 0000009A  6B C0 04		    imul eax, 4
- 0000009D  89 45 F8		    mov temp$9, eax
- 000000A0			label303:
- 000000A0  8B 75 F8		    mov esi, temp$9
- 000000A3  8B 44 35 08		    mov eax, test_3_int_array$6[esi]
- 000000A7  89 45 F4		    mov temp$10, eax
- 000000AA			label304:
- 000000AA  8B 45 F4		    mov eax, temp$10
- 000000AD  89 45 FC		    mov test_3_int_2$8, eax
- 000000B0			label305:
- 000000B0  8B 45 FC		    mov eax, test_3_int_2$8
- 000000B3  BE 00000000		    mov esi, 0
- 000000B8  89 44 35 08		    mov test_3_int_array$6[esi], eax
- 000000BC			label306:
- 000000BC  EB 00		    jmp test_3_end
- 000000BE			label307:
- 000000BE			test_3_end:
-				    ret
- 000000BE  C9		   *	    leave  
- 000000BF  C2 0008	   *	    ret    00008h
- 000000C2			$test_3 ENDP
-Assembly.asm(121) : warning A6004:procedure argument or local not referenced : $end_of_local
- 000000C2			label0:
- 000000C2			$main PROC,
-				    temp: ptr sdword
-
-				    LOCAL main_int_1$11:sdword,
-				        main_int_array_1$12[1]:sdword,
-				        temp$13:sdword,
-				        $end_of_local:dword
- 000000C2  55		   *	    push   ebp
- 000000C3  8B EC	   *	    mov    ebp, esp
- 000000C5  83 C4 F0	   *	    add    esp, 0FFFFFFF0h
- 000000C8			label1:
- 000000C8  B8 0000000A		    mov eax, 10
- 000000CD  BE 00000000		    mov esi, 0
- 000000D2  89 44 35 F8		    mov main_int_array_1$12[esi], eax
- 000000D6			label2:
- 000000D6  B8 00000014		    mov eax, 20
- 000000DB  BE 00000004		    mov esi, 4
- 000000E0  89 44 35 F8		    mov main_int_array_1$12[esi], eax
- 000000E4			label3:
- 000000E4			label4:
- 000000E4			label5:
-				    INVOKE $test_3, main_int_array_1$12, 2
- 000000E4  6A 02	   *	    push   +000000002h
- 000000E6  FF 75 F8	   *	    push   dword  ptr ss:[ebp]+0FFFFFFF8h
- 000000E9  E8 FFFFFF9A	   *	    call   $test_3
- 000000EE			label6:
- 000000EE  BE 00000000		    mov esi, 0
- 000000F3  8B 44 35 F8		    mov eax, main_int_array_1$12[esi]
- 000000F7  89 45 F4		    mov temp$13, eax
- 000000FA			label7:
- 000000FA			label8:
-				    INVOKE $print, temp$13
- 000000FA  FF 75 F4	   *	    push   dword  ptr ss:[ebp]+0FFFFFFF4h
- 000000FD  E8 FFFFFEFE	   *	    call   $print
- 00000102			label9:
- 00000102  B8 0000000A		    mov eax, 10
- 00000107  89 45 FC		    mov main_int_1$11, eax
- 0000010A			label10:
- 0000010A			label11:
-				    INVOKE $test_1, main_int_1$11
- 0000010A  FF 75 FC	   *	    push   dword  ptr ss:[ebp]+0FFFFFFFCh
- 0000010D  E8 FFFFFF2F	   *	    call   $test_1
- 00000112			label12:
- 00000112  B8 00000000		    mov eax, 0
- 00000117  8B 75 08		    mov esi, temp
- 0000011A  89 06		    mov [esi], eax
- 0000011C  EB 00		    jmp main_end
- 0000011E			label13:
- 0000011E			main_end:
-				    ret
- 0000011E  C9		   *	    leave  
- 0000011F  C2 0004	   *	    ret    00004h
- 00000122			$main ENDP
-Assembly.asm(163) : warning A6004:procedure argument or local not referenced : $end_of_local
+ 00000037			$main:
+ 00000037			label0:
+ 00000037  B8 00000001		    mov eax, 1
+ 0000003C  83 F8 00		    cmp eax, 0
+ 0000003F  74 F6		    jz label0
+ 00000041			label1:
+ 00000041  B8 00000001		    mov eax, 1
+ 00000046  A3 00000008 R	    mov temp$2, eax
+ 0000004B			label2:
+ 0000004B  A1 00000008 R	    mov eax, temp$2
+ 00000050  A3 00000000 R	    mov a$0, eax
+ 00000055			label3:
+ 00000055  A1 00000008 R	    mov eax, temp$2
+ 0000005A  A3 0000000C R	    mov temp$3, eax
+ 0000005F			label4:
+ 0000005F  B8 00000001		    mov eax, 1
+ 00000064  83 F8 00		    cmp eax, 0
+ 00000067  74 F6		    jz label4
+				label0:
+Assembly.asm(56) : error A2005:symbol redefinition : label0
+ 00000069  B8 00000000		    mov eax, 0
+ 0000006E  A3 00000010 R	    mov temp$4, eax
+ 00000073			label6:
+ 00000073  A1 00000010 R	    mov eax, temp$4
+ 00000078  A3 00000004 R	    mov b$1, eax
+ 0000007D			label7:
+ 0000007D  A1 00000010 R	    mov eax, temp$4
+ 00000082  A3 00000014 R	    mov temp$5, eax
+ 00000087			label8:
+ 00000087  B8 00000001		    mov eax, 1
+ 0000008C  83 F8 00		    cmp eax, 0
+ 0000008F  74 F6		    jz label8
+ 00000091			label9:
+ 00000091  B8 00000001		    mov eax, 1
+ 00000096  83 F8 00		    cmp eax, 0
+ 00000099  74 F6		    jz label9
+ 0000009B			label10:
+ 0000009B  A1 00000000 R	    mov eax, a$0
+ 000000A0  83 F8 00		    cmp eax, 0
+ 000000A3  75 16		    jnz label14
+ 000000A5			label11:
+ 000000A5  A1 00000004 R	    mov eax, b$1
+ 000000AA  83 F8 00		    cmp eax, 0
+ 000000AD  75 0C		    jnz label14
+ 000000AF			label12:
+ 000000AF  B8 00000000		    mov eax, 0
+ 000000B4  A3 00000018 R	    mov temp$6, eax
+ 000000B9			label13:
+ 000000B9  EB 0A		    jmp label15
+ 000000BB			label14:
+ 000000BB  B8 00000001		    mov eax, 1
+ 000000C0  A3 00000018 R	    mov temp$6, eax
+ 000000C5			label15:
+ 000000C5  A1 00000018 R	    mov eax, temp$6
+ 000000CA  83 F8 00		    cmp eax, 0
+ 000000CD  75 04		    jnz label18
+ 000000CF			label16:
+ 000000CF  EB 23		    jmp label22
+ 000000D1			label17:
+ 000000D1  EB 21		    jmp label22
+ 000000D3			label18:
+ 000000D3  B8 00000001		    mov eax, 1
+ 000000D8  83 F8 00		    cmp eax, 0
+ 000000DB  74 F6		    jz label18
+				label0:
+Assembly.asm(101) : error A2005:symbol redefinition : label0
+ 000000DD  A1 00000000 R	    mov eax, a$0
+ 000000E2  A3 0000001C R	    mov temp$7, eax
+				label0:
+Assembly.asm(104) : error A2005:symbol redefinition : label0
+ 000000E7  A1 00000000 R	    mov eax, a$0
+ 000000EC  48			    dec eax
+ 000000ED  A3 00000000 R	    mov a$0, eax
+ 000000F2			label21:
+ 000000F2  EB 93		    jmp label8
+ 000000F4			label22:
+				    invoke $$getch
+ 000000F4  E8 FFFFFF37	   *	    call   $$getch
 				END $main
-Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 19:50:22
+Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/01/19 20:25:46
 Assembly.asm						     Symbols 2 - 1
 
 
@@ -4651,8 +4563,8 @@ Segments and Groups:
 
 CONST  . . . . . . . . . . . . .	32 Bit	 00000008 DWord	  Public  'CONST'	 ReadOnly
 FLAT . . . . . . . . . . . . . .	GROUP
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000030 DWord	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000122 DWord	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000020 DWord	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 000000F9 DWord	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -4662,66 +4574,8 @@ Procedures, parameters, and locals:
 $$getch  . . . . . . . . . . . .	P Near	 00000030 _TEXT	Length= 00000007 Public STDCALL
 $input . . . . . . . . . . . . .	P Near	 00000018 _TEXT	Length= 00000018 Public STDCALL
   val  . . . . . . . . . . . . .	DWord	 bp + 00000008
-$main  . . . . . . . . . . . . .	P Near	 000000C2 _TEXT	Length= 00000060 Public STDCALL
-  temp . . . . . . . . . . . . .	DWord	 bp + 00000008
-  main_int_1$11  . . . . . . . .	DWord	 bp - 00000004
-  main_int_array_1$12  . . . . .	DWord	 bp - 00000008
-  temp$13  . . . . . . . . . . .	DWord	 bp - 0000000C
-  $end_of_local  . . . . . . . .	DWord	 bp - 00000010
-  label1 . . . . . . . . . . . .	L Near	 000000C8 _TEXT	
-  label2 . . . . . . . . . . . .	L Near	 000000D6 _TEXT	
-  label3 . . . . . . . . . . . .	L Near	 000000E4 _TEXT	
-  label4 . . . . . . . . . . . .	L Near	 000000E4 _TEXT	
-  label5 . . . . . . . . . . . .	L Near	 000000E4 _TEXT	
-  label6 . . . . . . . . . . . .	L Near	 000000EE _TEXT	
-  label7 . . . . . . . . . . . .	L Near	 000000FA _TEXT	
-  label8 . . . . . . . . . . . .	L Near	 000000FA _TEXT	
-  label9 . . . . . . . . . . . .	L Near	 00000102 _TEXT	
-  label10  . . . . . . . . . . .	L Near	 0000010A _TEXT	
-  label11  . . . . . . . . . . .	L Near	 0000010A _TEXT	
-  label12  . . . . . . . . . . .	L Near	 00000112 _TEXT	
-  label13  . . . . . . . . . . .	L Near	 0000011E _TEXT	
-  main_end . . . . . . . . . . .	L Near	 0000011E _TEXT	
 $print . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000018 Public STDCALL
   val  . . . . . . . . . . . . .	DWord	 bp + 00000008
-$test_1  . . . . . . . . . . . .	P Near	 00000041 _TEXT	Length= 00000024 Public STDCALL
-  test_1_int_1$0 . . . . . . . .	DWord	 bp + 00000008
-  test_1_int_2$1 . . . . . . . .	DWord	 bp - 00000004
-  temp$2 . . . . . . . . . . . .	DWord	 bp - 00000008
-  $end_of_local  . . . . . . . .	DWord	 bp - 0000000C
-  label101 . . . . . . . . . . .	L Near	 00000047 _TEXT	
-  label102 . . . . . . . . . . .	L Near	 00000047 _TEXT	
-  label103 . . . . . . . . . . .	L Near	 00000053 _TEXT	
-  label104 . . . . . . . . . . .	L Near	 00000059 _TEXT	
-  label105 . . . . . . . . . . .	L Near	 00000059 _TEXT	
-  label106 . . . . . . . . . . .	L Near	 00000061 _TEXT	
-  test_1_end . . . . . . . . . .	L Near	 00000061 _TEXT	
-$test_2  . . . . . . . . . . . .	P Near	 00000065 _TEXT	Length= 00000023 Public STDCALL
-  test_2_int_1$3 . . . . . . . .	DWord	 bp + 00000008
-  temp . . . . . . . . . . . . .	DWord	 bp + 0000000C
-  test_2_int_2$4 . . . . . . . .	DWord	 bp - 00000004
-  temp$5 . . . . . . . . . . . .	DWord	 bp - 00000008
-  $end_of_local  . . . . . . . .	DWord	 bp - 0000000C
-  label201 . . . . . . . . . . .	L Near	 0000006B _TEXT	
-  label202 . . . . . . . . . . .	L Near	 00000074 _TEXT	
-  label203 . . . . . . . . . . .	L Near	 0000007A _TEXT	
-  label204 . . . . . . . . . . .	L Near	 00000084 _TEXT	
-  test_2_end . . . . . . . . . .	L Near	 00000084 _TEXT	
-$test_3  . . . . . . . . . . . .	P Near	 00000088 _TEXT	Length= 0000003A Public STDCALL
-  test_3_int_array$6 . . . . . .	DWord	 bp + 00000008
-  test_3_int_1$7 . . . . . . . .	DWord	 bp + 0000000C
-  test_3_int_2$8 . . . . . . . .	DWord	 bp - 00000004
-  temp$9 . . . . . . . . . . . .	DWord	 bp - 00000008
-  temp$10  . . . . . . . . . . .	DWord	 bp - 0000000C
-  $end_of_local  . . . . . . . .	DWord	 bp - 00000010
-  label301 . . . . . . . . . . .	L Near	 0000008E _TEXT	
-  label302 . . . . . . . . . . .	L Near	 00000097 _TEXT	
-  label303 . . . . . . . . . . .	L Near	 000000A0 _TEXT	
-  label304 . . . . . . . . . . .	L Near	 000000AA _TEXT	
-  label305 . . . . . . . . . . .	L Near	 000000B0 _TEXT	
-  label306 . . . . . . . . . . .	L Near	 000000BC _TEXT	
-  label307 . . . . . . . . . . .	L Near	 000000BE _TEXT	
-  test_3_end . . . . . . . . . .	L Near	 000000BE _TEXT	
 ActivateActCtx . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 AddAtomA . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 AddAtomW . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
@@ -5524,6 +5378,7 @@ Symbols:
                 N a m e                 Type     Value    Attr
 
 $input_format_int  . . . . . . .	Byte	 00000005 CONST	
+$main  . . . . . . . . . . . . .	L Near	 00000037 _TEXT	Public STDCALL
 $output_format_int . . . . . . .	Byte	 00000000 CONST	
 @CodeSize  . . . . . . . . . . .	Number	 00000000h   
 @DataSize  . . . . . . . . . . .	Number	 00000000h   
@@ -6439,6 +6294,8 @@ _imp__wcsxfrm  . . . . . . . . .	DWord	 00000000 FLAT	External STDCALL
 _imp__wctomb . . . . . . . . . .	DWord	 00000000 FLAT	External STDCALL
 _imp__wprintf  . . . . . . . . .	DWord	 00000000 FLAT	External STDCALL
 _imp__wscanf . . . . . . . . . .	DWord	 00000000 FLAT	External STDCALL
+a$0  . . . . . . . . . . . . . .	DWord	 00000000 _DATA	
+b$1  . . . . . . . . . . . . . .	DWord	 00000004 _DATA	
 crt_$I10_OUTPUT  . . . . . . . .	Text   	 _imp__$I10_OUTPUT
 crt__CIacos  . . . . . . . . . .	Text   	 _imp___CIacos
 crt__CIasin  . . . . . . . . . .	Text   	 _imp___CIasin
@@ -7169,19 +7026,38 @@ crt_wcsxfrm  . . . . . . . . . .	Text   	 _imp__wcsxfrm
 crt_wctomb . . . . . . . . . . .	Text   	 _imp__wctomb
 crt_wprintf  . . . . . . . . . .	Text   	 _imp__wprintf
 crt_wscanf . . . . . . . . . . .	Text   	 _imp__wscanf
-global_int_1$0 . . . . . . . . .	DWord	 00000000 _DATA	
-global_int_2$0 . . . . . . . . .	DWord	 00000004 _DATA	
-global_int_array_1$1 . . . . . .	DWord	 00000008 _DATA	
-label0 . . . . . . . . . . . . .	L Near	 000000C2 _TEXT	
-label100 . . . . . . . . . . . .	L Near	 00000041 _TEXT	
-label200 . . . . . . . . . . . .	L Near	 00000065 _TEXT	
-label300 . . . . . . . . . . . .	L Near	 00000088 _TEXT	
+label0 . . . . . . . . . . . . .	L Near	 00000037 _TEXT	
+label10  . . . . . . . . . . . .	L Near	 0000009B _TEXT	
+label11  . . . . . . . . . . . .	L Near	 000000A5 _TEXT	
+label12  . . . . . . . . . . . .	L Near	 000000AF _TEXT	
+label13  . . . . . . . . . . . .	L Near	 000000B9 _TEXT	
+label14  . . . . . . . . . . . .	L Near	 000000BB _TEXT	
+label15  . . . . . . . . . . . .	L Near	 000000C5 _TEXT	
+label16  . . . . . . . . . . . .	L Near	 000000CF _TEXT	
+label17  . . . . . . . . . . . .	L Near	 000000D1 _TEXT	
+label18  . . . . . . . . . . . .	L Near	 000000D3 _TEXT	
+label1 . . . . . . . . . . . . .	L Near	 00000041 _TEXT	
+label21  . . . . . . . . . . . .	L Near	 000000F2 _TEXT	
+label22  . . . . . . . . . . . .	L Near	 000000F4 _TEXT	
+label2 . . . . . . . . . . . . .	L Near	 0000004B _TEXT	
+label3 . . . . . . . . . . . . .	L Near	 00000055 _TEXT	
+label4 . . . . . . . . . . . . .	L Near	 0000005F _TEXT	
+label6 . . . . . . . . . . . . .	L Near	 00000073 _TEXT	
+label7 . . . . . . . . . . . . .	L Near	 0000007D _TEXT	
+label8 . . . . . . . . . . . . .	L Near	 00000087 _TEXT	
+label9 . . . . . . . . . . . . .	L Near	 00000091 _TEXT	
 lstrcat  . . . . . . . . . . . .	Text   	 lstrcatA
 lstrcmpi . . . . . . . . . . . .	Text   	 lstrcmpiA
 lstrcmp  . . . . . . . . . . . .	Text   	 lstrcmpA
 lstrcpyn . . . . . . . . . . . .	Text   	 lstrcpynA
 lstrcpy  . . . . . . . . . . . .	Text   	 lstrcpyA
 lstrlen  . . . . . . . . . . . .	Text   	 lstrlenA
+temp$2 . . . . . . . . . . . . .	DWord	 00000008 _DATA	
+temp$3 . . . . . . . . . . . . .	DWord	 0000000C _DATA	
+temp$4 . . . . . . . . . . . . .	DWord	 00000010 _DATA	
+temp$5 . . . . . . . . . . . . .	DWord	 00000014 _DATA	
+temp$6 . . . . . . . . . . . . .	DWord	 00000018 _DATA	
+temp$7 . . . . . . . . . . . . .	DWord	 0000001C _DATA	
 
-	   4 Warnings
-	   0 Errors
+	   0 Warnings
+	   3 Errors
