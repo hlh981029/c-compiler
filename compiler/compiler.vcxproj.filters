@@ -45,6 +45,30 @@
     <ClCompile Include="LR1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SymbolTable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionAction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlAction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchToFunction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StatementAction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpressionAction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeclarationAction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculationAction.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hlhNFA.h">
@@ -66,6 +90,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="LR1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SymbolTable.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

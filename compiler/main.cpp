@@ -10,9 +10,9 @@
 #include "GrammerAnalyzer.h"
 #include "LR1.h"
 using namespace std;
-// #define GRAMMAR
- #define HB
-// #define LEX
+//#define GRAMMAR
+#define HB
+//#define LEX
 //#define LYH
 
 
