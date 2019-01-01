@@ -205,12 +205,23 @@ void GrammerAnalyzer::action224(hebo::LexicalUnit* root) {
 		}
 		else if (type == "int")
 		{
-			three_address_instruction* copy = new three_address_instruction();
-			copy->index = this->final_instruction.size();
-			copy->op = "=";
-			copy->arg1 = initializer->attribute.addr;
-			copy->result = declarator->attribute.addr;
-			this->final_instruction.push_back(copy);
+            if (initializer->attribute.array_info.name != "") {
+                three_address_instruction* copy = new three_address_instruction();
+                copy->index = this->final_instruction.size();
+                copy->op = "=[]";
+                copy->arg1 = initializer->attribute.array_info.name;
+                copy->arg2 = initializer->attribute.array_info.pos;
+                copy->result = declarator->attribute.addr;
+                this->final_instruction.push_back(copy);
+            }
+            else {
+                three_address_instruction* copy = new three_address_instruction();
+                copy->index = this->final_instruction.size();
+                copy->op = "=";
+                copy->arg1 = initializer->attribute.addr;
+                copy->result = declarator->attribute.addr;
+                this->final_instruction.push_back(copy);
+            }
 		}
 		else {
 			this->say_error();
@@ -221,7 +232,10 @@ void GrammerAnalyzer::action224(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action225(hebo::LexicalUnit* root) {
 	root->father->attribute.addr = root->father->child_node_list[0]->attribute.addr;
-	return;
+    root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+    root->father->attribute.array_info.name = root->father->child_node_list[0]->attribute.array_info.name;
+    root->father->attribute.array_info.pos = root->father->child_node_list[0]->attribute.array_info.pos;
+    return;
 }
 
 void GrammerAnalyzer::action226(hebo::LexicalUnit* root) {

@@ -66,17 +66,26 @@ void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 	}
 	if (this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).type.substr(0, 3) == "int") {
 		hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
-		this->out_table->put_symbol(temp);
-		root->father->attribute.addr = temp.address;
+        hbst::SymbolItem offset = hbst::SymbolItem("", "int", 0, 4);
+        this->out_table->put_symbol(offset);
+        this->out_table->put_symbol(temp);
+        root->father->attribute.addr = temp.address;
 		root->father->attribute.array_info.name = this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).address;
 		three_address_instruction* assignment = new three_address_instruction();
 		assignment->index = this->final_instruction.size();
 		assignment->op = "*";
 		assignment->arg1 = std::to_string(4);
 		assignment->arg2 = root->father->child_node_list[2]->attribute.addr;
-		assignment->result = root->father->attribute.addr;
+		assignment->result = offset.name;
 		this->final_instruction.push_back(assignment);
-		root->father->attribute.array_info.pos = assignment->result;
+        three_address_instruction* get_addr = new three_address_instruction();
+        get_addr->index = this->final_instruction.size();
+        get_addr->op = "=[]";
+        get_addr->arg1 = root->father->attribute.array_info.name;
+        get_addr->arg2 = offset.name;
+        get_addr->result = root->father->attribute.addr;
+        this->final_instruction.push_back(get_addr);
+		root->father->attribute.array_info.pos = offset.name;
 		root->father->attribute.type = "int";
 	}
 	else if (root->father->attribute.type.substr(0, 6) == "struct" && root->father->attribute.type[root->father->attribute.type.size() - 1] != ']') {

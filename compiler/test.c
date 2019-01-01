@@ -7,13 +7,11 @@ void lyh()
 void hlh(int aa)
 {
 	int a[3] = {1, 2, 3};
-	int i;
-	i=1;
-	a[1]=0;
-	i=a[2];
-	a[2]=a[1];
+	print(a[aa]);
 }
 
 void main(){
-	hlh(1);
+	// hlh(1);
+	int a[3] = {1,2,3};
+	print(a[1]);
 }

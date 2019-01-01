@@ -12,6 +12,7 @@
 #include "AsmGenerator.h"
 using namespace std;
 // #define GRAMMAR
+#define COMPILE_ASM
 #define HB
 // #define LEX
  //#define LYH
@@ -127,7 +128,7 @@ int main()
     asmgen.struct_table = grammer_analyzer->struct_table;
     asmgen.final_instruction = &grammer_analyzer->final_instruction;
     //asmgen.generate_example();
-    //asmgen.generate_asm();
+    asmgen.generate_asm();
     asmgen.output_instructions();
 #ifdef COMPILE_ASM
     system("compile_asm.bat");
