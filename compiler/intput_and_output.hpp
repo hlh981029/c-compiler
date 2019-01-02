@@ -18,9 +18,7 @@ namespace hebo
 		int element_width;
 		std::vector<std::string> element_addr;
 	}array_info;
-	typedef struct {
 
-	}struct_info;
 	class LexicalUnit
 	{
 	public:
@@ -38,7 +36,7 @@ namespace hebo
 			bool if_struct;
 
 			array_info array_info;
-			struct_info struct_info;
+			hbst::StructItem struct_info;
 
 			int param_number;
 
