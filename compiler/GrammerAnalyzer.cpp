@@ -342,7 +342,7 @@ void GrammerAnalyzer::optimize_final_instructions()
 				continue;
 			}
 			else {
-				temp_instruction->op = "-";
+				temp_instruction->op = "NULL";
 				std::cout << "NO: " << i1 << " Instructions: Optimized For UnUsed Variables" << std::endl;
 				cnt++;
 			}

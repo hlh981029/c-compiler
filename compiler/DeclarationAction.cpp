@@ -275,6 +275,7 @@ void GrammerAnalyzer::action229(hebo::LexicalUnit* root) {
 void GrammerAnalyzer::action230(hebo::LexicalUnit* root) {
 	SymbolTable *temp_table = this->out_table;
 	this->out_table = temp_table->father;
+    temp_table->father = nullptr;
 	this->out_table->son_vector.pop_back();
 	root->father->attribute.width = root->father->child_node_list[4]->attribute.width;
 	root->father->attribute.if_struct = true;
@@ -351,6 +352,7 @@ void GrammerAnalyzer::action239(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action240(hebo::LexicalUnit* root) {
 	root->father->attribute.width = root->father->child_node_list[1]->attribute.width;
+    this->out_table->put_symbol(SymbolItem(root->father->child_node_list[1]->morpheme, root->father->child_node_list[1]->attribute.type, 0, root->father->child_node_list[1]->attribute.width));
 	return;
 }
 
@@ -364,5 +366,6 @@ void GrammerAnalyzer::action241(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action242(hebo::LexicalUnit* root) {
 	root->father->attribute.width = root->father->child_node_list[1]->attribute.width + root->father->child_node_list[3]->attribute.width;
-	return;
+    this->out_table->put_symbol(SymbolItem(root->father->child_node_list[3]->morpheme, root->father->child_node_list[3]->attribute.type, 0, root->father->child_node_list[3]->attribute.width));
+    return;
 }

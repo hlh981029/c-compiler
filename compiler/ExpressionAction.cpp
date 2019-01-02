@@ -175,7 +175,7 @@ void GrammerAnalyzer::action9(hebo::LexicalUnit* root) {
 	}
 	std::string target = root->father->child_node_list[0]->morpheme + "$" + root->father->child_node_list[2]->morpheme;
 	root->father->attribute.addr = this->out_table->get_symbol(target).address;
-	root->father->attribute.type = this->struct_table->get_struct(temp_address).symbol_table.get_symbol(root->father->child_node_list[2]->morpheme).type;
+	root->father->attribute.type = this->struct_table->get_struct(type.substr(7)).symbol_table.get_symbol(root->father->child_node_list[2]->morpheme).type;
 	return;
 }
 

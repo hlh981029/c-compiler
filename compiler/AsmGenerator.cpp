@@ -245,13 +245,18 @@ void AssemblyGenerator::generate_code()
                     int count = count_table == 0 ? param_num : 0;
                     for (; count < temp_symbol_table->symbol_item_vector.size(); count++) {
                         temp_symbol = &temp_symbol_table->symbol_item_vector[count];
+                        temp_type = temp_symbol->type;
+                        if (temp_type.substr(0, 6) == "struct") {
+                            // struct
+                            continue;
+                        }
                         //if (count_table == 0 && (count == param_num || count == 0)) {
                         //    asm_out << temp_symbol->address;
                         //}
                         //else {
-                            asm_out << "    LOCAL " << temp_symbol->address;
+                        asm_out << "    LOCAL " << temp_symbol->address;
                         //}
-                        temp_type = temp_symbol->type;
+
                         temp_is_array = temp_type.rfind("[");
                         if (temp_type == "int") {
                             // int
@@ -261,15 +266,7 @@ void AssemblyGenerator::generate_code()
                             // int[]
                             asm_out << "[" << temp_symbol->width / 4 << "]" << ":sdword";
                         }
-                        else if (temp_type == "struct") {
-                            // struct
-                        }
-                        else if (temp_type.substr(0, 6) == "struct" && temp_is_array == -1) {
-                            // struct a
-                        }
-                        else if (temp_type.substr(0, 6) == "struct" && temp_is_array != -1) {
-                            // struct a[]
-                        }
+
                         //asm_out << "," << endl;
                         asm_out << endl;
                     }
