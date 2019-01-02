@@ -1,26 +1,12 @@
-
-void main()
-{
-	int test1;
-	struct a{
-		int i;
-		int t;
-	} m;
-
-	struct b{
-		int i2;
-		int t2;
-	};
-	struct b m2;
-
-	struct {
-		int t3;
-		int i3;
-	} hbzz;
-
-	m.i = 10;
-	test1 = m.i;
-	m.t = m.i;
-	m2.i2 = 100;
-	hbzz.t3 = m2.i2;
+struct {
+	int a1,a2;
+	int a3;
+}b;
+void main() {
+	b.a1 = 1;
+	b.a2 = b.a1;
+	b.a3 = 0;
+	print(b.a1);
+	print(b.a2);
+	print(b.a3);
 }
