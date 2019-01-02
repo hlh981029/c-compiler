@@ -1,4 +1,4 @@
-102
+103
 primary_expression IDENTIFIER action1
 primary_expression CONSTANT action2
 primary_expression ( expression ) action4
@@ -57,7 +57,7 @@ struct_or_union_specifier STRUCT { action232 struct_declaration_list action233 }
 struct_or_union_specifier STRUCT IDENTIFIER action234
 struct_declaration_list struct_declaration action235
 struct_declaration_list struct_declaration_list struct_declaration action236
-struct_declaration type_specifier action237 struct_declaration_list ; action238
+struct_declaration type_specifier action237 struct_declarator_list ; action238
 struct_declarator_list action239 declarator action240
 struct_declarator_list action241 struct_declarator_list , declarator action242
 statement_list action301 statement
