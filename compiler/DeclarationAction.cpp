@@ -301,6 +301,7 @@ void GrammerAnalyzer::action232(hebo::LexicalUnit* root) {
 void GrammerAnalyzer::action233(hebo::LexicalUnit* root) {
 	SymbolTable *temp_table = this->out_table;
 	this->out_table = temp_table->father;
+    temp_table->father = nullptr;
 	this->out_table->son_vector.pop_back();
 	root->father->attribute.width = root->father->child_node_list[3]->attribute.width;
 	root->father->attribute.if_struct = true;
@@ -317,7 +318,7 @@ void GrammerAnalyzer::action234(hebo::LexicalUnit* root) {
 	root->father->attribute.if_struct = true;
 	std::string temp = this->out_table->get_symbol(root->father->child_node_list[1]->morpheme).address;
 	root->father->attribute.struct_info = struct_table->get_struct(temp);
-	root->father->attribute.type = "string " + root->father->attribute.struct_info.name;
+	root->father->attribute.type = "struct " + root->father->attribute.struct_info.name;
 	root->father->attribute.width = this->out_table->get_symbol(root->father->child_node_list[1]->morpheme).width;
 	return;
 }
