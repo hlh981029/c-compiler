@@ -5,8 +5,8 @@ include kernel32.inc
 includelib msvcrt.lib
 includelib kernel32.lib
 
-$hlh proto,
-    aa$3:sdword
+$print_twice proto,
+    twice_num$3:sdword
 $main proto
 .const
 $output_format_int byte "%d", 0DH, 0AH, 0
@@ -31,140 +31,210 @@ $$getch endp
 
 .code
 label0:
-$lyh PROC
-    LOCAL a$0:sdword,
-        temp$1:sdword,
-        temp$2:sdword,
-        $end_of_local:dword
+$print_plus_1 PROC,
+    puls_num$0:sdword
+    LOCAL temp$1:sdword
+    LOCAL temp$2:sdword
 label1:
     mov eax, 1
     cmp eax, 0
     jz label1
 label2:
     mov eax, 1
-    mov temp$1, eax
+    cmp eax, 0
+    jz label2
 label3:
-    mov eax, temp$1
-    mov a$0, eax
+    mov eax, 1
+    mov temp$1, eax
 label4:
-    mov eax, temp$1
+    mov eax, puls_num$0
+    add eax, temp$1
     mov temp$2, eax
 label5:
-lyh_end:
-    ret
-$lyh ENDP
 label6:
-$hlh PROC,
-    aa$3:sdword
-    LOCAL temp$4:sdword,
-        temp$5:sdword,
-        temp$6:sdword,
-        temp$7:sdword,
-        a$8[3]:sdword,
-        temp$10:sdword,
-        temp$9:sdword,
-        $end_of_local:dword
+    INVOKE $print, temp$2
 label7:
-    mov eax, 3
-    mov temp$4, eax
-label8:
-    mov eax, 1
-    mov temp$5, eax
-label9:
-    mov eax, 2
-    mov temp$6, eax
-label10:
-    mov eax, 3
-    mov temp$7, eax
-label11:
-    mov eax, temp$5
-    mov esi, 0
-    mov a$8[esi], eax
-label12:
-    mov eax, temp$6
-    mov esi, 4
-    mov a$8[esi], eax
-label13:
-    mov eax, temp$7
-    mov esi, 8
-    mov a$8[esi], eax
-label14:
-    mov eax, 1
-    cmp eax, 0
-    jz label14
-label15:
-    mov eax, 1
-    cmp eax, 0
-    jz label15
-label16:
-    mov eax, 4
-    imul eax, aa$3
-    mov temp$10, eax
-label17:
-    mov esi, temp$10
-    mov eax, a$8[esi]
-    mov temp$9, eax
-label18:
-label19:
-    INVOKE $print, temp$9
-label20:
-hlh_end:
+print_plus_1_end:
     ret
-$hlh ENDP
-label21:
+$print_plus_1 ENDP
+label8:
+$print_twice PROC,
+    twice_num$3:sdword
+    LOCAL temp$4:sdword
+    LOCAL temp$5:sdword
+label9:
+    mov eax, 1
+    cmp eax, 0
+    jz label9
+label10:
+    mov eax, 1
+    cmp eax, 0
+    jz label10
+label11:
+    mov eax, 2
+    mov temp$4, eax
+label12:
+    mov eax, twice_num$3
+    imul eax, temp$4
+    mov temp$5, eax
+label13:
+label14:
+    INVOKE $print, temp$5
+label15:
+print_twice_end:
+    ret
+$print_twice ENDP
+label16:
 $main PROC
-    LOCAL temp$11:sdword,
-        temp$12:sdword,
-        temp$13:sdword,
-        temp$14:sdword,
-        a$15[3]:sdword,
-        temp$16:sdword,
-        temp$18:sdword,
-        temp$17:sdword,
-        $end_of_local:dword
+    LOCAL temp$6:sdword
+    LOCAL a$7:sdword
+    LOCAL temp$8:sdword
+    LOCAL temp$9:sdword
+    LOCAL temp$10:sdword
+    LOCAL temp$11:sdword
+    LOCAL arr$12[3]:sdword
+    LOCAL temp$13:sdword
+    LOCAL b$14:sdword
+    LOCAL i$15:sdword
+    LOCAL temp$16:sdword
+    LOCAL temp$18:sdword
+    LOCAL temp$17:sdword
+    LOCAL temp$19:sdword
+    LOCAL temp$20:sdword
+    LOCAL temp$21:sdword
+    LOCAL temp$22:sdword
+    LOCAL temp$23:sdword
+    LOCAL temp$24:sdword
+    LOCAL temp$25:sdword
+label17:
+    mov eax, 10
+    mov temp$6, eax
+label18:
+    mov eax, temp$6
+    mov a$7, eax
+label19:
+    mov eax, 3
+    mov temp$8, eax
+label20:
+    mov eax, 1
+    mov temp$9, eax
+label21:
+    mov eax, 2
+    mov temp$10, eax
 label22:
     mov eax, 3
     mov temp$11, eax
 label23:
-    mov eax, 1
-    mov temp$12, eax
-label24:
-    mov eax, 2
-    mov temp$13, eax
-label25:
-    mov eax, 3
-    mov temp$14, eax
-label26:
-    mov eax, temp$12
+    mov eax, temp$9
     mov esi, 0
-    mov a$15[esi], eax
+    mov arr$12[esi], eax
+label24:
+    mov eax, temp$10
+    mov esi, 4
+    mov arr$12[esi], eax
+label25:
+    mov eax, temp$11
+    mov esi, 8
+    mov arr$12[esi], eax
+label26:
+    mov eax, 1
+    mov temp$13, eax
 label27:
     mov eax, temp$13
-    mov esi, 4
-    mov a$15[esi], eax
+    mov b$14, eax
 label28:
-    mov eax, temp$14
-    mov esi, 8
-    mov a$15[esi], eax
-label29:
     mov eax, 1
     cmp eax, 0
-    jz label29
-label30:
-    mov eax, 1
+    jz label28
+label29:
+    mov eax, 2
     mov temp$16, eax
-label31:
+label30:
     mov eax, 4
     imul eax, temp$16
     mov temp$18, eax
-label32:
+label31:
     mov esi, temp$18
-    mov eax, a$15[esi]
+    mov eax, arr$12[esi]
     mov temp$17, eax
+label32:
+    mov eax, 3
+    mov temp$19, eax
 label33:
+    mov eax, temp$17
+    imul eax, temp$19
+    mov temp$20, eax
 label34:
-    INVOKE $print, temp$17
 label35:
+    INVOKE $print, temp$20
+label36:
+    mov eax, 1
+    cmp eax, 0
+    jz label36
+label37:
+    mov eax, b$14
+    mov temp$21, eax
+label38:
+    mov eax, b$14
+    inc eax
+    mov b$14, eax
+label39:
+    mov eax, 1
+    cmp eax, 0
+    jz label39
+label40:
+    mov eax, 1
+    cmp eax, 0
+    jz label40
+label41:
+label42:
+    INVOKE $print, b$14
+label43:
+    mov eax, 1
+    cmp eax, 0
+    jz label43
+label44:
+    mov eax, 1
+    cmp eax, 0
+    jz label44
+label45:
+    INVOKE $input, ADDR temp$22
+label46:
+    mov eax, temp$22
+    mov b$14, eax
+label47:
+    mov eax, temp$22
+    mov temp$23, eax
+label48:
+    mov eax, 1
+    cmp eax, 0
+    jz label48
+label49:
+    mov eax, 1
+    cmp eax, 0
+    jz label49
+label50:
+label51:
+    INVOKE $print, b$14
+label52:
+    mov eax, 1
+    cmp eax, 0
+    jz label52
+label53:
+    mov eax, 1
+    cmp eax, 0
+    jz label53
+label54:
+    mov eax, 1
+    mov temp$24, eax
+label55:
+    mov eax, a$7
+    add eax, temp$24
+    mov temp$25, eax
+label56:
+label57:
+    INVOKE $print_plus_1, temp$25
+label58:
 main_end:
     ret
 $main ENDP
