@@ -12,6 +12,7 @@ GrammerAnalyzer::GrammerAnalyzer(std::vector<hebo::LexicalUnit> output_sequence)
 	this->initialization();
 	this->root = this->init_tree();
 	this->output_tree(root, 0);
+	this->optimize_final_instructions();
 }
 
 void GrammerAnalyzer::initialization() {
@@ -306,4 +307,46 @@ bool GrammerAnalyzer::check_type(std::string function_name, std::vector<std::str
 void GrammerAnalyzer::clean_param_list() {
 	this->parameter_list.clear();
 	return;
+}
+
+void GrammerAnalyzer::optimize_final_instructions()
+{
+	int cnt = 0;
+	for (int i = 0; i < this->final_instruction.size(); i++) {
+		three_address_instruction* temp_instruction = this->final_instruction[i];
+		if (temp_instruction->op == "JZ" && temp_instruction->result == std::to_string(i)) {
+			temp_instruction->op = "-";
+			cnt++;
+			std::cout <<"NO: "<< i << " Instructions: Optimized For No-Meaning Loop" << std::endl;
+		}
+	}
+	std::cout << "Optimize instructions: " << cnt << std::endl;
+	cnt = 0;
+	for (int i1 = 0; i1 < this->final_instruction.size(); i1++) {
+		three_address_instruction* temp_instruction = this->final_instruction[i1];
+		if (temp_instruction->op == "=") {
+			std::string temp_name = temp_instruction->result;
+			bool flag = false;
+			for (int i2 = i1 + 1; i2 < this->final_instruction.size(); i2++) {
+				three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
+				if (temp_temp_instruction->op == "[]=" && temp_temp_instruction->result == temp_name) {
+					flag = true;
+					break;
+				}
+				if (temp_temp_instruction->arg1 == temp_name || temp_temp_instruction->arg2 == temp_name) {
+					flag = true;
+					break;
+				}
+			}
+			if (flag == true) {
+				continue;
+			}
+			else {
+				temp_instruction->op = "-";
+				std::cout << "NO: " << i1 << " Instructions: Optimized For UnUsed Variables" << std::endl;
+				cnt++;
+			}
+		}
+	}
+	std::cout << "Optimize instructions: " << cnt << std::endl;
 }
