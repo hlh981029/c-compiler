@@ -59,10 +59,10 @@ void GrammerAnalyzer::action5(hebo::LexicalUnit* root) {
 void GrammerAnalyzer::action6(hebo::LexicalUnit* root) {
 	std::string type = this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).type;
 	if (type[type.size() - 1] != ']') {
-		this->say_error();
+		this->say_error(1, type, type+"[]");
 	}
 	if (this->out_table->get_symbol_from_address(root->father->child_node_list[2]->attribute.addr).type != "int") {
-		this->say_error();
+		this->say_error(1, this->out_table->get_symbol_from_address(root->father->child_node_list[2]->attribute.addr).type, "int");
 	}
 	if (type.substr(0, 3) == "int") {
 		hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -170,7 +170,7 @@ void GrammerAnalyzer::action9(hebo::LexicalUnit* root) {
 	std::string temp_address = this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).address;
 	std::string type = this->out_table->get_symbol(root->father->child_node_list[0]->morpheme).type;
 	if ((type.rfind("struct") >= type.size()) || (type.find('[') < type.size())) {
-		this->say_error();
+		this->say_error(1, type, "struct[]");
 	}
 	std::string target = root->father->child_node_list[0]->morpheme + "$" + root->father->child_node_list[2]->morpheme;
 	root->father->attribute.addr = this->out_table->get_symbol(target).address;
@@ -180,7 +180,7 @@ void GrammerAnalyzer::action9(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action10(hebo::LexicalUnit* root) {
 	if (root->father->child_node_list[0]->attribute.type != "int") {
-		this->say_error();
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -206,7 +206,7 @@ void GrammerAnalyzer::action10(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action11(hebo::LexicalUnit* root) {
 	if (root->father->child_node_list[0]->attribute.type != "int") {
-		this->say_error();
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -240,7 +240,7 @@ void GrammerAnalyzer::action12(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action13(hebo::LexicalUnit* root) {
 	if (root->father->child_node_list[1]->attribute.type != "int") {
-		this->say_error();
+		this->say_error(1, root->father->child_node_list[1]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -266,7 +266,7 @@ void GrammerAnalyzer::action13(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action14(hebo::LexicalUnit* root) {
 	if (root->father->child_node_list[1]->attribute.type != "int") {
-		this->say_error();
+		this->say_error(1, root->father->child_node_list[1]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -292,7 +292,7 @@ void GrammerAnalyzer::action14(hebo::LexicalUnit* root) {
 
 void GrammerAnalyzer::action15(hebo::LexicalUnit* root) {
 	if (root->father->child_node_list[1]->attribute.type != "int") {
-		this->say_error();
+		this->say_error(1, root->father->child_node_list[1]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -317,7 +317,7 @@ void GrammerAnalyzer::action15(hebo::LexicalUnit* root) {
 		this->final_instruction.push_back(fei);
 	}
 	else {
-		this->say_error();
+		this->say_error(1, "OP VALUE ERROR", "OP VALUE ERROR");
 	}
 	root->father->attribute.type = "int";
 	return;

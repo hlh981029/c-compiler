@@ -25,6 +25,7 @@ IDENTIFIER     main
 (              (              
 )              )              
 {              {              
+<<<<<<< HEAD
 INT            int            
 IDENTIFIER     arr            
 [              [              
@@ -49,4 +50,6 @@ CONSTANT       1
 )              )              
 )              )              
 ;              ;              
+=======
+>>>>>>> 21620ea6317db6e6d2eefb86dec2c2cfb296894b
 }              }              

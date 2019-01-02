@@ -47,9 +47,10 @@ private:
 	void output_tree(hebo::LexicalUnit*, int);
 	bool compare(std::vector<std::string*>, std::vector<std::string*>);
 	void execute_action(int, hebo::LexicalUnit*);
-	void say_error();
+	void say_error(int, std::string, std::string);
 	bool check_type(std::string, std::vector<std::string>);
 	void clean_param_list();
+	void optimize_final_instructions();
 
 private:
 	void action1(hebo::LexicalUnit*);

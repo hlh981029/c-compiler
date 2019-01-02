@@ -167,7 +167,7 @@ void GrammerAnalyzer::action224(hebo::LexicalUnit* root) {
 		initializer->attribute.type = this->out_table->get_symbol_from_address(initializer->attribute.addr).type;
 	}
 	if (declarator->attribute.type != initializer->attribute.type) {
-		this->say_error();
+		this->say_error(1, initializer->attribute.type, declarator->attribute.type);
 	}
 	else {
 		std::string type = root->father->child_node_list[1]->attribute.type;
@@ -181,16 +181,16 @@ void GrammerAnalyzer::action224(hebo::LexicalUnit* root) {
 			this->final_instruction.push_back(assign);
 		}
 		else if (type.substr(0, 6) == "struct" && type[type.size() - 1] == ']') {
-			this->say_error();
+			this->say_error(1, "struct[]", "struct");
 		}
 		else if (type.substr(0, 4) == "int[") {
 			int temp_size = initializer->attribute.array_info.element_addr.size();
 			if (temp_size == 0) {
-				this->say_error();
+				this->say_error(1, "Array Is Empty", "Array Is Empty");
 			}
 			else {
 				if (declarator->attribute.width / 4 != temp_size) {
-					this->say_error();
+					this->say_error(1, "Array Out Of Bounds!", "Array Out Of Bounds!");
 				}
 				else {
 					for (int tt = 0; tt < temp_size; tt++) {
@@ -226,7 +226,7 @@ void GrammerAnalyzer::action224(hebo::LexicalUnit* root) {
             }
 		}
 		else {
-			this->say_error();
+			this->say_error(1, type, "NOWAY");
 		}
 	}
 	return;
@@ -256,7 +256,7 @@ void GrammerAnalyzer::action228(hebo::LexicalUnit* root) {
 	root->father->attribute.array_info.element_addr.push_back(assignment->attribute.addr);
 	assignment->attribute.type = this->out_table->get_symbol_from_address(assignment->attribute.addr).type;
 	if (assignment->attribute.type != "int") {
-		this->say_error();
+		this->say_error(1, assignment->attribute.type, "int");
 	}
 	return;
 }
@@ -267,7 +267,7 @@ void GrammerAnalyzer::action229(hebo::LexicalUnit* root) {
 	root->father->attribute.array_info.element_addr = root->father->child_node_list[0]->attribute.array_info.element_addr;
 	root->father->attribute.array_info.element_addr.push_back(assignment->attribute.addr);
 	if (assignment->attribute.type != "int") {
-		this->say_error();
+		this->say_error(1, assignment->attribute.type, "int");
 	}
 	return;
 }
