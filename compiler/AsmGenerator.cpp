@@ -488,7 +488,7 @@ void AssemblyGenerator::generate_code()
             asm_out << "    cmp eax, 0" << endl;
             asm_out << "    jnz label" << temp_result << endl;
         }
-        else if (temp_op == "-") {
+        else if (temp_op == "NULL") {
 
         }
    }

@@ -315,7 +315,7 @@ void GrammerAnalyzer::optimize_final_instructions()
 	for (int i = 0; i < this->final_instruction.size(); i++) {
 		three_address_instruction* temp_instruction = this->final_instruction[i];
 		if (temp_instruction->op == "JZ" && temp_instruction->result == std::to_string(i)) {
-			temp_instruction->op = "-";
+			temp_instruction->op = "NULL";
 			cnt++;
 			std::cout <<"NO: "<< i << " Instructions: Optimized For No-Meaning Loop" << std::endl;
 		}

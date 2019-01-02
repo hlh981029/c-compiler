@@ -19,8 +19,8 @@ void main()
 	} hbzz;
 
 	m.i = 10;
-	// test1 = m.i;
-	// m.t = m.i;
-	// m2.i2 = 100;
-	// hbzz.t3 = m2.i2;
+	test1 = m.i;
+	m.t = m.i;
+	m2.i2 = 100;
+	hbzz.t3 = m2.i2;
 }
