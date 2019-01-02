@@ -1,4 +1,4 @@
-105
+106
 primary_expression IDENTIFIER action1
 primary_expression CONSTANT action2
 primary_expression ( expression ) action4
