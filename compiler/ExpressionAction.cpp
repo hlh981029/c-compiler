@@ -132,7 +132,8 @@ void GrammerAnalyzer::action7(hebo::LexicalUnit* root) {
 void GrammerAnalyzer::action8(hebo::LexicalUnit* root) {
     std::string temp_type = function_table->get_function(root->father->child_node_list[0]->attribute.addr).return_type;
     if (this->check_type(root->father->child_node_list[0]->attribute.addr, this->parameter_list) == false) {
-    	    this->say_error();
+        say_error(1, "parameter type not matched", "parameter type not matched");
+        return;
     }
     this->clean_param_list();
     hbst::SymbolItem temp;
