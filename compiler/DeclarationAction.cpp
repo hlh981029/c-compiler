@@ -26,7 +26,8 @@ void GrammerAnalyzer::action204(hebo::LexicalUnit* root) {
 	hebo::LexicalUnit* from = root->father->child_node_list[0];
 	to->attribute.type = from->attribute.type;
 	to->attribute.width = from->attribute.width;
-	root->father->attribute.if_struct = true;
+	to->attribute.if_struct = true;
+	to->attribute.struct_info = from->attribute.struct_info;	
 	return;
 }
 
@@ -268,4 +269,17 @@ void GrammerAnalyzer::action229(hebo::LexicalUnit* root) {
 		this->say_error();
 	}
 	return;
+}
+
+void GrammerAnalyzer::action230(hebo::LexicalUnit* root) {
+	root->father->attribute.width = root->father->child_node_list[3]->attribute.width;
+	root->father->attribute.if_struct = true;
+	hbst::SymbolItem temp_item(root->father->child_node_list[1]->morpheme, "struct", 0, root->father->attribute.width);
+	std::string temp_address = this->out_table->get_symbol(root->father->child_node_list[1]->morpheme).address;
+	this->struct_table->put_struct(hbst::StructItem());
+	return;
+}
+
+void GrammerAnalyzer::action231(hebo::LexicalUnit* root) {
+	
 }
