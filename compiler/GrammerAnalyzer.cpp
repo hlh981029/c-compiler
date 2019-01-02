@@ -327,22 +327,31 @@ void GrammerAnalyzer::optimize_final_instructions()
 		if (temp_instruction->op == "=") {
 			std::string temp_name = temp_instruction->result;
 			bool flag = false;
-			for (int i2 = i1 + 1; i2 < this->final_instruction.size(); i2++) {
+			for (int i2 = 0; i2 < i1; i2++) {
 				three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
-				if (temp_temp_instruction->op == "[]=" && temp_temp_instruction->result == temp_name) {
+				if (temp_temp_instruction->op == "PARAM" && temp_temp_instruction->arg1 == temp_name) {
 					flag = true;
 					break;
 				}
-				if (temp_temp_instruction->arg1 == temp_name || temp_temp_instruction->arg2 == temp_name) {
-					flag = true;
-					break;
+			}
+			if (flag == false) {
+				for (int i2 = i1 + 1; i2 < this->final_instruction.size(); i2++) {
+					three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
+					if (temp_temp_instruction->op == "[]=" && temp_temp_instruction->result == temp_name) {
+						flag = true;
+						break;
+					}
+					if (temp_temp_instruction->arg1 == temp_name || temp_temp_instruction->arg2 == temp_name) {
+						flag = true;
+						break;
+					}
 				}
 			}
 			if (flag == true) {
 				continue;
 			}
 			else {
-				temp_instruction->op = "-";
+				temp_instruction->op = "NULL";
 				std::cout << "NO: " << i1 << " Instructions: Optimized For UnUsed Variables" << std::endl;
 				cnt++;
 			}

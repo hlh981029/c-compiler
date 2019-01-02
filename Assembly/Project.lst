@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.10.25017.0	    01/02/19 12:37:50
+Microsoft (R) Macro Assembler Version 14.10.25017.0	    01/02/19 13:45:00
 Assembly.asm						     Page 1 - 1
 
 
@@ -4418,6 +4418,7 @@ Assembly.asm						     Page 1 - 1
 				includelib msvcrt.lib
 				includelib kernel32.lib
 
+				$main proto
  00000000			.const
  00000000 25 64 0D 0A 00	$output_format_int byte "%d", 0DH, 0AH, 0
  00000005 25 64 00		$input_format_int byte "%d", 0
@@ -4455,36 +4456,65 @@ Assembly.asm						     Page 1 - 1
  00000037			$$getch endp
 
  00000000			.data
+ 00000000 00000000		    quanju$0 sdword ?
 
  00000037			.code
  00000037			label0:
- 00000037			$main PROC
-				    LOCAL temp$0:sdword
- 00000037  55		   *	    push   ebp
- 00000038  8B EC	   *	    mov    ebp, esp
- 0000003A  83 C4 FC	   *	    add    esp, 0FFFFFFFCh
- 0000003D			label1:
- 0000003D  B8 00000001		    mov eax, 1
-				    sub eax, -
-Assembly.asm(35) : error A2081:missing operand after unary operator
-				    mov 1, eax
-Assembly.asm(36) : error A2001:immediate operand not allowed
- 00000051			label2:
- 00000051  B8 00000014		    mov eax, 20
- 00000056  89 45 FC		    mov temp$0, eax
- 00000059			label3:
- 00000059			label4:
-				    INVOKE $print, temp$0
- 00000059  FF 75 FC	   *	    push   dword  ptr ss:[ebp]+0FFFFFFFCh
- 0000005C  E8 FFFFFF9F	   *	    call   $print
- 00000061			label5:
- 00000061			main_end:
+ 00000037			$fun1 PROC
+ 00000037			label1:
+ 00000037			label2:
+ 00000037			label3:
+ 00000037			label4:
+				    INVOKE $print, quanju$0
+ 00000037  FF 35 00000000 R *	    push   dword  ptr quanju$0
+ 0000003D  E8 FFFFFFBE	   *	    call   $print
+ 00000042			label5:
+ 00000042			fun1_end:
+ 00000042  C3			    ret
+ 00000043			$fun1 ENDP
+ 00000043			label6:
+ 00000043			$main PROC
+				    LOCAL temp$1:sdword
+				    LOCAL temp$2:sdword
+				    LOCAL temp$3:sdword
+				    LOCAL temp$4:sdword
+ 00000043  55		   *	    push   ebp
+ 00000044  8B EC	   *	    mov    ebp, esp
+ 00000046  83 C4 F0	   *	    add    esp, 0FFFFFFF0h
+ 00000049			label7:
+ 00000049			label8:
+ 00000049  B8 00000005		    mov eax, 5
+ 0000004E  89 45 FC		    mov temp$1, eax
+ 00000051			label9:
+ 00000051  8B 45 FC		    mov eax, temp$1
+ 00000054  A3 00000000 R	    mov quanju$0, eax
+ 00000059			label10:
+ 00000059			label11:
+ 00000059			label12:
+				    INVOKE $fun1
+ 00000059  E8 FFFFFFD9	   *	    call   $fun1
+ 0000005E			label13:
+ 0000005E			label14:
+ 0000005E  B8 00000006		    mov eax, 6
+ 00000063  89 45 F4		    mov temp$3, eax
+ 00000066			label15:
+ 00000066  8B 45 F4		    mov eax, temp$3
+ 00000069  A3 00000000 R	    mov quanju$0, eax
+ 0000006E			label16:
+ 0000006E			label17:
+ 0000006E			label18:
+				    INVOKE $fun1
+ 0000006E  E8 FFFFFFC4	   *	    call   $fun1
+ 00000073			label19:
+ 00000073			main_end:
 				    ret
- 00000061  C9		   *	    leave  
- 00000062  C3		   *	    ret    00000h
- 00000063			$main ENDP
+ 00000073  C9		   *	    leave  
+ 00000074  C3		   *	    ret    00000h
+ 00000075			$main ENDP
+Assembly.asm(74) : warning A6004:procedure argument or local not referenced : temp$2
+Assembly.asm(74) : warning A6004:procedure argument or local not referenced : temp$4
 				END $main
-Microsoft (R) Macro Assembler Version 14.10.25017.0	    01/02/19 12:37:50
+Microsoft (R) Macro Assembler Version 14.10.25017.0	    01/02/19 13:45:00
 Assembly.asm						     Symbols 2 - 1
 
 
@@ -4503,8 +4533,8 @@ Segments and Groups:
 
 CONST  . . . . . . . . . . . . .	32 Bit	 00000008 DWord	  Public  'CONST'	 ReadOnly
 FLAT . . . . . . . . . . . . . .	GROUP
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000000 DWord	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000063 DWord	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000004 DWord	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000075 DWord	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -4512,16 +4542,34 @@ Procedures, parameters, and locals:
                 N a m e                 Type     Value    Attr
 
 $$getch  . . . . . . . . . . . .	P Near	 00000030 _TEXT	Length= 00000007 Public STDCALL
+$fun1  . . . . . . . . . . . . .	P Near	 00000037 _TEXT	Length= 0000000C Public STDCALL
+  label1 . . . . . . . . . . . .	L Near	 00000037 _TEXT	
+  label2 . . . . . . . . . . . .	L Near	 00000037 _TEXT	
+  label3 . . . . . . . . . . . .	L Near	 00000037 _TEXT	
+  label4 . . . . . . . . . . . .	L Near	 00000037 _TEXT	
+  label5 . . . . . . . . . . . .	L Near	 00000042 _TEXT	
+  fun1_end . . . . . . . . . . .	L Near	 00000042 _TEXT	
 $input . . . . . . . . . . . . .	P Near	 00000018 _TEXT	Length= 00000018 Public STDCALL
   val  . . . . . . . . . . . . .	DWord	 bp + 00000008
-$main  . . . . . . . . . . . . .	P Near	 00000037 _TEXT	Length= 0000002C Public STDCALL
-  temp$0 . . . . . . . . . . . .	DWord	 bp - 00000004
-  label1 . . . . . . . . . . . .	L Near	 0000003D _TEXT	
-  label2 . . . . . . . . . . . .	L Near	 00000051 _TEXT	
-  label3 . . . . . . . . . . . .	L Near	 00000059 _TEXT	
-  label4 . . . . . . . . . . . .	L Near	 00000059 _TEXT	
-  label5 . . . . . . . . . . . .	L Near	 00000061 _TEXT	
-  main_end . . . . . . . . . . .	L Near	 00000061 _TEXT	
+$main  . . . . . . . . . . . . .	P Near	 00000043 _TEXT	Length= 00000032 Public STDCALL
+  temp$1 . . . . . . . . . . . .	DWord	 bp - 00000004
+  temp$2 . . . . . . . . . . . .	DWord	 bp - 00000008
+  temp$3 . . . . . . . . . . . .	DWord	 bp - 0000000C
+  temp$4 . . . . . . . . . . . .	DWord	 bp - 00000010
+  label7 . . . . . . . . . . . .	L Near	 00000049 _TEXT	
+  label8 . . . . . . . . . . . .	L Near	 00000049 _TEXT	
+  label9 . . . . . . . . . . . .	L Near	 00000051 _TEXT	
+  label10  . . . . . . . . . . .	L Near	 00000059 _TEXT	
+  label11  . . . . . . . . . . .	L Near	 00000059 _TEXT	
+  label12  . . . . . . . . . . .	L Near	 00000059 _TEXT	
+  label13  . . . . . . . . . . .	L Near	 0000005E _TEXT	
+  label14  . . . . . . . . . . .	L Near	 0000005E _TEXT	
+  label15  . . . . . . . . . . .	L Near	 00000066 _TEXT	
+  label16  . . . . . . . . . . .	L Near	 0000006E _TEXT	
+  label17  . . . . . . . . . . .	L Near	 0000006E _TEXT	
+  label18  . . . . . . . . . . .	L Near	 0000006E _TEXT	
+  label19  . . . . . . . . . . .	L Near	 00000073 _TEXT	
+  main_end . . . . . . . . . . .	L Near	 00000073 _TEXT	
 $print . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000018 Public STDCALL
   val  . . . . . . . . . . . . .	DWord	 bp + 00000008
 ActivateActCtx . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
@@ -6972,12 +7020,14 @@ crt_wctomb . . . . . . . . . . .	Text   	 _imp__wctomb
 crt_wprintf  . . . . . . . . . .	Text   	 _imp__wprintf
 crt_wscanf . . . . . . . . . . .	Text   	 _imp__wscanf
 label0 . . . . . . . . . . . . .	L Near	 00000037 _TEXT	
+label6 . . . . . . . . . . . . .	L Near	 00000043 _TEXT	
 lstrcat  . . . . . . . . . . . .	Text   	 lstrcatA
 lstrcmpi . . . . . . . . . . . .	Text   	 lstrcmpiA
 lstrcmp  . . . . . . . . . . . .	Text   	 lstrcmpA
 lstrcpyn . . . . . . . . . . . .	Text   	 lstrcpynA
 lstrcpy  . . . . . . . . . . . .	Text   	 lstrcpyA
 lstrlen  . . . . . . . . . . . .	Text   	 lstrlenA
+quanju$0 . . . . . . . . . . . .	DWord	 00000000 _DATA	
 
-	   0 Warnings
-	   2 Errors
+	   2 Warnings
+	   0 Errors
