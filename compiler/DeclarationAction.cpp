@@ -1,4 +1,5 @@
 #include "GrammerAnalyzer.h"
+using namespace hbst;
 
 void GrammerAnalyzer::action201(hebo::LexicalUnit* root) {
 	root->father->attribute.type = "void";
@@ -272,14 +273,96 @@ void GrammerAnalyzer::action229(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action230(hebo::LexicalUnit* root) {
-	root->father->attribute.width = root->father->child_node_list[3]->attribute.width;
+	SymbolTable *temp_table = this->out_table;
+	this->out_table = temp_table->father;
+	this->out_table->son_vector.pop_back();
+	root->father->attribute.width = root->father->child_node_list[4]->attribute.width;
 	root->father->attribute.if_struct = true;
 	hbst::SymbolItem temp_item(root->father->child_node_list[1]->morpheme, "struct", 0, root->father->attribute.width);
+	this->out_table->put_symbol(temp_item);
 	std::string temp_address = this->out_table->get_symbol(root->father->child_node_list[1]->morpheme).address;
-	this->struct_table->put_struct(hbst::StructItem());
+	this->struct_table->put_struct(hbst::StructItem(temp_address, *temp_table));
+	root->father->attribute.type = "struct " + temp_address;
+	root->father->attribute.struct_info = struct_table->get_struct(temp_address);
 	return;
 }
 
 void GrammerAnalyzer::action231(hebo::LexicalUnit* root) {
-	
+	SymbolTable *temp_table = new SymbolTable("", this->out_table);
+	this->out_table = temp_table;
+}
+
+void GrammerAnalyzer::action232(hebo::LexicalUnit* root) {
+	SymbolTable *temp_table = new SymbolTable("", this->out_table);
+	this->out_table = temp_table;
+}
+
+void GrammerAnalyzer::action233(hebo::LexicalUnit* root) {
+	SymbolTable *temp_table = this->out_table;
+	this->out_table = temp_table->father;
+	this->out_table->son_vector.pop_back();
+	root->father->attribute.width = root->father->child_node_list[3]->attribute.width;
+	root->father->attribute.if_struct = true;
+	hbst::SymbolItem temp_item("", "struct", 0, root->father->attribute.width);
+	this->out_table->put_symbol(temp_item);
+	std::string temp_address = temp_item.address;
+	this->struct_table->put_struct(hbst::StructItem(temp_address, *temp_table));
+	root->father->attribute.type = "struct " + temp_address;
+	root->father->attribute.struct_info = struct_table->get_struct(temp_address);
+	return;
+}
+
+void GrammerAnalyzer::action234(hebo::LexicalUnit* root) {
+	root->father->attribute.if_struct = true;
+	std::string temp = this->out_table->get_symbol(root->father->child_node_list[1]->morpheme).address;
+	root->father->attribute.struct_info = struct_table->get_struct(temp);
+	root->father->attribute.type = "string " + root->father->attribute.struct_info.name;
+	root->father->attribute.width = this->out_table->get_symbol(root->father->child_node_list[1]->morpheme).width;
+	return;
+}
+
+void GrammerAnalyzer::action235(hebo::LexicalUnit* root) {
+	root->father->attribute.width = root->father->child_node_list[0]->attribute.width;
+	return;
+}
+
+void GrammerAnalyzer::action236(hebo::LexicalUnit* root) {
+	root->father->attribute.width = root->father->child_node_list[0]->attribute.width + root->father->child_node_list[1]->attribute.width;
+	return;
+}
+
+void GrammerAnalyzer::action237(hebo::LexicalUnit* root) {
+	root->father->child_node_list[2]->attribute.type = root->father->child_node_list[0]->attribute.type;
+	root->father->child_node_list[2]->attribute.width = root->father->child_node_list[0]->attribute.width;
+	return;
+}
+
+void GrammerAnalyzer::action238(hebo::LexicalUnit* root) {
+	root->father->attribute.width = root->father->child_node_list[2]->attribute.width;
+	root->father->attribute.type = root->father->child_node_list[0]->attribute.type;
+	return;
+}
+
+void GrammerAnalyzer::action239(hebo::LexicalUnit* root) {
+	root->father->child_node_list[1]->attribute.type = root->father->attribute.type;
+	root->father->child_node_list[1]->attribute.width = root->father->attribute.width;
+	return;
+}
+
+void GrammerAnalyzer::action240(hebo::LexicalUnit* root) {
+	root->father->attribute.width = root->father->child_node_list[1]->attribute.width;
+	return;
+}
+
+void GrammerAnalyzer::action241(hebo::LexicalUnit* root) {
+	root->father->child_node_list[1]->attribute.type = root->father->attribute.type;
+	root->father->child_node_list[1]->attribute.width = root->father->attribute.width;
+	root->father->child_node_list[3]->attribute.type = root->father->attribute.type;
+	root->father->child_node_list[3]->attribute.width = root->father->attribute.width;
+	return;
+}
+
+void GrammerAnalyzer::action242(hebo::LexicalUnit* root) {
+	root->father->attribute.width = root->father->child_node_list[1]->attribute.width + root->father->child_node_list[3]->attribute.width;
+	return;
 }
