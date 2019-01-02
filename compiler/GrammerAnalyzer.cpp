@@ -293,8 +293,10 @@ bool GrammerAnalyzer::compare(std::vector<std::string*>from, std::vector<std::st
 	return true;
 }
 
-void GrammerAnalyzer::say_error() {
-
+void GrammerAnalyzer::say_error(int error_type, std::string left_type, std::string right_type) {
+	std::cout << "NEED A " << right_type << " GET A " << left_type << std::endl;
+	system("pause");
+	return;
 }
 
 bool GrammerAnalyzer::check_type(std::string function_name, std::vector<std::string> parameter_list) {

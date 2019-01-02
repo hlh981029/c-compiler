@@ -9,8 +9,12 @@ void GrammerAnalyzer::action401(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action402(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -28,8 +32,12 @@ void GrammerAnalyzer::action402(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action403(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int" ) {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -47,8 +55,12 @@ void GrammerAnalyzer::action403(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action404(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int" ) {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -74,8 +86,12 @@ void GrammerAnalyzer::action405(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action406(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -93,8 +109,12 @@ void GrammerAnalyzer::action406(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action407(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -128,8 +148,12 @@ void GrammerAnalyzer::action409(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action410(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -168,8 +192,12 @@ void GrammerAnalyzer::action410(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action411(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -208,8 +236,12 @@ void GrammerAnalyzer::action411(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action412(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -248,8 +280,12 @@ void GrammerAnalyzer::action412(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action413(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -296,8 +332,12 @@ void GrammerAnalyzer::action414(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action415(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -336,8 +376,12 @@ void GrammerAnalyzer::action415(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action416(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -384,8 +428,12 @@ void GrammerAnalyzer::action417(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action418(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -411,8 +459,12 @@ void GrammerAnalyzer::action419(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action420(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -467,8 +519,12 @@ void GrammerAnalyzer::action421(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action422(hebo::LexicalUnit* root) {
-	if (root->father->child_node_list[0]->attribute.type != "int" || root->father->child_node_list[2]->attribute.type != "int") {
-		this->say_error();
+	if (root->father->child_node_list[0]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[0]->attribute.type, "int");
+		return;
+	}
+	if (root->father->child_node_list[2]->attribute.type != "int") {
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, "int");
 		return;
 	}
 	hbst::SymbolItem temp = hbst::SymbolItem("", "int", 0, 4);
@@ -526,7 +582,7 @@ void GrammerAnalyzer::action424(hebo::LexicalUnit* root) {
 	this->out_table->put_symbol(temp);
 	root->father->attribute.addr = temp.address;
 	if (root->father->child_node_list[0]->attribute.type != root->father->child_node_list[2]->attribute.type) {
-		this->say_error();
+		this->say_error(1, root->father->child_node_list[2]->attribute.type, root->father->child_node_list[0]->attribute.type);
 		return;
 	}
 	std::string temp_type = root->father->child_node_list[0]->attribute.type;
@@ -628,7 +684,7 @@ void GrammerAnalyzer::action424(hebo::LexicalUnit* root) {
 		this->final_instruction.push_back(assign_2);
 	}
 	else {
-		this->say_error();
+		this->say_error(1, temp_type, "NOWAY");
 	}
 	return;
 }
