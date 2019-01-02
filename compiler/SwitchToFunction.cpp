@@ -425,10 +425,16 @@ void GrammerAnalyzer::execute_action(int action_number, hebo::LexicalUnit* root)
 		case 522:
 			this->action522(root);
 			break;
-		case 523:
-			this->action523(root);
-			break;
-		default:
+        case 523:
+            this->action523(root);
+            break;
+        case 524:
+            this->action524(root);
+            break;
+        case 525:
+            this->action525(root);
+            break;
+        default:
 			std::cout << "";
 			break;
 		}
@@ -485,6 +491,9 @@ void GrammerAnalyzer::execute_action(int action_number, hebo::LexicalUnit* root)
             break;
         case 617:
             this->action617(root);
+            break;
+        case 618:
+            this->action618(root);
             break;
         default:
             std::cout << "";

@@ -247,10 +247,35 @@ void GrammerAnalyzer::action522(hebo::LexicalUnit* root) {
 }
 
 void GrammerAnalyzer::action523(hebo::LexicalUnit* root) {
-	three_address_instruction* break_jump = new three_address_instruction();
-	break_jump->index = this->final_instruction.size();
-	break_jump->op = "JMP";
-	break_jump->result = std::to_string(root->father->attribute.break_instr);
-	this->final_instruction.push_back(break_jump);
-	return;
+    three_address_instruction* break_jump = new three_address_instruction();
+    break_jump->index = this->final_instruction.size();
+    break_jump->op = "JMP";
+    break_jump->result = std::to_string(root->father->attribute.break_instr);
+    this->final_instruction.push_back(break_jump);
+    return;
+}
+
+void GrammerAnalyzer::action524(hebo::LexicalUnit* root) {
+    three_address_instruction* return_jump = new three_address_instruction();
+    return_jump->index = this->final_instruction.size();
+    return_jump->op = "RET";
+    return_jump->arg1 = "-";
+    return_jump->arg2 = "-";
+    return_jump->result = "-";
+    this->final_instruction.push_back(return_jump);
+    return;
+}
+
+void GrammerAnalyzer::action525(hebo::LexicalUnit* root) {
+    if (root->father->child_node_list[1]->attribute.type != function_table->get_function(curr_func_name).return_type) {
+        //say_error("返回值类型不匹配");
+    }
+    three_address_instruction* return_jump = new three_address_instruction();
+    return_jump->index = this->final_instruction.size();
+    return_jump->op = "RET";
+    return_jump->arg1 = root->father->child_node_list[1]->attribute.addr;
+    return_jump->arg2 = "-";
+    return_jump->result = "-";
+    this->final_instruction.push_back(return_jump);
+    return;
 }

@@ -791,6 +791,9 @@ parameter_declaration
                                                                 var_name_list.push_back(parameter_declaration.name)
                                                             }
 ->
+                                                            {
+                                                                parameter_list1.name = parameter_list.name
+                                                            }
 parameter_list1 , parameter_declaration
                                                             {
                                                                 function_table.get_function(parameter_list.function_name).add_parameter(parameter_declaration.type)

@@ -116,11 +116,15 @@ void GrammerAnalyzer::action605(hebo::LexicalUnit* root) {
     return;
 }
 
+void GrammerAnalyzer::action618(hebo::LexicalUnit* root) {
+    root->father->child_node_list[1]->morpheme = root->father->morpheme;
+    return;
+}
 
 void GrammerAnalyzer::action606(hebo::LexicalUnit* root) {
-    this->function_table->get_function(root->father->morpheme).add_parameter(root->father->child_node_list[0]->attribute.type);
-    var_width_list.push_back(root->father->child_node_list[0]->attribute.width);
-    var_name_list.push_back(root->father->child_node_list[0]->morpheme);
+    this->function_table->get_function(root->father->morpheme).add_parameter(root->father->child_node_list[3]->attribute.type);
+    var_width_list.push_back(root->father->child_node_list[3]->attribute.width);
+    var_name_list.push_back(root->father->child_node_list[3]->morpheme);
     return;
 }
 

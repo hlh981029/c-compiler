@@ -302,7 +302,7 @@ void GrammerAnalyzer::action15(hebo::LexicalUnit* root) {
 		three_address_instruction* minus = new three_address_instruction();
 		minus->index = this->final_instruction.size();
 		minus->op = "MINUS";
-		minus->arg1 = root->father->child_node_list[2]->attribute.addr;
+		minus->arg1 = root->father->child_node_list[1]->attribute.addr;
 		minus->arg2 = "-";
 		minus->result = root->father->attribute.addr;
 		this->final_instruction.push_back(minus);
@@ -420,11 +420,11 @@ void GrammerAnalyzer::action27(hebo::LexicalUnit* root) {
 	three_address_instruction* param = new three_address_instruction();
 	param->index = this->final_instruction.size();
 	param->op = "PARAM";
-	param->arg1 = root->father->child_node_list[0]->attribute.addr;
+	param->arg1 = root->father->child_node_list[2]->attribute.addr;
 	param->arg2 = "-";
 	param->result = "-";
 	this->final_instruction.push_back(param);
-	this->parameter_list.push_back(this->out_table->get_symbol_from_address(root->father->child_node_list[0]->attribute.addr).type);
+	this->parameter_list.push_back(this->out_table->get_symbol_from_address(root->father->child_node_list[2]->attribute.addr).type);
 	root->father->attribute.param_number += 1;
 	return;
 }

@@ -1,4 +1,4 @@
-113
+115
 primary_expression IDENTIFIER action1
 primary_expression CONSTANT action2
 primary_expression ( expression ) action4
@@ -101,10 +101,12 @@ selection_statement IF ( expression action514 ) action515 statement action516
 selection_statement IF ( expression action517 ) action518 statement action519 ELSE action520 statement action521
 jump_statement CONTINUE ; action522
 jump_statement BREAK ; action523
+jump_statement RETURN ; action524
+jump_statement RETURN expression ; action525
 direct_declarator action601 direct_declarator action602 ( parameter_list )
 direct_declarator action603 direct_declarator ( ) action604
 parameter_list parameter_declaration action605
-parameter_list parameter_list , parameter_declaration action606
+parameter_list action618 parameter_list , parameter_declaration action606
 parameter_declaration type_specifier declarator action607
 parameter_declaration type_specifier action608
 function_compound_statement { } action609
