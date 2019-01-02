@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/02/19 11:54:25
+Microsoft (R) Macro Assembler Version 14.10.25017.0	    01/02/19 12:37:50
 Assembly.asm						     Page 1 - 1
 
 
@@ -4418,7 +4418,6 @@ Assembly.asm						     Page 1 - 1
 				includelib msvcrt.lib
 				includelib kernel32.lib
 
-				$main proto
  00000000			.const
  00000000 25 64 0D 0A 00	$output_format_int byte "%d", 0DH, 0AH, 0
  00000005 25 64 00		$input_format_int byte "%d", 0
@@ -4456,119 +4455,36 @@ Assembly.asm						     Page 1 - 1
  00000037			$$getch endp
 
  00000000			.data
- 00000000 00000000		    temp$0 sdword ?
 
  00000037			.code
  00000037			label0:
- 00000037  B8 00000001		    mov eax, 1
- 0000003C  A3 00000000 R	    mov temp$0, eax
- 00000041			label1:
- 00000041			$return_array_item PROC,
-				    a$1:sdword,
-				    b$2:sdword,
-				    temp: ptr sdword
-
-				    LOCAL temp$4:sdword
-				    LOCAL temp$3:sdword
- 00000041  55		   *	    push   ebp
- 00000042  8B EC	   *	    mov    ebp, esp
- 00000044  83 C4 F8	   *	    add    esp, 0FFFFFFF8h
- 00000047			label2:
- 00000047  B8 00000001		    mov eax, 1
- 0000004C  83 F8 00		    cmp eax, 0
- 0000004F  74 F6		    jz label2
- 00000051			label3:
- 00000051  B8 00000004		    mov eax, 4
- 00000056  0F AF 45 0C		    imul eax, b$2
- 0000005A  89 45 FC		    mov temp$4, eax
- 0000005D			label4:
- 0000005D  8B 75 FC		    mov esi, temp$4
- 00000060  8B 44 35 08		    mov eax, a$1[esi]
- 00000064  89 45 F8		    mov temp$3, eax
- 00000067			label5:
- 00000067  8B 45 F8		    mov eax, temp$3
- 0000006A  8B 75 10		    mov esi, temp
- 0000006D  89 06		    mov [esi], eax
- 0000006F  EB 00		    jmp return_array_item_end
- 00000071			label6:
- 00000071			return_array_item_end:
+ 00000037			$main PROC
+				    LOCAL temp$0:sdword
+ 00000037  55		   *	    push   ebp
+ 00000038  8B EC	   *	    mov    ebp, esp
+ 0000003A  83 C4 FC	   *	    add    esp, 0FFFFFFFCh
+ 0000003D			label1:
+ 0000003D  B8 00000001		    mov eax, 1
+				    sub eax, -
+Assembly.asm(35) : error A2081:missing operand after unary operator
+				    mov 1, eax
+Assembly.asm(36) : error A2001:immediate operand not allowed
+ 00000051			label2:
+ 00000051  B8 00000014		    mov eax, 20
+ 00000056  89 45 FC		    mov temp$0, eax
+ 00000059			label3:
+ 00000059			label4:
+				    INVOKE $print, temp$0
+ 00000059  FF 75 FC	   *	    push   dword  ptr ss:[ebp]+0FFFFFFFCh
+ 0000005C  E8 FFFFFF9F	   *	    call   $print
+ 00000061			label5:
+ 00000061			main_end:
 				    ret
- 00000071  C9		   *	    leave  
- 00000072  C2 000C	   *	    ret    0000Ch
- 00000075			$return_array_item ENDP
- 00000075			label7:
- 00000075			$main PROC
-				    LOCAL temp$5:sdword
-				    LOCAL temp$6:sdword
-				    LOCAL temp$7:sdword
-				    LOCAL temp$8:sdword
-				    LOCAL arr$9[3]:sdword
-				    LOCAL temp$10:sdword
-				    LOCAL temp$11:sdword
- 00000075  55		   *	    push   ebp
- 00000076  8B EC	   *	    mov    ebp, esp
- 00000078  83 C4 DC	   *	    add    esp, 0FFFFFFDCh
- 0000007B			label8:
- 0000007B  B8 00000003		    mov eax, 3
- 00000080  89 45 FC		    mov temp$5, eax
- 00000083			label9:
- 00000083  B8 00000001		    mov eax, 1
- 00000088  89 45 F8		    mov temp$6, eax
- 0000008B			label10:
- 0000008B  B8 00000002		    mov eax, 2
- 00000090  89 45 F4		    mov temp$7, eax
- 00000093			label11:
- 00000093  B8 00000003		    mov eax, 3
- 00000098  89 45 F0		    mov temp$8, eax
- 0000009B			label12:
- 0000009B  8B 45 F8		    mov eax, temp$6
- 0000009E  BE 00000000		    mov esi, 0
- 000000A3  89 44 35 E4		    mov arr$9[esi], eax
- 000000A7			label13:
- 000000A7  8B 45 F4		    mov eax, temp$7
- 000000AA  BE 00000004		    mov esi, 4
- 000000AF  89 44 35 E4		    mov arr$9[esi], eax
- 000000B3			label14:
- 000000B3  8B 45 F0		    mov eax, temp$8
- 000000B6  BE 00000008		    mov esi, 8
- 000000BB  89 44 35 E4		    mov arr$9[esi], eax
- 000000BF			label15:
- 000000BF  B8 00000001		    mov eax, 1
- 000000C4  83 F8 00		    cmp eax, 0
- 000000C7  74 F6		    jz label15
- 000000C9			label16:
- 000000C9  B8 00000001		    mov eax, 1
- 000000CE  83 F8 00		    cmp eax, 0
- 000000D1  74 F6		    jz label16
- 000000D3			label17:
- 000000D3  B8 00000001		    mov eax, 1
- 000000D8  83 F8 00		    cmp eax, 0
- 000000DB  74 F6		    jz label17
- 000000DD			label18:
- 000000DD			label19:
- 000000DD  B8 00000001		    mov eax, 1
- 000000E2  89 45 E0		    mov temp$10, eax
- 000000E5			label20:
- 000000E5			label21:
-				    INVOKE $return_array_item, arr$9, temp$10, ADDR temp$11
- 000000E5  8D 45 DC	   *	    lea    eax, sdword  ptr ss:[ebp]+0FFFFFFDCh
- 000000E8  50		   *	    push   eax
- 000000E9  FF 75 E0	   *	    push   dword  ptr ss:[ebp]+0FFFFFFE0h
- 000000EC  FF 75 E4	   *	    push   dword  ptr ss:[ebp]+0FFFFFFE4h
- 000000EF  E8 FFFFFF4D	   *	    call   $return_array_item
- 000000F4			label22:
- 000000F4			label23:
-				    INVOKE $print, temp$11
- 000000F4  FF 75 DC	   *	    push   dword  ptr ss:[ebp]+0FFFFFFDCh
- 000000F7  E8 FFFFFF04	   *	    call   $print
- 000000FC			label24:
- 000000FC			main_end:
-				    ret
- 000000FC  C9		   *	    leave  
- 000000FD  C3		   *	    ret    00000h
- 000000FE			$main ENDP
+ 00000061  C9		   *	    leave  
+ 00000062  C3		   *	    ret    00000h
+ 00000063			$main ENDP
 				END $main
-Microsoft (R) Macro Assembler Version 14.12.25834.0	    01/02/19 11:54:25
+Microsoft (R) Macro Assembler Version 14.10.25017.0	    01/02/19 12:37:50
 Assembly.asm						     Symbols 2 - 1
 
 
@@ -4587,8 +4503,8 @@ Segments and Groups:
 
 CONST  . . . . . . . . . . . . .	32 Bit	 00000008 DWord	  Public  'CONST'	 ReadOnly
 FLAT . . . . . . . . . . . . . .	GROUP
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000004 DWord	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 000000FE DWord	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000000 DWord	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000063 DWord	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -4598,46 +4514,16 @@ Procedures, parameters, and locals:
 $$getch  . . . . . . . . . . . .	P Near	 00000030 _TEXT	Length= 00000007 Public STDCALL
 $input . . . . . . . . . . . . .	P Near	 00000018 _TEXT	Length= 00000018 Public STDCALL
   val  . . . . . . . . . . . . .	DWord	 bp + 00000008
-$main  . . . . . . . . . . . . .	P Near	 00000075 _TEXT	Length= 00000089 Public STDCALL
-  temp$5 . . . . . . . . . . . .	DWord	 bp - 00000004
-  temp$6 . . . . . . . . . . . .	DWord	 bp - 00000008
-  temp$7 . . . . . . . . . . . .	DWord	 bp - 0000000C
-  temp$8 . . . . . . . . . . . .	DWord	 bp - 00000010
-  arr$9  . . . . . . . . . . . .	DWord	 bp - 0000001C
-  temp$10  . . . . . . . . . . .	DWord	 bp - 00000020
-  temp$11  . . . . . . . . . . .	DWord	 bp - 00000024
-  label8 . . . . . . . . . . . .	L Near	 0000007B _TEXT	
-  label9 . . . . . . . . . . . .	L Near	 00000083 _TEXT	
-  label10  . . . . . . . . . . .	L Near	 0000008B _TEXT	
-  label11  . . . . . . . . . . .	L Near	 00000093 _TEXT	
-  label12  . . . . . . . . . . .	L Near	 0000009B _TEXT	
-  label13  . . . . . . . . . . .	L Near	 000000A7 _TEXT	
-  label14  . . . . . . . . . . .	L Near	 000000B3 _TEXT	
-  label15  . . . . . . . . . . .	L Near	 000000BF _TEXT	
-  label16  . . . . . . . . . . .	L Near	 000000C9 _TEXT	
-  label17  . . . . . . . . . . .	L Near	 000000D3 _TEXT	
-  label18  . . . . . . . . . . .	L Near	 000000DD _TEXT	
-  label19  . . . . . . . . . . .	L Near	 000000DD _TEXT	
-  label20  . . . . . . . . . . .	L Near	 000000E5 _TEXT	
-  label21  . . . . . . . . . . .	L Near	 000000E5 _TEXT	
-  label22  . . . . . . . . . . .	L Near	 000000F4 _TEXT	
-  label23  . . . . . . . . . . .	L Near	 000000F4 _TEXT	
-  label24  . . . . . . . . . . .	L Near	 000000FC _TEXT	
-  main_end . . . . . . . . . . .	L Near	 000000FC _TEXT	
+$main  . . . . . . . . . . . . .	P Near	 00000037 _TEXT	Length= 0000002C Public STDCALL
+  temp$0 . . . . . . . . . . . .	DWord	 bp - 00000004
+  label1 . . . . . . . . . . . .	L Near	 0000003D _TEXT	
+  label2 . . . . . . . . . . . .	L Near	 00000051 _TEXT	
+  label3 . . . . . . . . . . . .	L Near	 00000059 _TEXT	
+  label4 . . . . . . . . . . . .	L Near	 00000059 _TEXT	
+  label5 . . . . . . . . . . . .	L Near	 00000061 _TEXT	
+  main_end . . . . . . . . . . .	L Near	 00000061 _TEXT	
 $print . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000018 Public STDCALL
   val  . . . . . . . . . . . . .	DWord	 bp + 00000008
-$return_array_item . . . . . . .	P Near	 00000041 _TEXT	Length= 00000034 Public STDCALL
-  a$1  . . . . . . . . . . . . .	DWord	 bp + 00000008
-  b$2  . . . . . . . . . . . . .	DWord	 bp + 0000000C
-  temp . . . . . . . . . . . . .	DWord	 bp + 00000010
-  temp$4 . . . . . . . . . . . .	DWord	 bp - 00000004
-  temp$3 . . . . . . . . . . . .	DWord	 bp - 00000008
-  label2 . . . . . . . . . . . .	L Near	 00000047 _TEXT	
-  label3 . . . . . . . . . . . .	L Near	 00000051 _TEXT	
-  label4 . . . . . . . . . . . .	L Near	 0000005D _TEXT	
-  label5 . . . . . . . . . . . .	L Near	 00000067 _TEXT	
-  label6 . . . . . . . . . . . .	L Near	 00000071 _TEXT	
-  return_array_item_end  . . . .	L Near	 00000071 _TEXT	
 ActivateActCtx . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 AddAtomA . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 AddAtomW . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
@@ -7086,15 +6972,12 @@ crt_wctomb . . . . . . . . . . .	Text   	 _imp__wctomb
 crt_wprintf  . . . . . . . . . .	Text   	 _imp__wprintf
 crt_wscanf . . . . . . . . . . .	Text   	 _imp__wscanf
 label0 . . . . . . . . . . . . .	L Near	 00000037 _TEXT	
-label1 . . . . . . . . . . . . .	L Near	 00000041 _TEXT	
-label7 . . . . . . . . . . . . .	L Near	 00000075 _TEXT	
 lstrcat  . . . . . . . . . . . .	Text   	 lstrcatA
 lstrcmpi . . . . . . . . . . . .	Text   	 lstrcmpiA
 lstrcmp  . . . . . . . . . . . .	Text   	 lstrcmpA
 lstrcpyn . . . . . . . . . . . .	Text   	 lstrcpynA
 lstrcpy  . . . . . . . . . . . .	Text   	 lstrcpyA
 lstrlen  . . . . . . . . . . . .	Text   	 lstrlenA
-temp$0 . . . . . . . . . . . . .	DWord	 00000000 _DATA	
 
 	   0 Warnings
-	   0 Errors
+	   2 Errors

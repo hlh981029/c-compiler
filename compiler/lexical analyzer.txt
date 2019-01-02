@@ -5,6 +5,7 @@ IDENTIFIER     main
 (              (              
 )              )              
 {              {              
+<<<<<<< Updated upstream
 INT            int            
 IDENTIFIER     test1          
 ;              ;              
@@ -80,4 +81,11 @@ IDENTIFIER     m2
 .              .              
 IDENTIFIER     i2             
 ;              ;              
+=======
+IDENTIFIER     print          
+(              (              
+CONSTANT       20             
+)              )              
+;              ;              
+>>>>>>> Stashed changes
 }              }              
