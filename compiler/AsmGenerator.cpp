@@ -70,7 +70,7 @@ void AssemblyGenerator::generate_proto()
             }
         }
         if (param_num != 0) {
-            // ²ÎÊı²»Îª¿Õ
+            // å‚æ•°ä¸ä¸ºç©º
             SymbolItem * temp_symbol;
             string temp_type;
             int temp_is_array;
@@ -191,7 +191,7 @@ void AssemblyGenerator::generate_code()
                 }
             }
             if (param_num != 0) {
-                // ²ÎÊı²»Îª¿Õ
+                // å‚æ•°ä¸ä¸ºç©º
                 SymbolItem * temp_symbol;
                 string temp_type;
                 int temp_is_array;
@@ -498,7 +498,7 @@ void AssemblyGenerator::generate_code()
 //    struct_table = new StructTable;
 //    final_instruction = new vector<three_address_instruction*>;
 //
-//    // ÈıµØÖ·Ö¸Áî
+//    // ä¸‰åœ°å€æŒ‡ä»¤
 //    add_instruction(new three_address_instruction(100   , "FUNC"        , "test_1"                  , ""                    , ""                    ));
 //    add_instruction(new three_address_instruction(101   , "PARAM"       , "test_1_int_1$0"          , ""                    , ""                    ));
 //    add_instruction(new three_address_instruction(102   , "CALL"        , "test_2"                  , ""                    , "temp$2"              ));
@@ -537,7 +537,7 @@ void AssemblyGenerator::generate_code()
 //    add_instruction(new three_address_instruction(12    , "RET"         , "0"                       , ""                    , ""                    ));
 //    add_instruction(new three_address_instruction(13    , "ENDF"        , "main"                    , ""                    , ""                    ));
 //
-//    // ·ûºÅ±í
+//    // ç¬¦å·è¡¨
 //    SymbolItem *temp;
 //    SymbolTable
 //        *symbol_input,
@@ -548,7 +548,7 @@ void AssemblyGenerator::generate_code()
 //        *symbol_main,
 //        *symbol_table_2;
 //
-//    // º¯Êı·ûºÅ±í ĞÂ½¨·ûºÅ±í
+//    // å‡½æ•°ç¬¦å·è¡¨ æ–°å»ºç¬¦å·è¡¨
 //    symbol_input        =   new SymbolTable(global_symbol_table);
 //    symbol_print        =   new SymbolTable(global_symbol_table);
 //    symbol_test_1       =   new SymbolTable(global_symbol_table);
@@ -556,7 +556,7 @@ void AssemblyGenerator::generate_code()
 //    symbol_test_3       =   new SymbolTable(global_symbol_table);
 //    symbol_main         =   new SymbolTable(global_symbol_table);
 //
-//    // º¯Êı·ûºÅ±í ÃüÃû
+//    // å‡½æ•°ç¬¦å·è¡¨ å‘½å
 //    global_symbol_table ->  symbol_table_name = "global";
 //    symbol_input        ->  symbol_table_name = "input";
 //    symbol_print        ->  symbol_table_name = "print";
@@ -566,26 +566,26 @@ void AssemblyGenerator::generate_code()
 //    symbol_main         ->  symbol_table_name = "main";
 //
 //
-//    // ÄÚ²ã·ûºÅ±í ĞÂ½¨·ûºÅ±í
+//    // å†…å±‚ç¬¦å·è¡¨ æ–°å»ºç¬¦å·è¡¨
 //    symbol_table_2       =   new SymbolTable(symbol_test_1);
 //
-//    // º¯Êı·ûºÅ±í ²åÈëÄÚÖÃº¯Êı·ûºÅ
+//    // å‡½æ•°ç¬¦å·è¡¨ æ’å…¥å†…ç½®å‡½æ•°ç¬¦å·
 //    add_symbol(SymbolItem("input"               , "function"        , 0             , "input"                   ));
 //    add_symbol(SymbolItem("print"               , "function"        , 0             , "print"                   ));
 //    add_symbol(SymbolItem("$getch"              , "function"        , 0             , "$getch"                  ));
 //    
-//    // º¯Êı·ûºÅ±í ²åÈë×Ô¶¨Òåº¯Êı·ûºÅ
+//    // å‡½æ•°ç¬¦å·è¡¨ æ’å…¥è‡ªå®šä¹‰å‡½æ•°ç¬¦å·
 //    add_symbol(SymbolItem("test_1"              , "function"        , 0             , "test_1"                  ));
 //    add_symbol(SymbolItem("test_2"              , "function"        , 0             , "test_2"                  ));
 //    add_symbol(SymbolItem("test_3"              , "function"        , 0             , "test_3"                  ));
 //    add_symbol(SymbolItem("main"                , "function"        , 0             , "main"                    ));
 //    
-//    // È«¾Ö·ûºÅ±í
+//    // å…¨å±€ç¬¦å·è¡¨
 //    add_symbol(SymbolItem("global_int_1"        , "int"             , 4             , "global_int_1$0"          ));
 //    add_symbol(SymbolItem("global_int_2"        , "int"             , 4             , "global_int_2$0"          ));
 //    add_symbol(SymbolItem("global_int_array_1"  , "int[10]"         , 40            , "global_int_array_1$1"    ));
 //    
-//    // º¯Êı·ûºÅ±í
+//    // å‡½æ•°ç¬¦å·è¡¨
 //    add_symbol(SymbolItem("test_1_int_1"        , "int"             , 4             , "test_1_int_1$0"          ), symbol_test_1        );
 //    add_symbol(SymbolItem("test_1_int_2"        , "int"             , 4             , "test_1_int_2$1"          ), symbol_test_1        );
 //    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$2"                  ), symbol_test_1        );
@@ -604,7 +604,7 @@ void AssemblyGenerator::generate_code()
 //    add_symbol(SymbolItem("main_int_array_1"    , "int[10]"         , 4             , "main_int_array_1$12"     ), symbol_main          );
 //    add_symbol(SymbolItem(""                    , "int"             , 4             , "temp$13"                 ), symbol_main          );
 //    
-//    // º¯Êı±í
+//    // å‡½æ•°è¡¨
 //    FunctionItem *temp_function;
 //    temp_function = new FunctionItem("input"        , "int"         ); 
 //    add_function(temp_function);
@@ -621,7 +621,7 @@ void AssemblyGenerator::generate_code()
 //    temp_function = new FunctionItem("main"         , "int"         ); 
 //    add_function(temp_function);
 //
-//    // ½á¹¹Ìå±í
+//    // ç»“æ„ä½“è¡¨
 //
 //}
 
