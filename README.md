@@ -51,8 +51,8 @@
 - 构造LR1项集：韩凌昊
 - 合并LR1项集：何博
 - 生成GOTO和ACTION表：何博
-- 完成规约移入动作：丁泉
-- 构造语法树：丁泉
+- 完成归约移入动作：丁泉
+- 构造语法分析树：丁泉
 
 ### 语义分析与中间代码生成
 - 设计动作：刘元浩、何博
@@ -77,10 +77,78 @@
 #### 成果 
 ---
 ### 语法分析
+
 #### 思路
+6. 完成归约移入动作：
+![preview](images/grammar_reduce_shift.jpg)
+
+7. 构造语法分析树：
+按照产生式和Action表以及Goto表对词法单元序列进行移入归约操作。在进行归约操作时构造新的父节点以及相应的子节点。最后将唯一的父节点作为整棵语法分析树的根节点保存在root属性中。
+
 #### 数据结构
+6. 完成归约移入动作：
+7. 构造语法分析树：
+
+```c++
+class GrammerAnalyzer {
+private:
+    // 定义存储产生式的结构体，内部使用一个存储类型为string的vector记录产生式各个部分的内容
+    typedef struct production {
+        std::vector<std::string*> production_formula;
+        production() {}
+    }production;
+
+    // 读入内存中存储的词法单元序列
+    std::vector<hebo::LexicalUnit> output_sequence;
+
+    // 记录终结符
+    int terminal_number;
+    std::string** terminal_list;
+
+    // 记录非终结符
+    int non_terminal_number;
+    std::string** non_terminal_list;
+
+    // 记录所有产生式的内容
+    int production_number;
+    production** production_list;
+
+    // 记录action表和goto表的内容（从文件中读入）
+    int table_number;
+    std::vector<std::vector<std::string*>> action_table;
+    std::vector<std::vector<std::string*>> goto_table;
+
+public:
+    // 记录最后生成语法树根节点的位置
+    hebo::LexicalUnit* root;
+
+private:
+    // 从文件中读入所有信息，初始化各个表和数组
+    void initialization();
+    // 读入词法单元序列，构造语法树
+    hebo::LexicalUnit* init_tree();
+    // 前序遍历输出语法树
+    void output_tree(hebo::LexicalUnit*, int);
+}
+```
+
 #### 遇到的问题
+6. 完成归约移入动作：
+- C语言读取文件（抽取产生式等信息的操作）函数使用不熟练；
+- 在进行语法分析时错误使用浅拷贝赋值指针的位置，应使用深拷贝赋值指针指向的内容。
+
+7. 构造语法分析树：
+- 归约时符号弹出栈的顺序（自右向左）与构造语法分析树子节点（自左向右）的顺序相反；
+- 如何输出一棵优美的语法分析树，是个问题。
+
 #### 成果 
+6. 完成归约移入动作：
+- 从文件中正确读入文法各项信息；
+- 根据Action表和Goto表准确无误地处理了词法单元序列。
+
+7. 构造语法分析树：
+- 正确生成归约操作对应的语法分析树。
+
 ---
 ### 语义分析与中间代码生成
 #### 思路
