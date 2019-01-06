@@ -66,7 +66,7 @@
 
 
 ### 词法分析
-<table>
+<table style="width:80%;">
 <thead>
 <tr>
 <th style="text-align: center">任务</th>
