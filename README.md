@@ -65,9 +65,182 @@
 | 恐慌模式 | 丁泉、高阳 |
 
 ## 文法
+### 综述
+&emsp;&emsp;本项目文法在 `ANSI C` 标准的框架范围内设计。文法以`translation_unit`为起始符号，整体结构分为`declaration & initialization`、`expression`和`statement`三大部分。
+
+&emsp;&emsp;项目文法详细内容可见于`productions.txt`，该文件语法：
+```
+production_head
+production_body1
+production_body2
+production_body3
+;;
+```
+
+&emsp;&emsp;下面将从上述三个部分展开，因为文法结构较为复杂，所以仅从部分主要非终结符的角度对项目文法进行简要解释。
+
+---
+
+### declaration & initialization
+&emsp;&emsp;声明与定义。包含函数、一般变量（`int` 类型变量、结构体变量）及结构体类型的声明和定义，变量定义支持传值初始化。
+
+&emsp;&emsp;函数：
+>`function_definition`<br>
+>&emsp;&emsp;函数定义， 支持`type f(type a) {...}`的定义方式。
+
+>`type_specifier`<br>
+>&emsp;&emsp;类型分类符，可推导成为基本类型分类符`int`、`void`和结构体类型分类符`struct struct_name`。
+
+>`direct_declarator`<br>
+>&emsp;&emsp;直接声明符，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`IDENTIFIER` 标识符，用于声明一般变量<br>
+>&emsp;&emsp;&emsp;&emsp;`IDENTIFIER [ assignment_expression ]` 数组变量标识，用于声明数组<br>
+>&emsp;&emsp;&emsp;&emsp;`direct_declarator ( parameter_list )` 有参数的函数声明符<br>
+>&emsp;&emsp;&emsp;&emsp;`direct_declarator ( )` 无参数的函数声明符<br>
+
+>`function_compound_statement`<br>
+>&emsp;&emsp;函数体定义语句块，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`{ }` 空语句块<br>
+>&emsp;&emsp;&emsp;&emsp;`{ statement_list }` 没有声明语句的函数体语句块<br>
+>&emsp;&emsp;&emsp;&emsp;`{ declaration_list }` 只有声明语句的函数体语句块<br>
+>&emsp;&emsp;&emsp;&emsp;`{ declaration_list statement_list }` 有声明语句的函数体语句块<br>
+
+>`parameter_list`<br>
+>&emsp;&emsp;参数声明列表，支持带参数名的参数声明和只有类型分类符的参数声明。
+
+&emsp;&emsp;一般变量：
+
+>`declaration`<br>
+>&emsp;&emsp;变量声明语句，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`type_specifier ;` 只有类型分类符的声明语句<br>
+>&emsp;&emsp;&emsp;&emsp;`type_specifier init_declarator_list ;` 变量声明语句，支持同类型多变量同时声明<br>
+
+>`init_declarator`<br>
+>&emsp;&emsp;初始化声明符，`init_declarator_list`中的单项，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`declarator` 默认变量声明初始化<br>
+>&emsp;&emsp;&emsp;&emsp;`declarator = initializer` 传值的变量声明初始化<br>
+
+&emsp;&emsp;结构体类型：
+
+>`struct_or_union_specifier`<br>
+>&emsp;&emsp;结构体类型分类符，用于结构体类型的声明定义，或声明结构体类型变量时作为类型分类符，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`STRUCT IDENTIFIER { struct_declaration_list }` 带有结构体名的结构体类型定义<br>
+>&emsp;&emsp;&emsp;&emsp;`STRUCT { struct_declaration_list }` 不带结构体名的结构体类型定义<br>
+>&emsp;&emsp;&emsp;&emsp;`STRUCT IDENTIFIER` 仅用于声明结构体类型变量时作为类型分类符<br>
+
+>`struct_declaration`<br>
+>&emsp;&emsp;结构体中成员变量的声明，`struct_declaration_list`中的单项，支持同类型多变量同时声明<br>
+
+---
+
+### expression
+&emsp;&emsp;表达式。承担了程序中的运算功能。`expression`的产生式成链状结构，反映了程序中各种运算的优先级关系。
+
+>`expression`<br>
+>&emsp;&emsp;表达式的最高形式，可直接推导成为一个或多个`assignment expression`连接而成的逗号表达式。<br>
+
+>`assignment_expression`<br>
+>&emsp;&emsp;赋值表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`logical_or_expression` 逻辑或表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`unary_expression = assignment_expression`直接赋值表达式<br>
+
+>`logical_or_expression`<br>
+>&emsp;&emsp;逻辑或表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`logical_and_expression` 逻辑与表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`logical_or_expression OR_OP logical_and_expression`逻辑或运算表达式<br>
+
+>`logical_and_expression`<br>
+>&emsp;&emsp;逻辑与表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`exclusive_or_expression` 按位异或表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`logical_or_expression OR_OP logical_and_expression`逻辑与运算表达式<br>
+
+>`exclusive_or_expression`<br>
+>&emsp;&emsp;按位异或表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`equality_expression` 判等表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`exclusive_or_expression ^ equality_expression`按位异或运算表达式<br>
+
+>`equality_expression`<br>
+>&emsp;&emsp;判等表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`relational_expression` 关系表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`equality_expression EQ_OP relational_expression`判等运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`equality_expression NE_OP relational_expression`判不等运算表达式<br>
+
+>`relational_expression`<br>
+>&emsp;&emsp;关系表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`additive_expression` 加法表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`relational_expression < shift_expression`判小于运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`relational_expression > shift_expression`判大于运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`relational_expression LE_OP shift_expression`判大于等于运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`relational_expression GE_OP shift_expression`判小于等于运算表达式<br>
+
+>`additive_expression`<br>
+>&emsp;&emsp;加法表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`multiplicative_expression` 乘法表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`additive_expression + multiplicative_expression`加法运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`additive_expression - multiplicative_expression`减法运算表达式<br>
+
+>`multiplicative_expression`<br>
+>&emsp;&emsp;加法表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`cast_expression` 类型转换表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`multiplicative_expression * cast_expression`乘法运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`multiplicative_expression / cast_expression`除法运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`multiplicative_expression % cast_expression`取模运算表达式<br>
+
+>`cast_expression`<br>
+>&emsp;&emsp;加法表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`unary_expression` 单元运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`( type_name ) cast_expression`强制类型转换运算表达式<br>
+
+>`unary_expression`<br>
+>&emsp;&emsp;单元运算表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`postfix_expression` 后缀表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`INC_OP unary_expression`前自增运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`DEC_OP unary_expression`前自减运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`unary_operator cast_expression`单元符号运算表达式，包括逻辑非和取相反数等<br>
+>&emsp;&emsp;&emsp;&emsp;`SIZEOF unary_expression`对表达式的取宽度运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`SIZEOF ( type_name )`对类型名的取宽度运算表达式<br>
+
+>`postfix_expression`<br>
+>&emsp;&emsp;后缀表达式，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`primary_expression` 原子表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`IDENTIFIER [ expression ]`数组取元素运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`postfix_expression ( )`无参函数调用表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`postfix_expression ( argument_expression_list )`传参函数调用表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`IDENTIFIER . IDENTIFIER`结构体取成员变量表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`postfix_expression INC_OP`后自增运算表达式<br>
+>&emsp;&emsp;&emsp;&emsp;`postfix_expression DEC_OP`后自减运算表达式<br>
+
+>`primary_expression`<br>
+>&emsp;&emsp;原子表达式，表达式的基本单元，可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`IDENTIFIER` 标识符<br>
+>&emsp;&emsp;&emsp;&emsp;`CONSTANT`常量<br>
+>&emsp;&emsp;&emsp;&emsp;`( expression )`表达式的循环嵌套<br>
+
+---
+
+### statement
+&emsp;&emsp;语句。用来表征程序代码结构和执行顺序，分为`compound_statement`、`expression_statement`、`selection_statement`、`iteration_statement`、`jump_statement`五类。
+
+>`compound_statement`<br>
+>&emsp;&emsp;复合语句，用于标识除函数体定义语句块外的语句块,可推导成为：<br>
+>&emsp;&emsp;&emsp;&emsp;`{ }` 空语句块<br>
+>&emsp;&emsp;&emsp;&emsp;`{ statement_list }` 没有声明语句的语句块<br>
+>&emsp;&emsp;&emsp;&emsp;`{ declaration_list }` 只有声明语句的语句块<br>
+>&emsp;&emsp;&emsp;&emsp;`{ declaration_list statement_list }` 有声明语句的语句块<br>
+
+>`expression_statement`<br>
+>&emsp;&emsp;表达式语句，为表达式后加上分号，使其成为语句。<br>
+
+>`selection_statement`<br>
+>&emsp;&emsp;分支语句，可推导成为`if`，`switch`分支语句。<br>
+
+>`iteration_statement`<br>
+>&emsp;&emsp;循环语句，可推导成为`for`，`while`循环语句。<br>
+
+>`jump_statement`<br>
+>&emsp;&emsp;跳转语句，用于实现`break`、`continue`等跳转功能。<br>
 
 ## 算法实现及分析
-
 ### 词法分析
 
 #### 思路
@@ -292,11 +465,13 @@ void update_output_sequence();
 
 5. 生成`GOTO`和`ACTION`表：
 
-* 从以上步骤得到`LALR1`的状态集合$C = \left\{I_0, I_1, \cdots, I_n\right\}$
-* 如果有$GO(I_i, X) = I_j, X \in terminal$，则置$ACTION(i, X) = s_j$
-* 如果有$GO(I_i, X) = I_j, X \in nonterminal$，则置$GOTO(i, X) = j$
-* 如果项目$[A \rightarrow \alpha \cdot], a$在状态$I_i$中，则置$ACTION(i, a) = r_k$，其中$k$为产生式对应的序号
-* 如果增广文法开始项目在$I_i$中，则置$ACTION(i, \$) = acc$
+
+* 从以上步骤得到`LALR1`的状态集合![](https://latex.codecogs.com/gif.latex?C=\left\{I_0,I_1,\cdots,I_n\right\})
+* 如果有![](https://latex.codecogs.com/gif.latex?GO(I_i,X)=I_j,X\in%20terminal)，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,X)=s_j)
+* 如果有![](https://latex.codecogs.com/gif.latex?GO(I_i,X)=I_j,X\in%20nonterminal)，则置![](https://latex.codecogs.com/gif.latex?GOTO(i,X)=j)
+* 如果项目![](https://latex.codecogs.com/gif.latex?A\rightarrow\alpha\cdot,a)在状态![](https://latex.codecogs.com/gif.latex?I_i)中，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,a)=r_k)，其中![](https://latex.codecogs.com/gif.latex?k)为产生式对应的序号
+* 如果增广文法开始项目在![](https://latex.codecogs.com/gif.latex?I_i)中，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,\$)=acc)
+
 
 6. 完成归约移入动作：
 7. 构造语法分析树：
