@@ -65,7 +65,7 @@
 | 恐慌模式 | 丁泉、高阳 |
 
 ## 文法
-### &emsp;&emsp;综述
+### 综述
 &emsp;&emsp;本项目文法在 `ANSI C` 标准的框架范围内设计。文法以`translation_unit`为起始符号，整体结构分为`declaration & initialization`、`expression`和`statement`三大部分。
 
 &emsp;&emsp;项目文法详细内容可见于`productions.txt`，该文件语法：
@@ -81,7 +81,7 @@ production_body3
 
 ---
 
-### &emsp;&emsp;declaration & initialization
+### declaration & initialization
 &emsp;&emsp;声明与定义。包含函数、一般变量（`int` 类型变量、结构体变量）及结构体类型的声明和定义，变量定义支持传值初始化。
 
 &emsp;&emsp;函数：
@@ -133,7 +133,7 @@ production_body3
 
 ---
 
-### &emsp;&emsp;expression
+### expression
 &emsp;&emsp;表达式。承担了程序中的运算功能。`expression`的产生式成链状结构，反映了程序中各种运算的优先级关系。
 
 >`expression`<br>
@@ -218,7 +218,7 @@ production_body3
 
 ---
 
-### &emsp;&emsp;statement
+### statement
 &emsp;&emsp;语句。用来表征程序代码结构和执行顺序，分为`compound_statement`、`expression_statement`、`selection_statement`、`iteration_statement`、`jump_statement`五类。
 
 >`compound_statement`<br>
