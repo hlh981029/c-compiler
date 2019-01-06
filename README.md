@@ -33,38 +33,45 @@
 #### &emsp;&emsp;数据结构
 #### &emsp;&emsp;遇到的问题
 #### &emsp;&emsp;成果 
+---
 ### 语法分析
-### 语义分析
-### 中间代码生成
+#### &emsp;&emsp;思路
+#### &emsp;&emsp;数据结构
+#### &emsp;&emsp;遇到的问题
+#### &emsp;&emsp;成果 
+---
+### 语义分析与中间代码生成
+#### &emsp;&emsp;思路
+#### &emsp;&emsp;数据结构
+#### &emsp;&emsp;遇到的问题
+#### &emsp;&emsp;成果 
+---
 ### 代码生成
-### 代码优化和错误处理
-### 
+#### &emsp;&emsp;思路
+#### &emsp;&emsp;数据结构
+#### &emsp;&emsp;遇到的问题
+#### &emsp;&emsp;成果 
+---
+### 代码优化与错误处理
+#### &emsp;&emsp;思路
+#### &emsp;&emsp;数据结构
+#### &emsp;&emsp;遇到的问题
+#### &emsp;&emsp;成果 
 
 
-```c++
-class AssemblyGenerator {
-public:
-    std::ofstream asm_out;
-    SymbolTable *global_symbol_table;
-    FunctionTable *function_table;
-    StructTable *struct_table;
-    std::vector<GrammerAnalyzer::three_address_instruction*> *final_instruction;
-
-    AssemblyGenerator();
-    ~AssemblyGenerator();
-    void generate_asm();
-    void generate_header();
-    void generate_proto();
-    void generate_footer();
-    void generate_global_var();
-    void generate_code();
-    void generate_example();
-    void output_instructions();
-    void close_file();
-    void add_symbol(SymbolItem i, SymbolTable* t = NULL);
-    void add_struct(StructItem* i);
-    void add_function(FunctionItem* i);
-    void add_instruction(GrammerAnalyzer::three_address_instruction *i);
-    SymbolTable* get_function_symbol_table(std::string name);
-};
-```
+<table style="width:100%;">
+	<tr>
+		<th width="15%">op</th>
+		<th width="15%">arg1</th>
+		<th width="15%">arg2</th>
+		<th width="15%">result</th>
+		<th width="40%">说明</th>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
