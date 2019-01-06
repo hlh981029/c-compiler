@@ -249,7 +249,7 @@ void update_output_sequence();
 
 
 * 从以上步骤得到`LALR1`的状态集合![](https://latex.codecogs.com/gif.latex?C=\left\{I_0,I_1,\cdots,I_n\right\})
-* 如果有![](https://latex.codecogs.com/gif.latex?C=GO(I_i,X)=I_j,X\in%20terminal)，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,X)=s_j)
+* 如果有![](https://latex.codecogs.com/gif.latex?GO(I_i,X)=I_j,X\in%20terminal)，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,X)=s_j)
 * 如果有![](https://latex.codecogs.com/gif.latex?GO(I_i,X)=I_j,X\in%20nonterminal)，则置![](https://latex.codecogs.com/gif.latex?GOTO(i,X)=j)
 * 如果项目![](https://latex.codecogs.com/gif.latex?A\rightarrow\alpha\cdot,a)在状态![](https://latex.codecogs.com/gif.latex?I_i)中，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,a)=r_k)，其中![](https://latex.codecogs.com/gif.latex?k)为产生式对应的序号
 * 如果增广文法开始项目在![](https://latex.codecogs.com/gif.latex?I_i)中，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,\$)=acc)
