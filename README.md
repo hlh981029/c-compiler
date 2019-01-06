@@ -249,7 +249,7 @@ production_body3
 
 2. `NFA`合并：
 
-3. `NFA`转`DFA`：
+3. `NFA`转`DFA`：见龙书第二版107页
 
 4. `DFA`最小化：
 
@@ -264,6 +264,28 @@ production_body3
 2. `NFA`合并：
 
 3. `NFA`转`DFA`：
+
+```c++
+class NfaToDfa
+{
+public:
+  NfaToDfa(Nfa nfa);
+  ~NfaToDfa();
+
+  Nfa nfa;
+  int* wordlist;
+
+  int** dfa_map;
+  int dfa_s;
+  int n_dfa_states;
+  int n_chars;
+  map<int, string> dfa_end;
+
+  set<int> closure(set<int> T);
+  set<int> next(int head, int character);
+  void transform();
+};
+```
 
 4. `DFA`最小化：
 
@@ -364,7 +386,7 @@ void update_output_sequence();
 
 2. `NFA`合并：
 
-3. `NFA`转`DFA`：
+3. `NFA`转`DFA`：无
 
 4. `DFA`最小化：
 
@@ -400,6 +422,12 @@ void update_output_sequence();
 
 #### 思路
 
+1. 设计文法：见上文文法部分
+
+2. 求`FIRST`集、`FOLLOW`集：见龙书第二版104~141页
+
+3. 构造`LR1`项集：见龙书第二版167页
+
 4. 合并`LR1`项集形成`LALR1`：查询并合并`LR1`中所有的同心集，优化状态数量，删除被合并的项目族和对应的`GO`函数，得到`LALR1`项目族集合和对应的`GO`函数
 
 5. 生成`GOTO`和`ACTION`表：通过`LALR1`的`GO`函数生成对应的`GOTO`表和`ACTION`表。
@@ -411,6 +439,144 @@ void update_output_sequence();
 按照产生式和`Action`表以及`Goto`表对词法单元序列进行移入归约操作。在进行归约操作时构造新的父节点以及相应的子节点。最后将唯一的父节点作为整棵语法分析树的根节点保存在`root`属性中。
 
 #### 数据结构
+
+1. 设计文法
+
+&emsp;&emsp;符号数据结构
+
+```c++
+class Symbol
+{
+public:
+  string value;
+  unordered_set<Terminal*> first_set;
+  bool start_as_epsilon;
+
+  Symbol();
+  Symbol(string input);
+  bool operator==(const Symbol & a);
+  virtual int get_id() const;
+  friend ostream& operator<<(ostream& out, const Symbol& symbol);
+
+private:
+
+};
+
+class Terminal : public Symbol
+{
+public:
+  Terminal();
+  Terminal(string input);
+  int get_id() const;
+private:
+
+};
+
+class Nonterminal : public Symbol
+{
+public:
+  unordered_set<Terminal*> follow_set;
+
+  Nonterminal();
+  Nonterminal(string input);
+  int get_id() const;
+
+private:
+};
+
+class Production
+{
+public:
+  Nonterminal* left;
+  vector<Symbol*> right;
+
+  Production();
+  Production(Nonterminal* start, const vector<Symbol*>& symbol);
+  void init(Nonterminal* start, const vector<Symbol*>& symbol);
+  friend ostream& operator<<(ostream& out, Production production);
+
+private:
+};
+```
+2. 求`FIRST`集、`FOLLOW`集
+
+3. 构造`LR1`项集
+
+&emsp;&emsp;LR1项目数据结构
+
+```c++
+class LR1Item {
+public:
+  Production* production;
+  int position;
+  vector<Terminal*> forward;
+  int productionNum;
+  Symbol* expect;
+  LR1Item* next;
+  
+
+  LR1Item(Production* production, int pnum, int pos = 0);
+  ~LR1Item();
+  bool addForward(Terminal* ter);
+  bool addForwards(vector<Terminal*> ters);
+  bool operator==(LR1Item &a);
+  friend ostream& operator<<(ostream& out, LR1Item iter);
+};
+```
+
+&emsp;&emsp;LR1项目集数据结构
+
+```c++
+class LR1ItemSet {
+public:
+  vector<LR1Item*> itemset;
+
+  LR1ItemSet(LR1Item* item);
+  LR1ItemSet();
+  ~LR1ItemSet();
+  std::pair<bool, bool> addItem(LR1Item* Item);
+  bool addItem4NewSet(LR1Item* Item);
+  bool operator==(LR1ItemSet& a);
+  friend ostream& operator<<(ostream& out, LR1ItemSet iterSet);
+};
+```
+
+&emsp;&emsp;LR1项目集族数据结构
+
+```c++
+class LR1ItemSets {
+private:
+  vector<int> Goline;
+  
+  void addLine();
+  bool Go(LR1ItemSet* s, Symbol* x);
+  LR1ItemSet* addItemSet(LR1ItemSet* itemSet);
+  void closure(LR1ItemSet* itemSet);
+  LR1Item* newNext(LR1Item* item);
+public:
+  vector<LR1ItemSet*> itemSets;
+  vector<Symbol*> symbols;
+  vector<Terminal*> terminals;
+  vector<Nonterminal*> nonterminals;
+  vector<Production*> productions;
+  vector<vector<int>> GO;
+
+  vector<vector<string>> action_table;
+  vector<vector<int>> goto_table;
+
+  LR1ItemSets(ContextFreeGrammar grammar);
+
+  int8_t can_merge(int status_1, int status_2);
+  void merge_all();
+  void merge_go_table(int status_1, int status_2);
+  void merge_itemSets(int status_1, int status_2);
+
+  void set_action_and_goto();
+  void output();
+  ~LR1ItemSets();
+  void getSets();
+};
+```
 
 4. 合并`LR1`项集形成`LALR1`：
 
@@ -476,6 +642,12 @@ private:
 
 #### 遇到的问题
 
+1. 设计文法
+
+2. 求`FIRST`集、`FOLLOW`集
+
+3. 构造`LR1`项集
+
 4. 合并`LR1`项集形成`LALR1`：
 
 - 试图使用快速构建法直接构建`LALR1`，但是出现相同输入相同程序但输出不同的BUG，估计指针管理不当
@@ -498,6 +670,19 @@ private:
 - 如何输出一棵优美的语法分析树，是个问题。
 
 #### 成果 
+
+1. 设计文法
+
+- 产生了符合项目要求的文法
+- 为进一步工作提供了恰当的接口
+
+2. 求`FIRST`集、`FOLLOW`集
+
+- 求得了`FIRST`集、`FOLLOW`集
+
+3. 构造`LR1`项集
+
+- 构造出了`LR1`项集
 
 4. 合并`LR1`项集形成`LALR1`：
 
@@ -524,7 +709,7 @@ private:
 
 #### 思路
 
-1. 设计动作：
+1. 设计动作：见龙书第二版第六章
 
 2. 重构符号表：
 
@@ -534,7 +719,7 @@ private:
 
 #### 数据结构
 
-1. 设计动作：
+1. 设计动作
 
 2. 重构符号表：
 
@@ -655,7 +840,9 @@ public:
 
 #### 遇到的问题
 
-1. 设计动作：
+1. 设计动作
+
+- 根据项目需求，对布尔表达式的翻译改变了书中的模式，使布尔表达式返回为int值，在循环和分支语句判断条件时根据判0原则生成跳转语句。
 
 2. 重构符号表：
 
@@ -671,7 +858,9 @@ public:
 
 #### 成果 
 
-1. 设计动作：
+1. 设计动作
+
+- 设计出了符合项目需求的语义动作
 
 2. 重构符号表：
 
