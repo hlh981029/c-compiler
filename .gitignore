@@ -260,3 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 # My
+README.html
+README.pdf
+temp.html
