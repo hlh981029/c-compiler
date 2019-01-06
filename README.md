@@ -245,11 +245,13 @@ production_body3
 
 #### 思路
 
-1. 正则表达式转`NFA`:
-
+1. 正则表达式转`NFA`:  
+    - 将中缀正则表达式转为后缀表达式
+    - 对后缀表达式构造语法分析树
+    - 使用[Thompson构造法](https://zh.wikipedia.org/wiki/Thompson%E6%9E%84%E9%80%A0%E6%B3%95)将语法分析树转换为`NFA`
 2. `NFA`合并：
-
-3. `NFA`转`DFA`：见龙书第二版107页
+    - 将所有生成的`NFA`以或的关系连接到一起，生成一个总的`NFA`
+3. `NFA`转`DFA`：
 
 4. `DFA`最小化：
 
@@ -260,6 +262,56 @@ production_body3
 #### 数据结构
 
 1. 正则表达式转`NFA`:
+    
+    正则表达式语法分析树节点：
+    ``` c++
+    struct RegTreeNode
+    {
+        // 该节点的操作符
+        char reg_op; // '\1'='*', '\2'='|', '\3'='.', '\4'='(', '\5'=')'
+        // 该节点的左右子节点
+        RegTreeNode* left;
+        RegTreeNode* right;
+        // 起止状态号
+        int start;
+        int end;
+        // 构造函数
+        RegTreeNode(char _reg_op, RegTreeNode* _left = nullptr, RegTreeNode* _right = nullptr);
+    };
+    ```
+
+    正则表达式：
+    ```c++
+    class RegExp
+    {
+        // 中缀表达式字符串
+        std::string infix_exp;
+        // 后缀表达式字符串
+        std::string suffix_exp;
+        // 语法分析树根节点指针
+        RegTreeNode* reg_tree;
+    public:
+        // 构造函数
+        RegExp(std::string exp, int mode = 0);
+        // 返回该后缀表达式字符串
+        std::string get_suffix_exp();
+        // 返回语法分析树根节点指针
+        RegTreeNode* get_reg_tree();
+        // 将后缀表达式输出到控制台
+        void get_explicit_suffix_exp();
+    private:
+        // 中缀表达式转后缀表达式
+        std::string to_suffix();
+        // 后缀表达式转正则树
+        RegTreeNode* to_reg_tree();
+        // 判断操作符优先级
+        bool is_prior(char opreand1, char operand2);
+        // 判断是否为操作符
+        bool is_operator(char operand);
+    };
+    ```
+
+
 
 2. `NFA`合并：
 
@@ -382,39 +434,32 @@ void update_output_sequence();
 
 #### 遇到的问题
 
-1. 正则表达式转`NFA`:
-
+1. 正则表达式转`NFA`：
+    无
 2. `NFA`合并：
-
-3. `NFA`转`DFA`：无
+    无
+3. `NFA`转`DFA`：
 
 4. `DFA`最小化：
+    - 不同的正则表达式，其终态在初始化终态的集合时应分立到不同的集合中去，同一正则表达式的不同终态在初始化终态的集合时应归到相同的集合中。该BUG未能在小规模测试中找到。
 
-- 不同的正则表达式，其终态在初始化终态的集合时应分立到不同的集合中去，同一正则表达式的不同终态在初始化终态的集合时应归到相同的集合中。该BUG未能在小规模测试中找到。
-
-5. 文件输入和错误、注释处理
-
-- 使用`char`类型存储读入字符，无法读入中文字符；
-
-- 未处理文件中字符串(`""`)。
+5. 文件输入和错误、注释处理：
+    - 使用`char`类型存储读入字符，无法读入中文字符；
+    - 未处理文件中字符串(`""`)。
 
 #### 成果
 
 1. 正则表达式转`NFA`:
-
+    - 将所有词法单元的正则表达式转换成`NFA`。
 2. `NFA`合并：
-
+    - 生成一个可以识别所有词法单元的`NFA`。
 3. `NFA`转`DFA`：
 
 4. `DFA`最小化：
-
-- 成功完成`DFA`状态的最小化，并将简化后的状态转换表存入文件中。
-
-5. 文件输入和错误、注释处理
-
-- 读入`DFA`和测试源文件；
-
-- 输出词法单元序列并传递给语法分析器。
+    - 成功完成`DFA`状态的最小化，并将简化后的状态转换表存入文件中。
+5. 文件输入和错误、注释处理：
+    - 读入`DFA`和测试源文件；
+    - 输出词法单元序列并传递给语法分析器。
 
 ---
 
@@ -688,7 +733,6 @@ private:
 
 - 减少状态数量从1000以上到300左右，提高分析器查表效率
 
-
 5. 生成`GOTO`和`ACTION`表：
 
 - 为分析器提供分析表
@@ -711,7 +755,7 @@ private:
 
 1. 设计动作：见龙书第二版第六章
 
-2. 重构符号表：
+2. 重构符号表：词法分析完成的符号表无法存储源程序各个词素的详细信息，故重构符号表，在语义计算时新建并维护符号表、结构体表和函数表。
 
 3. 插入动作：读入含有动作的产生式，更新语法分析部分的生成的产生式列表；重构记录节点的结构体，将节点属性、动作等内容加入；在节点内用`bool`变量`if_action`区分动作节点与属性节点；重写规约时构造语法分析树的代码。
 
@@ -721,7 +765,46 @@ private:
 
 1. 设计动作
 
-2. 重构符号表：
+2. 重构符号表： 结构体表和函数表的大致结构与符号表相同
+
+```c++
+  class SymbolItem
+  {
+    static int symbol_count; // 记录表中已有多少符号
+  public:
+    SymbolItem();
+    std::string address; // 符号地址, 提供给四元式
+    std::string name; // 符号词素
+    std::string type; // 符号类型
+    int offset; // 偏移量 但后续为使用
+    int width; // 符号宽度, 即符号占用内存字节数
+    SymbolItem(std::string _name, std::string _type, int _offset, int _width); // 构造函数
+  };
+
+  class SymbolTable
+  {
+    static int symbol_table_count; // 符号表数量
+    void put_struct(std::string object_name, std::string struct_name); // 向符号表中插入一个结构体变量
+    void put_struct_array(std::string array_name, std::string struct_name, int length); // 向符号表中插入一个结构体数组
+  public:
+    SymbolTable* father; // 上级符号表
+    std::vector<SymbolItem> symbol_item_vector; // 该vector当前符号表所存储的符号
+    std::string symbol_table_name; // 符号表名称
+    std::vector<SymbolTable*> son_vector;  // 该vector该符号表下的各个子符号表
+
+    SymbolTable(); // 默认构造函数
+    SymbolTable(std::string _name, SymbolTable* _father = nullptr);
+    SymbolTable(const SymbolTable& copied);
+
+    void put_symbol(const SymbolItem& symbol) throw(std::string); // 向符号表内插入一个符号
+    SymbolItem& get_symbol(std::string symbol_name) throw(std::string); // 通过符号的名字得到符号表中该符号的引用
+    SymbolItem& get_symbol_from_address(std::string symbol_address) throw(std::string); // 通过符号的地址得到符号表中该符号的引用
+    
+    ~SymbolTable();
+  };
+
+  
+```
 
 3. 插入动作：
 4. 生成中间代码：
@@ -844,7 +927,7 @@ public:
 
 - 根据项目需求，对布尔表达式的翻译改变了书中的模式，使布尔表达式返回为int值，在循环和分支语句判断条件时根据判0原则生成跳转语句。
 
-2. 重构符号表：
+2. 重构符号表：无问题
 
 3. 插入动作：
 
@@ -862,7 +945,7 @@ public:
 
 - 设计出了符合项目需求的语义动作
 
-2. 重构符号表：
+2. 重构符号表：为后续提供查询符号提供便利，并且可以处理重定义和未声明变量的错误处理
 
 3. 插入动作：
 
@@ -877,270 +960,328 @@ public:
 ### 代码生成
 
 #### 思路
+1. 与前端确定三地址指令的格式与用法
+2. 从前端获取以下信息：
+    - 三地址指令列表
+    - 符号表
+    - 结构体表
+    - 函数表
+3. 顺序遍历三地址指令列表，生成汇编代码
 
 #### 数据结构
-1. 三地址代码用法表
+1. 三地址指令用法表
+    <table>
+    <tbody>
+    <tr>
+        <th width="15%" align="center">op</th>
+        <th width="15%" align="center">arg1</th>
+        <th width="15%" align="center">arg2</th>
+        <th width="15%" align="center">result</th>
+        <th width="40%" align="center">说明</th>
+    </tr>
+    <tr>
+        <td colspan="5" align="center"><b>双目运算指令</b></td>
+    </tr>
+    <tr>
+        <td align="center">+</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">result</td>
+        <td>result = operand1 + operand2</td>
+    </tr>
+    <tr>
+        <td align="center">-</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">result</td>
+        <td>result = operand1 - operand2</td>
+    </tr>
+    <tr>
+        <td align="center">*</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">result</td>
+        <td>result = operand1 * operand2</td>
+    </tr>
+    <tr>
+        <td align="center">/</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">result</td>
+        <td>result = operand1 / operand2</td>
+    </tr>
+    <tr>
+        <td align="center">%</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">result</td>
+        <td>result = operand1 % operand2</td>
+    </tr>
+    <tr>
+        <td align="center">^</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">result</td>
+        <td>result = operand1 ^ operand2</td>
+    </tr>
+    <tr>
+        <td align="center">=</td>
+        <td align="center">operand</td>
+        <td align="center">-</td>
+        <td align="center">result</td>
+        <td>result = operand</td>
+    </tr>
+    <tr>
+        <td colspan="5" align="center"><b>单目运算指令</b></td>
+    </tr>
+    <tr>
+        <td align="center">++</td>
+        <td align="center">operand</td>
+        <td align="center">-</td>
+        <td align="center">result</td>
+        <td>result = operand++</td>
+    </tr>
+    <tr>
+        <td align="center">--</td>
+        <td align="center">operand</td>
+        <td align="center">-</td>
+        <td align="center">result</td>
+        <td>result = operand--</td>
+    </tr>
+    <tr>
+        <td align="center">MINUS</td>
+        <td align="center">operand</td>
+        <td align="center">-</td>
+        <td align="center">result</td>
+        <td>result = -operand</td>
+    </tr>
+    <tr>
+        <td align="center">!</td>
+        <td align="center">operand</td>
+        <td align="center">-</td>
+        <td align="center">result</td>
+        <td>result = !operand</td>
+    </tr>
+    <tr>
+        <td colspan="5" align="center"><b>数组操作指令</b></td>
+    </tr>
+    <tr>
+        <td align="center">=[]</td>
+        <td align="center">array</td>
+        <td align="center">offset</td>
+        <td align="center">operand</td>
+        <td>operand = array[offset]</td>
+    </tr>
+    <tr>
+        <td align="center">[]=</td>
+        <td align="center">array</td>
+        <td align="center">offset</td>
+        <td align="center">operand</td>
+        <td>array[offset] = operand</td>
+    </tr>
+    <tr>
+        <td colspan="5" align="center"><b>跳转指令（line）为跳转到的行号</b></td>
+    </tr>
+    <tr>
+        <td align="center">JMP</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td align="center">line</td>
+        <td>无条件跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JE</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1等于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JNE</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1不等于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JG</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1大于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JNG</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1不大于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JGE</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1大于等于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JNGE</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1不大于等于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JL</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1小于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JNL</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1不小于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JLE</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1小于等于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JNLE</td>
+        <td align="center">operand1</td>
+        <td align="center">operand2</td>
+        <td align="center">line</td>
+        <td>operand1不小于等于operand2则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JZ</td>
+        <td align="center">operand</td>
+        <td align="center">-</td>
+        <td align="center">line</td>
+        <td>operand为假则跳转</td>
+    </tr>
+    <tr>
+        <td align="center">JNZ</td>
+        <td align="center">operand</td>
+        <td align="center">-</td>
+        <td align="center">line</td>
+        <td>operand为真则跳转</td>
+    </tr>
+    <tr>
+        <td colspan="5" align="center"><b>函数调用指令</b></td>
+    </tr>
+    <tr>
+        <td align="center">PARAM</td>
+        <td align="center">argument</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td>将argument添加到参数列表</td>
+    </tr>
+    <tr>
+        <td align="center">CALL</td>
+        <td align="center">name</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td>调用名为name的函数</td>
+    </tr>
+    <tr>
+        <td colspan="5" align="center"><b>函数定义指令</b></td>
+    </tr>
+    <tr>
+        <td align="center">FUNC</td>
+        <td align="center">name</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td>定义一个为name的函数</td>
+    </tr>
+    <tr>
+        <td align="center">ENDF</td>
+        <td align="center">name</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td>结束定义一个为name的函数</td>
+    </tr>
+    <tr>
+        <td align="center">RET</td>
+        <td align="center">argument</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td>终止函数，返回值为argument（可为空）</td>
+    </tr>
+    <tr>
+        <td colspan="5" align="center"><b>空指令</b></td>
+    </tr>
+    <tr>
+        <td align="center">NULL</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td>不生成任何指令</td>
+    </tr>
+    </tbody>
+    </table>
 
-<table style="width:100%;">
-  <tbody>
-  <tr>
-    <th width="15%">op</th>
-    <th width="15%">arg1</th>
-    <th width="15%">arg2</th>
-    <th width="15%">result</th>
-    <th width="40%">说明</th>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>双目运算指令</b></td>
-  </tr>
-  <tr>
-    <td>+</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>result</td>
-    <td>result = operand1 + operand2</td>
-  </tr>
-  <tr>
-    <td>-</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>result</td>
-    <td>result = operand1 - operand2</td>
-  </tr>
-  <tr>
-    <td>*</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>result</td>
-    <td>result = operand1 * operand2</td>
-  </tr>
-  <tr>
-    <td>/</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>result</td>
-    <td>result = operand1 / operand2</td>
-  </tr>
-  <tr>
-    <td>%</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>result</td>
-    <td>result = operand1 % operand2</td>
-  </tr>
-  <tr>
-    <td>^</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>result</td>
-    <td>result = operand1 ^ operand2</td>
-  </tr>
-  <tr>
-    <td>=</td>
-    <td>operand</td>
-    <td>-</td>
-    <td>result</td>
-    <td>result = operand</td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>单目运算指令</b></td>
-  </tr>
-  <tr>
-    <td>++</td>
-    <td>operand</td>
-    <td>-</td>
-    <td>result</td>
-    <td>result = operand++</td>
-  </tr>
-  <tr>
-    <td>--</td>
-    <td>operand</td>
-    <td>-</td>
-    <td>result</td>
-    <td>result = operand--</td>
-  </tr>
-  <tr>
-    <td>MINUS</td>
-    <td>operand</td>
-    <td>-</td>
-    <td>result</td>
-    <td>result = -operand</td>
-  </tr>
-  <tr>
-    <td>!</td>
-    <td>operand</td>
-    <td>-</td>
-    <td>result</td>
-    <td>result = !operand</td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>数组操作指令</b></td>
-  </tr>
-  <tr>
-    <td>=[]</td>
-    <td>array</td>
-    <td>offset</td>
-    <td>operand</td>
-    <td>operand = array[offset]</td>
-  </tr>
-  <tr>
-    <td>[]=</td>
-    <td>array</td>
-    <td>offset</td>
-    <td>operand</td>
-    <td>array[offset] = operand</td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>跳转指令（line）为跳转到的行号</b></td>
-  </tr>
-  <tr>
-    <td>JMP</td>
-    <td>-</td>
-    <td>-</td>
-    <td>line</td>
-    <td>无条件跳转</td>
-  </tr>
-  <tr>
-    <td>JE</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1等于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JNE</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1不等于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JG</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1大于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JNG</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1不大于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JGE</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1大于等于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JNGE</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1不大于等于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JL</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1小于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JNL</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1不小于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JLE</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1小于等于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JNLE</td>
-    <td>operand1</td>
-    <td>operand2</td>
-    <td>line</td>
-    <td>operand1不小于等于operand2则跳转</td>
-  </tr>
-  <tr>
-    <td>JZ</td>
-    <td>operand</td>
-    <td>-</td>
-    <td>line</td>
-    <td>operand为假则跳转</td>
-  </tr>
-  <tr>
-    <td>JNZ</td>
-    <td>operand</td>
-    <td>-</td>
-    <td>line</td>
-    <td>operand为真则跳转</td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>函数调用指令</b></td>
-  </tr>
-  <tr>
-    <td>PARAM</td>
-    <td>argument</td>
-    <td>-</td>
-    <td>-</td>
-    <td>将argument添加到参数列表</td>
-  </tr>
-  <tr>
-    <td>CALL</td>
-    <td>name</td>
-    <td>-</td>
-    <td>-</td>
-    <td>调用名为name的函数</td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>函数定义指令</b></td>
-  </tr>
-  <tr>
-    <td>FUNC</td>
-    <td>name</td>
-    <td>-</td>
-    <td>-</td>
-    <td>定义一个为name的函数</td>
-  </tr>
-  <tr>
-    <td>ENDF</td>
-    <td>name</td>
-    <td>-</td>
-    <td>-</td>
-    <td>结束定义一个为name的函数</td>
-  </tr>
-  <tr>
-    <td>RET</td>
-    <td>argument</td>
-    <td>-</td>
-    <td>-</td>
-    <td>终止函数，返回值为argument（可为空）</td>
-  </tr>
-  <tr>
-    <td colspan="5" align="center"><b>空指令</b></td>
-  </tr>
-  <tr>
-    <td>NULL</td>
-    <td>-</td>
-    <td>-</td>
-    <td>-</td>
-    <td>不生成任何指令</td>
-  </tr>
-</tbody>
-</table>
-
+2. 汇编代码生成器
+    ```c++
+    class AssemblyGenerator {
+    public:
+        // 汇编代码文件输出流
+        std::ofstream asm_out;
+        // 全局符号表
+        SymbolTable *global_symbol_table;
+        // 函数表
+        FunctionTable *function_table;
+        // 结构体表
+        StructTable *struct_table;
+        // 三地址指令表
+        std::vector<GrammerAnalyzer::three_address_instruction*> *final_instruction;
+        // 构造函数与析构函数
+        AssemblyGenerator();
+        ~AssemblyGenerator();
+        // 生成汇编代码总函数
+        void generate_asm();
+        // 生成翻译三地址指令前print、input函数定义等必需的汇编代码
+        void generate_header();
+        // 生成函数声明的汇编代码
+        void generate_proto();
+        // 生成翻译三地址指令后的一些必需的汇编代码
+        void generate_footer();
+        // 生成全局变量声明的汇编代码
+        void generate_global_var();
+        // 生成三地址指令翻译成的汇编代码
+        void generate_code();
+        // 关闭汇编输出文件
+        void close_file();
+        // 获取函数的符号表
+        SymbolTable* get_function_symbol_table(std::string name);
+        // 生成测试样例（测试用）
+        void generate_example();
+        // 输出三地址指令列表（测试用）
+        void output_instructions();
+        // 向符号表、结构体表、函数表、三地址指令列表中添加项目（测试用）
+        void add_symbol(SymbolItem i, SymbolTable* t = NULL);
+        void add_struct(StructItem* i);
+        void add_function(FunctionItem* i);
+        void add_instruction(GrammerAnalyzer::three_address_instruction *i);
+    };
+    ```
 #### 遇到的问题
-
+1. 与前端确定三地址指令的格式与用法：
+    无
+2. 顺序遍历三地址指令列表，生成汇编代码
+    - 间接寻址时需要将地址存至寄存器中，否则无法访问。
+    - 数组通过偏移量访问需要将偏移量存至寄存器中，否则无法访问。
+    - 如何实现函数返回值：在函数定义时，若函数有返回值则在函数参数中增加一个返回值变量类型的地址变量；在函数返回时，将返回值存入该地址；在函数调用时，在参数列表末尾添加接受返回值的变量的地址。
+    - 运行汇编代码的项目与编译器项目不同，调试不便。可以将汇编代码编译、生成与运行的指令写成脚本，在生成汇编代码结束后直接调用脚本进行后续操作。
 #### 成果 
+- 可执行的汇编代码文件
+- 编译运行汇编代码的脚本
 
 ---
 
@@ -1153,9 +1294,9 @@ public:
 2. 消除死代码：对`op`为`'-'`，`arg1`为`'1'`的四元式进行优化。在我们设计的四元式与汇编代码的对应关系中，该语句起辅助回填的作用，在回填结束后即没有任何用处，故在生成汇编代码之前将其优化。
 
 3. 未使用变量的优化：对所声明的变量进行检查，如果他未出现下列三种情况之一，即将其优化掉：
-     - 该变量被用作函数调用时传入参数（主要针对函数调用时传值传参所生成的临时变量）；
-     - 该变量被用作表示数组访问下标；
-     - 该变量被用于计算过程中除赋值外的其他部分。
+    - 该变量被用作函数调用时传入参数（主要针对函数调用时传值传参所生成的临时变量）；
+    - 该变量被用作表示数组访问下标；
+    - 该变量被用于计算过程中除赋值外的其他部分。
 
 4. 恐慌模式：当进行变量调用时，对变量是否已经在符号表中声明进行检查；当进行赋值或计算或函数调用时进行类型检查；当以上检查未通过时，输出错误提示信息，丢弃当前词法单元，继续向下遍历语法分析树。
 
