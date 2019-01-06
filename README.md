@@ -65,11 +65,6 @@
 | 恐慌模式 | 丁泉、高阳 |
 
 ## 文法
-<<<<<<< HEAD
-
-## 算法实现及分析
-
-=======
 ### &emsp;&emsp;综述
 &emsp;&emsp;本项目文法在 `ANSI C` 标准的框架范围内设计。文法以`translation_unit`为起始符号，整体结构分为`declaration & initialization`、`expression`和`statement`三大部分。
 
@@ -245,8 +240,7 @@ production_body3
 >`jump_statement`<br>
 >&emsp;&emsp;跳转语句，用于实现`break`、`continue`等跳转功能。<br>
 
-## 代码介绍
->>>>>>> productions
+## 算法实现及分析
 ### 词法分析
 
 #### 思路
