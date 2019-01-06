@@ -58,6 +58,7 @@
 - 设计动作：刘元浩、何博
 - 重构符号表：何博
 - 插入动作：丁泉、韩凌昊
+- 生成中间代码：丁泉、韩凌昊
 
 ### 代码生成
 - 生成汇编代码：韩凌昊
@@ -130,6 +131,7 @@ void update_output_sequence();
 ### 语法分析
 
 #### 思路
+
 6. 完成归约移入动作：
 ![preview](images/grammar_reduce_shift.jpg)
 
@@ -137,6 +139,7 @@ void update_output_sequence();
 按照产生式和Action表以及Goto表对词法单元序列进行移入归约操作。在进行归约操作时构造新的父节点以及相应的子节点。最后将唯一的父节点作为整棵语法分析树的根节点保存在root属性中。
 
 #### 数据结构
+
 6. 完成归约移入动作：
 7. 构造语法分析树：
 
@@ -184,28 +187,195 @@ private:
 ```
 
 #### 遇到的问题
+
 6. 完成归约移入动作：
+
 - C语言读取文件（抽取产生式等信息的操作）函数使用不熟练；
+
 - 在进行语法分析时错误使用浅拷贝赋值指针的位置，应使用深拷贝赋值指针指向的内容。
 
 7. 构造语法分析树：
+
 - 归约时符号弹出栈的顺序（自右向左）与构造语法分析树子节点（自左向右）的顺序相反；
+
 - 如何输出一棵优美的语法分析树，是个问题。
 
 #### 成果 
+
 6. 完成归约移入动作：
+
 - 从文件中正确读入文法各项信息；
+
 - 根据Action表和Goto表准确无误地处理了词法单元序列。
 
 7. 构造语法分析树：
+
 - 正确生成归约操作对应的语法分析树。
 
 ---
 ### 语义分析与中间代码生成
+
 #### 思路
+
+1. 设计动作：
+
+2. 重构符号表：
+
+3. 插入动作：读入含有动作的产生式，更新语法分析部分的生成的产生式列表；重构记录节点的结构体，将节点属性、动作等内容加入；在节点内用bool变量if_action区分动作节点与属性节点；重写规约时构造语法分析树的代码。
+
+4. 生成中间代码：与汇编代码定义好接口，从根节点前序遍历整棵语法树，遇到动作节点时执行对应的动作函数，将生成的四元式保存在内存中供下一步使用。
+
 #### 数据结构
+
+1. 设计动作：
+
+2. 重构符号表：
+
+3. 插入动作：
+4. 生成中间代码：
+
+```c++
+// 以下只列出对GrammerAnalyzer类修改的部分
+class GrammerAnalyzer {
+    // 记录含有动作产生式的信息，更新production_list
+    int production_action_number;
+	std::vector<std::pair<int, int>>* transfer_list;
+	production** production_list;
+
+    // 函数调用时，记录声明函数的信息，供插入到函数名表使用
+    std::vector<int> var_width_list;
+    std::vector<std::string> var_name_list;
+
+    // 记录当前所处函数的名字，供构造新的函数表对象使用
+    std::string curr_func_name;
+
+public:
+    // 存储四元式的数据结构
+    typedef struct {
+        int index = -1;
+        std::string op;
+        std::string arg1;
+        std::string arg2;
+        std::string result;
+    }three_address_instruction;
+
+    // 记录四元式内容至内存
+    std::vector<three_address_instruction*> final_instruction;
+
+    // 记录全局符号表
+    hbst::SymbolTable* out_table;
+
+    // 记录结构体符号表
+    hbst::StructTable* struct_table;
+
+    // 记录函数符号表
+    hbst::FunctionTable* function_table;
+
+    // 构造函数
+	GrammerAnalyzer(std::vector<hebo::LexicalUnit>);
+}
+
+// 对于一维数组属性信息的记录，包括数组名，元素类型，元素宽度，符号表中位置，元素地址
+typedef struct {
+    std::string name;
+    std::string element_type;
+    std::string pos;
+    int element_width;
+    std::vector<std::string> element_addr;
+} array_info;
+
+class LexicalUnit {
+public:
+    // 语法分析树节点信息：名字、词素值、是否动作节点、对应动作编号
+    std::string name;
+    bool if_action;
+    int action_num;
+    std::string morpheme;
+
+    // 语法分析树节点属性信息：
+    struct attribute {
+        // 类型宽度、类型名、在符号表中位置
+        int width;
+        std::string type;
+        std::string addr;
+
+        // （如果是常量）常量值
+        int const_value;
+
+        // （如果是运算符）运算符值
+        std::string op_value;
+
+        // （如果是结构体）结构体信息
+        bool if_struct;
+        hbst::StructItem struct_info;
+
+        // （如果是数组）数组信息
+        array_info array_info;
+
+        // （如果是函数调用）函数参数个数
+        int param_number;
+
+        // （如果是动作节点 需要生成四元式） 当前四元式编号
+        int instr;
+
+        // （控制流四元式）下一跳转四元式编号，为真跳转、为假跳转四元式编号（回填） continue、break跳转四元式编号
+        int next_instr;
+        int true_instr;
+        int false_instr;
+        int con_instr;
+        int break_instr;
+    } attribute;
+
+    // （语法分析树上）子节点列表 父节点
+    std::vector<LexicalUnit*> child_node_list;
+    LexicalUnit* father;
+
+    // 节点默认构造函数，默认非动作节点，无父节点，非控制流指令，非数组节点，非结构体节点
+    LexicalUnit() {
+        this->if_action = false;
+        this->action_num = -1;
+        this->father = NULL;
+        this->attribute.instr = -1;
+        this->attribute.next_instr = -1;
+        this->attribute.true_instr = -1;
+        this->attribute.false_instr = -1;
+        this->attribute.con_instr = -1;
+        this->attribute.break_instr = -1;
+        this->attribute.if_struct = false;
+    }
+};
+```
+
 #### 遇到的问题
+
+1. 设计动作：
+
+2. 重构符号表：
+
+3. 插入动作：
+
+- 由于前期总体设计未考虑周全，导致构造语法分析树时未能将动作节点直接加入；且在产生式列表生成过程中使用了set，使得每次生成产生式，其顺序都不一样；因此使用O(n^2)代价的扫描将加入节点的产生式合并进原产生式列表中。此处未来可以优化。
+
+- 动作设计过程中，一些属性值传递的动作没有设计完全，导致前期生成中间代码无法运行。
+
+4. 生成中间代码：
+
+- 无问题。
+
 #### 成果 
+
+1. 设计动作：
+
+2. 重构符号表：
+
+3. 插入动作：
+
+- 将原产生式更新为含有动作的产生式，在规约时正确生成语法分析树。
+
+4. 生成中间代码：
+
+- 在对语法分析树的前序遍历过程中正确生成了中间代码，与汇编代码的接口定义良好，运行无误。
+
 ---
 ### 代码生成
 #### 思路
