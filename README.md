@@ -32,199 +32,65 @@
 ## 概述
 ## 成员及分工
 ### 成员
-<table style="width:80%;">
-<thead>
-<tr>
-<th style="text-align: center" width="50%">姓名</th>
-<th style="text-align: center" width="50%">学号</th>
-</tr>
-</thead>
 
-<tbody>
-<tr>
-<td style="text-align: center">丁&emsp;泉</td>
-<td style="text-align: center">1612842</td>
-</tr>
-<tr>
-<td style="text-align: center">高&emsp;阳</td>
-<td style="text-align: center">1612846</td>
-</tr>
-<tr>
-<td style="text-align: center">韩凌昊</td>
-<td style="text-align: center">1612851</td>
-</tr>
-<tr>
-<td style="text-align: center">何&emsp;博</td>
-<td style="text-align: center">1612852</td>
-</tr>
-<tr>
-<td style="text-align: center">刘元浩</td>
-<td style="text-align: center">1612872</td>
-</tr>
-</tbody>
-</table>
+|    姓名    |  学号   |
+| :--------: | :-----: |
+| 丁&emsp;泉 | 1612842 |
+| 高&emsp;阳 | 1612846 |
+|   韩凌昊   | 1612851 |
+| 何&emsp;博 | 1612852 |
+|   刘元浩   | 1612872 |
 
 
 ### 词法分析
-<table style="width:80%;">
-<thead>
-<tr>
-<th style="text-align: center">任务</th>
-<th style="text-align: center">负责人</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: center">Lex版语法分析器</td>
-<td style="text-align: center">丁泉、高阳</td>
-</tr>
-<tr>
-<td style="text-align: center">正则表达式转NFA</td>
-<td style="text-align: center">韩凌昊</td>
-</tr>
-<tr>
-<td style="text-align: center">NFA合并</td>
-<td style="text-align: center">韩凌昊</td>
-</tr>
-<tr>
-<td style="text-align: center">NFA转DFA</td>
-<td style="text-align: center">刘元浩</td>
-</tr>
-<tr>
-<td style="text-align: center">DFA最小化</td>
-<td style="text-align: center">丁泉</td>
-</tr>
-<tr>
-<td style="text-align: center">错误和注释处理</td>
-<td style="text-align: center">何博</td>
-</tr>
-<tr>
-<td style="text-align: center">文件输入输出</td>
-<td style="text-align: center">何博</td>
-</tr>
-</tbody>
-</table>
+|      任务       |   负责人   |
+| :-------------: | :--------: |
+| `Lex`版语法分析器 | 丁泉、高阳 |
+| 正则表达式转`NFA` |   韩凌昊   |
+|     `NFA`合并     |   韩凌昊   |
+| `NFA`转`DFA` 刘元浩 |
+|    `DFA`最小化    |    丁泉    |
+| 错误和注释处理  |    何博    |
+|  文件输入输出   |    何博    |
 
 ### 语法分析
-<table>
-<thead>
-<tr>
-<th style="text-align: center">任务</th>
-<th style="text-align: center">负责人</th>
-</tr>
-</thead>
 
-<tbody>
-<tr>
-<td style="text-align: center">设计文法</td>
-<td style="text-align: center">刘元浩</td>
-</tr>
-<tr>
-<td style="text-align: center">FIRST集、FOLLOW集</td>
-<td style="text-align: center">高阳</td>
-</tr>
-<tr>
-<td style="text-align: center">构造LR1项集</td>
-<td style="text-align: center">韩凌昊</td>
-</tr>
-<tr>
-<td style="text-align: center">合并LR1项集</td>
-<td style="text-align: center">何博</td>
-</tr>
-<tr>
-<td style="text-align: center">生成GOTO和ACTION表</td>
-<td style="text-align: center">何博</td>
-</tr>
-<tr>
-<td style="text-align: center">完成规约移入动作</td>
-<td style="text-align: center">丁泉</td>
-</tr>
-<tr>
-<td style="text-align: center">构造语法分析树</td>
-<td style="text-align: center">丁泉</td>
-</tr>
-</tbody>
-</table>
+| 任务 | 负责人 |
+| :-------------: | :--------: |
+| 设计文法 | 刘元浩 |
+| `FIRST`集、`FOLLOW`集 | 高阳 |
+| 构造`LR1`项集 | 韩凌昊 |
+| 合并`LR1`项集 | 何博 |
+| 生成`GOTO`和`ACTION`表 | 何博 |
+| 完成规约移入动作 | 丁泉 |
+| 构造语法分析树 | 丁泉 |
+
 
 ### 语义分析与中间代码生成
-<table>
-<thead>
-<tr>
-<th style="text-align: center">任务</th>
-<th style="text-align: center">负责人</th>
-</tr>
-</thead>
 
-<tbody>
-<tr>
-<td style="text-align: center">设计动作</td>
-<td style="text-align: center">刘元浩、何博</td>
-</tr>
-<tr>
-<td style="text-align: center">重构符号表</td>
-<td style="text-align: center">何博</td>
-</tr>
-<tr>
-<td style="text-align: center">插入动作</td>
-<td style="text-align: center">丁泉、韩凌昊</td>
-</tr>
-<tr>
-<td style="text-align: center">生成中间代码</td>
-<td style="text-align: center">丁泉、韩凌昊</td>
-</tr>
-</tbody>
-</table>
+| 任务 | 负责人 |
+| :-------------: | :--------: |
+| 设计动作 | 刘元浩、何博 |
+| 重构符号表 | 何博 |
+| 插入动作 | 丁泉、韩凌昊 |
+| 生成中间代码 | 丁泉、韩凌昊 |
+
 
 ### 代码生成
-<table>
-<thead>
-<tr>
-<th style="text-align: center">任务</th>
-<th style="text-align: center">负责人</th>
-</tr>
-</thead>
 
-<tbody>
-<tr>
-<td style="text-align: center">设计三地址代码用法</td>
-<td style="text-align: center">韩凌昊</td>
-</tr>
-<tr>
-<td style="text-align: center">生成汇编代码</td>
-<td style="text-align: center">韩凌昊</td>
-</tr>
-</tbody>
-</table>
+| 任务 | 负责人 |
+| :-------------: | :--------: |
+| 设计三地址代码用法 | 韩凌昊 |
+| 生成汇编代码 | 韩凌昊 |
 
 ### 代码优化与错误处理
-<table style="width:80%;display:table;">
-<thead>
-<tr>
-<th style="text-align: center">任务</th>
-<th style="text-align: center">负责人</th>
-</tr>
-</thead>
 
-<tbody>
-<tr>
-<td style="text-align: center">类型检查</td>
-<td style="text-align: center">丁泉、刘元浩</td>
-</tr>
-<tr>
-<td style="text-align: center">消除死代码</td>
-<td style="text-align: center">丁泉、高阳</td>
-</tr>
-<tr>
-<td style="text-align: center">未使用变量的优化</td>
-<td style="text-align: center">丁泉</td>
-</tr>
-<tr>
-<td style="text-align: center">恐慌模式</td>
-<td style="text-align: center">丁泉、高阳</td>
-</tr>
-</tbody>
-</table>
+| 任务 | 负责人 |
+| :-------------: | :--------: |
+| 类型检查 | 丁泉、刘元浩 |
+| 消除死代码 | 丁泉、高阳 |
+| 未使用变量的优化 | 丁泉 |
+| 恐慌模式 | 丁泉、高阳 |
 
 ## 文法
 
