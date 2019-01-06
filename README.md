@@ -77,11 +77,72 @@
 
 #### 思路
 
-1. 文件输入和错误、注释处理：在此阶段编译器读入测试文件，将测试文件中的所有注释清除，根据先前阶段构建的`DFA`和对应的终态编号分析源文件的各个词素，并将文件转化为词法单元序列提供给语法分析器。
+1. 正则表达式转`NFA`:
+
+2. `NFA`合并：
+
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+![preview](images/lexical_min_DFA_amount.jpg)
+
+5. 文件输入和错误、注释处理：在此阶段编译器读入测试文件，将测试文件中的所有注释清除，根据先前阶段构建的`DFA`和对应的终态编号分析源文件的各个词素，并将文件转化为词法单元序列提供给语法分析器。
 
 #### 数据结构
 
-1. 文件输入和错误、注释处理：
+1. 正则表达式转`NFA`:
+
+2. `NFA`合并：
+
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+&emsp;&emsp;以下列出记录最小化`DFA`信息的数据结构
+
+```c++
+class Min_DFA {
+public:
+    vector<set<int>> vec;
+    // 记录DFA初态的编号
+    int dfa_s;
+    // 记录原DFA状态数量
+    int n_dfa_states;
+    // 记录输入字符类型数量
+    int n_chars;
+    // 存储传入的DFA
+    int** matrix;
+
+    // 非终态集合
+    set<int> start_set;
+    // 终态集合
+    set<int> final_set;
+
+    // 记录最小化DFA结果
+    vector<vector<int>>ans;
+    map<int, string>map_ans;
+    // 记录最小化DFA中初态的编号
+    int start_state_ans;
+}
+```
+
+&emsp;&emsp;以下列出进行最小化`DFA`的操作函数
+
+```c++
+    // 最小化DFA具体实现操作
+    Min_DFA(map<int, string> dfa_end, int** dfa_map, int dfa_s, int n_dfa_states, int n_chars);
+
+    // 获取一个状态所在集合的编号（即该集合第一个状态的编号）
+    int get_begin(int destination);
+    int get_position(int destination);
+
+    // 拆分集合的函数
+    bool break_up(set<int> origin_set);
+}
+```
+
+5. 文件输入和错误、注释处理：
 
 &emsp;&emsp;首先从上游`DFA`文件读出
 
@@ -98,7 +159,7 @@ std::map<int, std::string> status_to_pattern //状态编号到模式的映射关
 std::vector<LexicalUnit> output_sequence;
 ```
 
-&emsp;&emsp;其中LexicalUnit为一个词法单元
+&emsp;&emsp;其中`LexicalUnit`为一个词法单元
 
 ```c++
 class LexicalUnit
@@ -131,7 +192,17 @@ void update_output_sequence();
 
 #### 遇到的问题
 
-1. 文件输入和错误、注释处理
+1. 正则表达式转`NFA`:
+
+2. `NFA`合并：
+
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+- 不同的正则表达式，其终态在初始化终态的集合时应分立到不同的集合中去，同一正则表达式的不同终态在初始化终态的集合时应归到相同的集合中。该BUG未能在小规模测试中找到。
+
+5. 文件输入和错误、注释处理
 
 - 使用`char`类型存储读入字符，无法读入中文字符。
 
@@ -139,7 +210,17 @@ void update_output_sequence();
 
 #### 成果
 
-1. 文件输入和错误、注释处理
+1. 正则表达式转`NFA`:
+
+2. `NFA`合并：
+
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+- 成功完成`DFA`状态的最小化，并将简化后的状态转换表存入文件中。
+
+5. 文件输入和错误、注释处理
 
 - 读入`DFA`和测试源文件 
 
@@ -225,7 +306,7 @@ private:
 
 6. 完成归约移入动作：
 
-- C语言读取文件（抽取产生式等信息的操作）函数使用不熟练；
+- `C`语言读取文件（抽取产生式等信息的操作）函数使用不熟练；
 
 - 在进行语法分析时错误使用浅拷贝赋值指针的位置，应使用深拷贝赋值指针指向的内容。
 
