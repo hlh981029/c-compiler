@@ -570,7 +570,7 @@ private:
 
 1. 设计动作：
 
-2. 重构符号表：
+2. 重构符号表：词法分析完成的符号表无法存储源程序各个词素的详细信息，故重构符号表，在语义计算时新建并维护符号表、结构体表和函数表。
 
 3. 插入动作：读入含有动作的产生式，更新语法分析部分的生成的产生式列表；重构记录节点的结构体，将节点属性、动作等内容加入；在节点内用`bool`变量`if_action`区分动作节点与属性节点；重写规约时构造语法分析树的代码。
 
@@ -580,7 +580,46 @@ private:
 
 1. 设计动作：
 
-2. 重构符号表：
+2. 重构符号表： 结构体表和函数表的大致结构与符号表相同
+
+```c++
+  class SymbolItem
+  {
+    static int symbol_count; // 记录表中已有多少符号
+  public:
+    SymbolItem();
+    std::string address; // 符号地址, 提供给四元式
+    std::string name; // 符号词素
+    std::string type; // 符号类型
+    int offset; // 偏移量 但后续为使用
+    int width; // 符号宽度, 即符号占用内存字节数
+    SymbolItem(std::string _name, std::string _type, int _offset, int _width); // 构造函数
+  };
+
+  class SymbolTable
+  {
+    static int symbol_table_count; // 符号表数量
+    void put_struct(std::string object_name, std::string struct_name); // 向符号表中插入一个结构体变量
+    void put_struct_array(std::string array_name, std::string struct_name, int length); // 向符号表中插入一个结构体数组
+  public:
+    SymbolTable* father; // 上级符号表
+    std::vector<SymbolItem> symbol_item_vector; // 该vector当前符号表所存储的符号
+    std::string symbol_table_name; // 符号表名称
+    std::vector<SymbolTable*> son_vector;  // 该vector该符号表下的各个子符号表
+
+    SymbolTable(); // 默认构造函数
+    SymbolTable(std::string _name, SymbolTable* _father = nullptr);
+    SymbolTable(const SymbolTable& copied);
+
+    void put_symbol(const SymbolItem& symbol) throw(std::string); // 向符号表内插入一个符号
+    SymbolItem& get_symbol(std::string symbol_name) throw(std::string); // 通过符号的名字得到符号表中该符号的引用
+    SymbolItem& get_symbol_from_address(std::string symbol_address) throw(std::string); // 通过符号的地址得到符号表中该符号的引用
+    
+    ~SymbolTable();
+  };
+
+  
+```
 
 3. 插入动作：
 4. 生成中间代码：
@@ -701,7 +740,7 @@ public:
 
 1. 设计动作：
 
-2. 重构符号表：
+2. 重构符号表：无问题
 
 3. 插入动作：
 
@@ -717,7 +756,7 @@ public:
 
 1. 设计动作：
 
-2. 重构符号表：
+2. 重构符号表：为后续提供查询符号提供便利，并且可以处理重定义和未声明变量的错误处理
 
 3. 插入动作：
 
