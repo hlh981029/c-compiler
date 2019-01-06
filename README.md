@@ -251,7 +251,7 @@ production_body3
     - 使用[Thompson构造法](https://zh.wikipedia.org/wiki/Thompson%E6%9E%84%E9%80%A0%E6%B3%95)将语法分析树转换为`NFA`
 2. `NFA`合并：
     - 将所有生成的`NFA`以或的关系连接到一起，生成一个总的`NFA`
-3. `NFA`转`DFA`：
+3. `NFA`转`DFA`：见龙书第二版107页
 
 4. `DFA`最小化：
 
