@@ -72,9 +72,60 @@
 ## 算法实现及分析
 ### 词法分析
 #### 思路
+##### 文件输入和错误、注释处理
+&emsp;&emsp;在此阶段编译器读入测试文件，将测试文件中的所有注释清除，根据先前阶段构建的`DFA`和对应的终态编号分析源文件的各个词素，并将文件转化为词法单元序列提供给语法分析器。
+
 #### 数据结构
+##### 文件输入和错误、注释处理
+&emsp;&emsp;首先从上游`DFA`文件读出
+```c++
+int row_number; //DFA 矩阵行数
+int column_number; //DFA 矩阵列数
+int** matrix; //DFA 矩阵
+std::map<int, std::string> status_to_pattern //状态编号到模式的映射关系
+```
+&emsp;&emsp;并初始化输出序列
+```c++
+std::vector<LexicalUnit> output_sequence;
+```
+&emsp;&emsp;其中LexicalUnit为一个词法单元
+```c++
+class LexicalUnit
+{
+public:
+    std::string name;
+    std::string morpheme;
+    // 在后期未使用，故删除
+    // std::string value;
+}
+```
+
+&emsp;&emsp;使用以下四个函数进行文件的词法分析
+```c++
+// 从文件中读入一个字符，并输入到DAF矩阵中进行状态装换
+auto feed(char ch) -> void; 
+
+// 处理测试文件中多行注释
+void deal_with_multiplied_note();
+
+// 处理文件中单行注释
+void deal_with_line_note();
+
+// 更新词法单元序列
+void update_output_sequence();
+```
+`feed(char ch)`在进行状态转换时，如果遇见注释则会调用处理注释的函数；如果出现死态则调用函数`update_output_sequence()`更新词法单元序列；若输入非C语言字符(@等)则会报错。
+
 #### 遇到的问题
-#### 成果 
+##### 文件输入和错误、注释处理
+1. 使用`char`类型存储读入字符，无法读入中文字符。
+2. 未处理文件中字符串(`""`)
+
+#### 成果
+##### 文件输入和错误、注释处理
+- 读入`DFA`和测试源文件 
+- 输出词法单元序列并传递给语法分析器
+
 ---
 ### 语法分析
 
