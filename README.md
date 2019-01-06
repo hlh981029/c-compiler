@@ -232,7 +232,7 @@ void update_output_sequence();
 
 #### 思路
 
-4. 合并`LR1`项集：查询并合并`LR1`中所有的同心集，优化状态数量，删除被合并的项目族和对应的`GO`函数，得到`LALR1`项目族集合和对应的`GO`函数。
+4. 合并`LR1`项集形成`LALR1`：查询并合并`LR1`中所有的同心集，优化状态数量，删除被合并的项目族和对应的`GO`函数，得到`LALR1`项目族集合和对应的`GO`函数
 
 5. 生成`GOTO`和`ACTION`表：通过`LALR1`的`GO`函数生成对应的`GOTO`表和`ACTION`表。
 
@@ -244,17 +244,19 @@ void update_output_sequence();
 
 #### 数据结构
 
-4. 合并`LR1`项集：
+4. 合并`LR1`项集形成`LALR1`：
 
-&emsp;&emsp;merge_all
-
-```c++
-// 合并所有同心集
-void merge_all();
-// 在该函数中进行
-```
+* `merge_all()`函数进行合并同心集，该函数会遍历项目族集合
+* 在`merge_all()`函数中使用`can_merge(int, int)`查看两个状态是否能够进行合并
+* 如果能够合并则调用`merge_go_table(int, int)`和`merge_itemSets(int, int)`进行`GO`表的合并和项目族的合并。
 
 5. 生成`GOTO`和`ACTION`表：
+
+* 从以上步骤得到`LALR1`的状态集合$C = \left\{I_0, I_1, \cdots, I_n\right\}$
+* 如果有$GO(I_i, X) = I_j, X \in terminal$，则置$ACTION(i, X) = s_j$
+* 如果有$GO(I_i, X) = I_j, X \in nonterminal$，则置$GOTO(i, X) = j$
+* 如果项目$[A \rightarrow \alpha \cdot], a$在状态$I_i$中，则置$ACTION(i, a) = r_k$，其中$k$为产生式对应的序号
+* 如果增广文法开始项目在$I_i$中，则置$ACTION(i, \$) = acc$
 
 6. 完成归约移入动作：
 7. 构造语法分析树：
@@ -304,6 +306,15 @@ private:
 
 #### 遇到的问题
 
+4. 合并`LR1`项集形成`LALR1`：
+
+- 试图使用快速构建法直接构建`LALR1`，但是出现相同输入相同程序但输出不同的BUG，估计指针管理不当
+
+
+5. 生成`GOTO`和`ACTION`表：
+
+- 文法存在移进-归约冲突，但是在此处仅做出标记，未进一步解决
+
 6. 完成归约移入动作：
 
 - `C`语言读取文件（抽取产生式等信息的操作）函数使用不熟练；
@@ -317,6 +328,15 @@ private:
 - 如何输出一棵优美的语法分析树，是个问题。
 
 #### 成果 
+
+4. 合并`LR1`项集形成`LALR1`：
+
+- 减少状态数量从1000以上到300左右，提高分析器查表效率
+
+
+5. 生成`GOTO`和`ACTION`表：
+
+- 为分析器提供分析表
 
 6. 完成归约移入动作：
 
