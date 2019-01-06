@@ -32,56 +32,199 @@
 ## 概述
 ## 成员及分工
 ### 成员
-|    姓名    |  学号   |
-| :--------: | :-----: |
-| 丁&emsp;泉 | 1612842 |
-| 高&emsp;阳 | 1612846 |
-|   韩凌昊   | 1612851 |
-| 何&emsp;博 | 1612852 |
-|   刘元浩   | 1612872 |
+<table style="width:80%;">
+<thead>
+<tr>
+<th style="text-align: center" width="50%">姓名</th>
+<th style="text-align: center" width="50%">学号</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">丁&emsp;泉</td>
+<td style="text-align: center">1612842</td>
+</tr>
+<tr>
+<td style="text-align: center">高&emsp;阳</td>
+<td style="text-align: center">1612846</td>
+</tr>
+<tr>
+<td style="text-align: center">韩凌昊</td>
+<td style="text-align: center">1612851</td>
+</tr>
+<tr>
+<td style="text-align: center">何&emsp;博</td>
+<td style="text-align: center">1612852</td>
+</tr>
+<tr>
+<td style="text-align: center">刘元浩</td>
+<td style="text-align: center">1612872</td>
+</tr>
+</tbody>
+</table>
+
 
 ### 词法分析
-|      任务       |   负责人   |
-| :-------------: | :--------: |
-| Lex版语法分析器 | 丁泉、高阳 |
-| 正则表达式转NFA |   韩凌昊   |
-|     NFA合并     |   韩凌昊   |
-|    NFA转DFA     |   刘元浩   |
-|    DFA最小化    |    丁泉    |
-| 错误和注释处理  |    何博    |
-|  文件输入输出   |    何博    |
+<table>
+<thead>
+<tr>
+<th style="text-align: center">任务</th>
+<th style="text-align: center">负责人</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">Lex版语法分析器</td>
+<td style="text-align: center">丁泉、高阳</td>
+</tr>
+<tr>
+<td style="text-align: center">正则表达式转NFA</td>
+<td style="text-align: center">韩凌昊</td>
+</tr>
+<tr>
+<td style="text-align: center">NFA合并</td>
+<td style="text-align: center">韩凌昊</td>
+</tr>
+<tr>
+<td style="text-align: center">NFA转DFA</td>
+<td style="text-align: center">刘元浩</td>
+</tr>
+<tr>
+<td style="text-align: center">DFA最小化</td>
+<td style="text-align: center">丁泉</td>
+</tr>
+<tr>
+<td style="text-align: center">错误和注释处理</td>
+<td style="text-align: center">何博</td>
+</tr>
+<tr>
+<td style="text-align: center">文件输入输出</td>
+<td style="text-align: center">何博</td>
+</tr>
+</tbody>
+</table>
 
 ### 语法分析
-|        任务        | 负责人 |
-| :----------------: | :----: |
-|      设计文法      | 刘元浩 |
-| FIRST集、FOLLOW集  |  高阳  |
-|    构造LR1项集     | 韩凌昊 |
-|    合并LR1项集     |  何博  |
-| 生成GOTO和ACTION表 |  何博  |
-|  完成规约移入动作  |  丁泉  |
-|     构造语法树     |  丁泉  |
+<table>
+<thead>
+<tr>
+<th style="text-align: center">任务</th>
+<th style="text-align: center">负责人</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">设计文法</td>
+<td style="text-align: center">刘元浩</td>
+</tr>
+<tr>
+<td style="text-align: center">FIRST集、FOLLOW集</td>
+<td style="text-align: center">高阳</td>
+</tr>
+<tr>
+<td style="text-align: center">构造LR1项集</td>
+<td style="text-align: center">韩凌昊</td>
+</tr>
+<tr>
+<td style="text-align: center">合并LR1项集</td>
+<td style="text-align: center">何博</td>
+</tr>
+<tr>
+<td style="text-align: center">生成GOTO和ACTION表</td>
+<td style="text-align: center">何博</td>
+</tr>
+<tr>
+<td style="text-align: center">完成规约移入动作</td>
+<td style="text-align: center">丁泉</td>
+</tr>
+<tr>
+<td style="text-align: center">构造语法树</td>
+<td style="text-align: center">丁泉</td>
+</tr>
+</tbody>
+</table>
 
 ### 语义分析与中间代码生成
-|    任务    |    负责人    |
-| :--------: | :----------: |
-|  设计动作  | 刘元浩、何博 |
-| 重构符号表 |     何博     |
-|  插入动作  | 丁泉、韩凌昊 |
-|  生成中间代码  | 丁泉、韩凌昊 |
+<table>
+<thead>
+<tr>
+<th style="text-align: center">任务</th>
+<th style="text-align: center">负责人</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">设计动作</td>
+<td style="text-align: center">刘元浩、何博</td>
+</tr>
+<tr>
+<td style="text-align: center">重构符号表</td>
+<td style="text-align: center">何博</td>
+</tr>
+<tr>
+<td style="text-align: center">插入动作</td>
+<td style="text-align: center">丁泉、韩凌昊</td>
+</tr>
+<tr>
+<td style="text-align: center">生成中间代码</td>
+<td style="text-align: center">丁泉、韩凌昊</td>
+</tr>
+</tbody>
+</table>
 
 ### 代码生成
-|     任务     | 负责人 |
-| :----------: | :----: |
-| 生成汇编代码 | 韩凌昊 |
+<table>
+<thead>
+<tr>
+<th style="text-align: center">任务</th>
+<th style="text-align: center">负责人</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">设计三地址代码用法</td>
+<td style="text-align: center">韩凌昊</td>
+</tr>
+<tr>
+<td style="text-align: center">生成汇编代码</td>
+<td style="text-align: center">韩凌昊</td>
+</tr>
+</tbody>
+</table>
 
 ### 代码优化与错误处理
-|       任务       |    负责人    |
-| :--------------: | :----------: |
-|     类型检查     | 丁泉、刘元浩 |
-|    消除死代码    |  丁泉、高阳  |
-| 未使用变量的优化 |     丁泉     |
-|     恐慌模式     |  丁泉、高阳  |
+<table style="width:80%;display:table;">
+<thead>
+<tr>
+<th style="text-align: center">任务</th>
+<th style="text-align: center">负责人</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">类型检查</td>
+<td style="text-align: center">丁泉、刘元浩</td>
+</tr>
+<tr>
+<td style="text-align: center">消除死代码</td>
+<td style="text-align: center">丁泉、高阳</td>
+</tr>
+<tr>
+<td style="text-align: center">未使用变量的优化</td>
+<td style="text-align: center">丁泉</td>
+</tr>
+<tr>
+<td style="text-align: center">恐慌模式</td>
+<td style="text-align: center">丁泉、高阳</td>
+</tr>
+</tbody>
+</table>
 
 ## 文法
 
@@ -431,8 +574,10 @@ public:
 ### 代码生成
 #### 思路
 #### 数据结构
-##### 三地址代码表
+1. 三地址代码用法表
+
 <table style="width:100%;">
+  <tbody>
   <tr>
     <th width="15%">op</th>
     <th width="15%">arg1</th>
@@ -441,7 +586,7 @@ public:
     <th width="40%">说明</th>
   </tr>
   <tr>
-    <th colspan="5" align="center">双目运算指令</th>
+    <td colspan="5" align="center"><b>双目运算指令</b></td>
   </tr>
   <tr>
     <td>+</td>
@@ -493,7 +638,7 @@ public:
     <td>result = operand</td>
   </tr>
   <tr>
-    <th colspan="5" align="center">单目运算指令</th>
+    <td colspan="5" align="center"><b>单目运算指令</b></td>
   </tr>
   <tr>
     <td>++</td>
@@ -524,7 +669,24 @@ public:
     <td>result = !operand</td>
   </tr>
   <tr>
-    <th colspan="5" align="center">跳转指令（line）为跳转到的行号</th>
+    <td colspan="5" align="center"><b>数组操作指令</b></td>
+  </tr>
+  <tr>
+    <td>=[]</td>
+    <td>array</td>
+    <td>offset</td>
+    <td>operand</td>
+    <td>operand = array[offset]</td>
+  </tr>
+  <tr>
+    <td>[]=</td>
+    <td>array</td>
+    <td>offset</td>
+    <td>operand</td>
+    <td>array[offset] = operand</td>
+  </tr>
+  <tr>
+    <td colspan="5" align="center"><b>跳转指令（line）为跳转到的行号</b></td>
   </tr>
   <tr>
     <td>JMP</td>
@@ -618,46 +780,57 @@ public:
     <td>operand为真则跳转</td>
   </tr>
   <tr>
-    <th colspan="5" align="center">函数调用指令</th>
+    <td colspan="5" align="center"><b>函数调用指令</b></td>
   </tr>
   <tr>
     <td>PARAM</td>
     <td>argument</td>
-    <td></td>
-    <td></td>
+    <td>-</td>
+    <td>-</td>
     <td>将argument添加到参数列表</td>
   </tr>
   <tr>
     <td>CALL</td>
     <td>name</td>
-    <td></td>
-    <td></td>
+    <td>-</td>
+    <td>-</td>
     <td>调用名为name的函数</td>
   </tr>
   <tr>
-    <th colspan="5" align="center">函数定义指令</th>
+    <td colspan="5" align="center"><b>函数定义指令</b></td>
   </tr>
   <tr>
     <td>FUNC</td>
     <td>name</td>
-    <td></td>
-    <td></td>
+    <td>-</td>
+    <td>-</td>
     <td>定义一个为name的函数</td>
   </tr>
   <tr>
     <td>ENDF</td>
     <td>name</td>
-    <td></td>
-    <td></td>
+    <td>-</td>
+    <td>-</td>
     <td>结束定义一个为name的函数</td>
   </tr>
   <tr>
     <td>RET</td>
     <td>argument</td>
-    <td></td>
-    <td></td>
+    <td>-</td>
+    <td>-</td>
     <td>终止函数，返回值为argument（可为空）</td>
   </tr>
+  <tr>
+    <td colspan="5" align="center"><b>空指令</b></td>
+  </tr>
+  <tr>
+    <td>NULL</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>不生成任何指令</td>
+  </tr>
+</tbody>
 </table>
 
 #### 遇到的问题
