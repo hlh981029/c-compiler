@@ -141,7 +141,7 @@
 <td style="text-align: center">丁泉</td>
 </tr>
 <tr>
-<td style="text-align: center">构造语法树</td>
+<td style="text-align: center">构造语法分析树</td>
 <td style="text-align: center">丁泉</td>
 </tr>
 </tbody>
@@ -234,11 +234,72 @@
 
 #### 思路
 
-1. 文件输入和错误、注释处理：在此阶段编译器读入测试文件，将测试文件中的所有注释清除，根据先前阶段构建的`DFA`和对应的终态编号分析源文件的各个词素，并将文件转化为词法单元序列提供给语法分析器。
+1. 正则表达式转`NFA`:
+
+2. `NFA`合并：
+
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+![preview](images/lexical_min_DFA_amount.jpg)
+
+5. 文件输入和错误、注释处理：在此阶段编译器读入测试文件，将测试文件中的所有注释清除，根据先前阶段构建的`DFA`和对应的终态编号分析源文件的各个词素，并将文件转化为词法单元序列提供给语法分析器。
 
 #### 数据结构
 
-1. 文件输入和错误、注释处理：
+1. 正则表达式转`NFA`:
+
+2. `NFA`合并：
+
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+&emsp;&emsp;以下列出记录最小化`DFA`信息的数据结构
+
+```c++
+class Min_DFA {
+public:
+    vector<set<int>> vec;
+    // 记录DFA初态的编号
+    int dfa_s;
+    // 记录原DFA状态数量
+    int n_dfa_states;
+    // 记录输入字符类型数量
+    int n_chars;
+    // 存储传入的DFA
+    int** matrix;
+
+    // 非终态集合
+    set<int> start_set;
+    // 终态集合
+    set<int> final_set;
+
+    // 记录最小化DFA结果
+    vector<vector<int>>ans;
+    map<int, string>map_ans;
+    // 记录最小化DFA中初态的编号
+    int start_state_ans;
+}
+```
+
+&emsp;&emsp;以下列出进行最小化`DFA`的操作函数
+
+```c++
+    // 最小化DFA具体实现操作
+    Min_DFA(map<int, string> dfa_end, int** dfa_map, int dfa_s, int n_dfa_states, int n_chars);
+
+    // 获取一个状态所在集合的编号（即该集合第一个状态的编号）
+    int get_begin(int destination);
+    int get_position(int destination);
+
+    // 拆分集合的函数
+    bool break_up(set<int> origin_set);
+}
+```
+
+5. 文件输入和错误、注释处理：
 
 &emsp;&emsp;首先从上游`DFA`文件读出
 
@@ -255,7 +316,7 @@ std::map<int, std::string> status_to_pattern //状态编号到模式的映射关
 std::vector<LexicalUnit> output_sequence;
 ```
 
-&emsp;&emsp;其中LexicalUnit为一个词法单元
+&emsp;&emsp;其中`LexicalUnit`为一个词法单元：
 
 ```c++
 class LexicalUnit
@@ -268,7 +329,7 @@ public:
 }
 ```
 
-&emsp;&emsp;使用以下四个函数进行文件的词法分析
+&emsp;&emsp;使用以下四个函数进行文件的词法分析：
 
 ```c++
 // 从文件中读入一个字符，并输入到DAF矩阵中进行状态装换
@@ -288,19 +349,39 @@ void update_output_sequence();
 
 #### 遇到的问题
 
-1. 文件输入和错误、注释处理
+1. 正则表达式转`NFA`:
 
-- 使用`char`类型存储读入字符，无法读入中文字符。
+2. `NFA`合并：
 
-- 未处理文件中字符串(`""`)
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+- 不同的正则表达式，其终态在初始化终态的集合时应分立到不同的集合中去，同一正则表达式的不同终态在初始化终态的集合时应归到相同的集合中。该BUG未能在小规模测试中找到。
+
+5. 文件输入和错误、注释处理
+
+- 使用`char`类型存储读入字符，无法读入中文字符；
+
+- 未处理文件中字符串(`""`)。
 
 #### 成果
 
-1. 文件输入和错误、注释处理
+1. 正则表达式转`NFA`:
 
-- 读入`DFA`和测试源文件 
+2. `NFA`合并：
 
-- 输出词法单元序列并传递给语法分析器
+3. `NFA`转`DFA`：
+
+4. `DFA`最小化：
+
+- 成功完成`DFA`状态的最小化，并将简化后的状态转换表存入文件中。
+
+5. 文件输入和错误、注释处理
+
+- 读入`DFA`和测试源文件；
+
+- 输出词法单元序列并传递给语法分析器。
 
 ---
 
@@ -308,9 +389,9 @@ void update_output_sequence();
 
 #### 思路
 
-4. 合并`LR1`项集：查询并合并`LR1`中所有的同心集，优化状态数量，删除被合并的项目族和对应的`GO`函数，得到`LALR1`项目族集合和对应的`GO`函数
+4. 合并`LR1`项集：查询并合并`LR1`中所有的同心集，优化状态数量，删除被合并的项目族和对应的`GO`函数，得到`LALR1`项目族集合和对应的`GO`函数。
 
-5. 生成`GOTO`和`ACTION`表：通过`LALR1`的`GO`函数生成对应的`GOTO`表和`ACTION`表
+5. 生成`GOTO`和`ACTION`表：通过`LALR1`的`GO`函数生成对应的`GOTO`表和`ACTION`表。
 
 6. 完成归约移入动作：
 ![preview](images/grammar_reduce_shift.jpg)
@@ -382,7 +463,7 @@ private:
 
 6. 完成归约移入动作：
 
-- C语言读取文件（抽取产生式等信息的操作）函数使用不熟练；
+- `C`语言读取文件（抽取产生式等信息的操作）函数使用不熟练；
 
 - 在进行语法分析时错误使用浅拷贝赋值指针的位置，应使用深拷贝赋值指针指向的内容。
 
@@ -416,7 +497,7 @@ private:
 
 3. 插入动作：读入含有动作的产生式，更新语法分析部分的生成的产生式列表；重构记录节点的结构体，将节点属性、动作等内容加入；在节点内用`bool`变量`if_action`区分动作节点与属性节点；重写规约时构造语法分析树的代码。
 
-4. 生成中间代码：与汇编代码定义好接口，从根节点前序遍历整棵语法树，遇到动作节点时执行对应的动作函数，将生成的四元式保存在内存中供下一步使用。
+4. 生成中间代码：与汇编代码定义好接口，从根节点前序遍历整棵语法树，遇到动作节点时通过访问`SwitchToFunction.cpp`找到并执行对应的动作函数，将生成的四元式保存在内存中供下一步使用。
 
 #### 数据结构
 
@@ -572,7 +653,9 @@ public:
 ---
 
 ### 代码生成
+
 #### 思路
+
 #### 数据结构
 1. 三地址代码用法表
 
@@ -834,13 +917,111 @@ public:
 </table>
 
 #### 遇到的问题
+
 #### 成果 
 
 ---
 
 ### 代码优化与错误处理
+
 #### 思路
+
+1. 类型检查：对所有逻辑运算符、赋值运算符、算术运算符、位运算符进行类型为`int`的类型检查；对所有的函数调用的参数和返回值类型进行类型检查；对所有的数组下标进行类型为`int`的类型检查。
+
+2. 消除死代码：对`op`为`'-'`，`arg1`为`'1'`的四元式进行优化。在我们设计的四元式与汇编代码的对应关系中，该语句起辅助回填的作用，在回填结束后即没有任何用处，故在生成汇编代码之前将其优化。
+
+3. 未使用变量的优化：对所声明的变量进行检查，如果他未出现下列三种情况之一，即将其优化掉：
+
+- 该变量被用作函数调用时传入参数（主要针对函数调用时传值传参所生成的临时变量）；
+
+- 该变量被用作表示数组访问下标；
+
+- 该变量被用于计算过程中除赋值外的其他部分。
+
+4. 恐慌模式：当进行变量调用时，对变量是否已经在符号表中声明进行检查；当进行赋值或计算或函数调用时进行类型检查；当以上检查未通过时，输出错误提示信息，丢弃当前词法单元，继续向下遍历语法分析树。
+
 #### 数据结构
+
+1. 类型检查：当检查除类型不匹配时，输出错误提示信息，使用恐慌模式策略，继续遍历语法树。
+
+```c++
+void GrammerAnalyzer::say_error(int error_type, std::string left_type, std::string right_type) {
+	std::cout << "NEED A " << right_type << " GET A " << left_type << std::endl;
+	system("pause");
+	return;
+}
+```
+
+2. 消除死代码：此处时间复杂度为`O(n)`，代码思路已说明。
+
+```c++
+int cnt = 0;
+	for (int i = 0; i < this->final_instruction.size(); i++) {
+		three_address_instruction* temp_instruction = this->final_instruction[i];
+		if (temp_instruction->op == "JZ" && temp_instruction->result == std::to_string(i)) {
+			temp_instruction->op = "NULL";
+			cnt++;
+			std::cout <<"NO: "<< i << " Instructions: Optimized For No-Meaning Loop" << std::endl;
+		}
+	}
+	std::cout << "Optimize instructions: " << cnt << std::endl;
+```
+
+3. 未使用变量的优化：此处时间复杂度为`O(n^2)`，代码思路已说明。
+
+```c++
+cnt = 0;
+	for (int i1 = 0; i1 < this->final_instruction.size(); i1++) {
+		three_address_instruction* temp_instruction = this->final_instruction[i1];
+		if (temp_instruction->op == "=") {
+			std::string temp_name = temp_instruction->result;
+			bool flag = false;
+			for (int i2 = 0; i2 < i1; i2++) {
+				three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
+				if (temp_temp_instruction->op == "PARAM" && temp_temp_instruction->arg1 == temp_name) {
+					flag = true;
+					break;
+				}
+			}
+			if (flag == false) {
+				for (int i2 = i1 + 1; i2 < this->final_instruction.size(); i2++) {
+					three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
+					if (temp_temp_instruction->op == "[]=" && temp_temp_instruction->result == temp_name) {
+						flag = true;
+						break;
+					}
+					if (temp_temp_instruction->arg1 == temp_name || temp_temp_instruction->arg2 == temp_name) {
+						flag = true;
+						break;
+					}
+				}
+			}
+			if (flag == true) {
+				continue;
+			}
+			else {
+				temp_instruction->op = "NULL";
+				std::cout << "NO: " << i1 << " Instructions: Optimized For UnUsed Variables" << std::endl;
+				cnt++;
+			}
+		}
+	}
+	std::cout << "Optimize instructions: " << cnt << std::endl;
+```
+
+4. 恐慌模式：代码思路已说明。
+
+```c++
+if (root->if_action == true) 
+{
+    execute_action(root->action_num, root);
+    std::cout << "ACTION" << root->action_num << ": EXECUTED!" << std::endl;
+}
+```
+
 #### 遇到的问题
+
+- 此处没有遇到问题，但是未来改进和提升的空间仍有很大。
+
 #### 成果 
 
