@@ -247,11 +247,13 @@ void update_output_sequence();
 
 5. 生成`GOTO`和`ACTION`表：
 
-* 从以上步骤得到`LALR1`的状态集合$C = \left\{I_0, I_1, \cdots, I_n\right\}$
-* 如果有$GO(I_i, X) = I_j, X \in terminal$，则置$ACTION(i, X) = s_j$
-* 如果有$GO(I_i, X) = I_j, X \in nonterminal$，则置$GOTO(i, X) = j$
-* 如果项目$[A \rightarrow \alpha \cdot], a$在状态$I_i$中，则置$ACTION(i, a) = r_k$，其中$k$为产生式对应的序号
-* 如果增广文法开始项目在$I_i$中，则置$ACTION(i, \$) = acc$
+
+* 从以上步骤得到`LALR1`的状态集合![](https://latex.codecogs.com/gif.latex?C=\left\{I_0,I_1,\cdots,I_n\right\})
+* 如果有![](https://latex.codecogs.com/gif.latex?C=GO(I_i,X)=I_j,X\in\ terminal)，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,X)=s_j)
+* 如果有![](https://latex.codecogs.com/gif.latex?GO(I_i,X)=I_j,X\in\ nonterminal)，则置![](https://latex.codecogs.com/gif.latex?GOTO(i,X)=j)
+* 如果项目![](https://latex.codecogs.com/gif.latex?A\rightarrow\alpha\cdot,a)在状态![](https://latex.codecogs.com/gif.latex?I_i)中，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,a)=r_k)，其中![](https://latex.codecogs.com/gif.latex?k)为产生式对应的序号
+* 如果增广文法开始项目在![](https://latex.codecogs.com/gif.latex?I_i)中，则置![](https://latex.codecogs.com/gif.latex?ACTION(i,\$)=acc)
+
 
 6. 完成归约移入动作：
 7. 构造语法分析树：
