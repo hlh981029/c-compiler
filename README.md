@@ -814,57 +814,57 @@ void GrammerAnalyzer::say_error(int error_type, std::string left_type, std::stri
 
 ```c++
 int cnt = 0;
-    for (int i = 0; i < this->final_instruction.size(); i++) {
-        three_address_instruction* temp_instruction = this->final_instruction[i];
-        if (temp_instruction->op == "JZ" && temp_instruction->result == std::to_string(i)) {
-            temp_instruction->op = "NULL";
-            cnt++;
-            std::cout <<"NO: "<< i << " Instructions: Optimized For No-Meaning Loop" << std::endl;
-        }
+for (int i = 0; i < this->final_instruction.size(); i++) {
+    three_address_instruction* temp_instruction = this->final_instruction[i];
+    if (temp_instruction->op == "JZ" && temp_instruction->result == std::to_string(i)) {
+        temp_instruction->op = "NULL";
+        cnt++;
+        std::cout <<"NO: "<< i << " Instructions: Optimized For No-Meaning Loop" << std::endl;
     }
-    std::cout << "Optimize instructions: " << cnt << std::endl;
+}
+std::cout << "Optimize instructions: " << cnt << std::endl;
 ```
 
 3. 未使用变量的优化：此处时间复杂度为`O(n^2)`，代码思路已说明。
 
 ```c++
 cnt = 0;
-    for (int i1 = 0; i1 < this->final_instruction.size(); i1++) {
-        three_address_instruction* temp_instruction = this->final_instruction[i1];
-        if (temp_instruction->op == "=") {
-            std::string temp_name = temp_instruction->result;
-            bool flag = false;
-            for (int i2 = 0; i2 < i1; i2++) {
+for (int i1 = 0; i1 < this->final_instruction.size(); i1++) {
+    three_address_instruction* temp_instruction = this->final_instruction[i1];
+    if (temp_instruction->op == "=") {
+        std::string temp_name = temp_instruction->result;
+        bool flag = false;
+        for (int i2 = 0; i2 < i1; i2++) {
+            three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
+            if (temp_temp_instruction->op == "PARAM" && temp_temp_instruction->arg1 == temp_name) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag == false) {
+            for (int i2 = i1 + 1; i2 < this->final_instruction.size(); i2++) {
                 three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
-                if (temp_temp_instruction->op == "PARAM" && temp_temp_instruction->arg1 == temp_name) {
+                if (temp_temp_instruction->op == "[]=" && temp_temp_instruction->result == temp_name) {
+                    flag = true;
+                    break;
+                }
+                if (temp_temp_instruction->arg1 == temp_name || temp_temp_instruction->arg2 == temp_name) {
                     flag = true;
                     break;
                 }
             }
-            if (flag == false) {
-                for (int i2 = i1 + 1; i2 < this->final_instruction.size(); i2++) {
-                    three_address_instruction* temp_temp_instruction = this->final_instruction[i2];
-                    if (temp_temp_instruction->op == "[]=" && temp_temp_instruction->result == temp_name) {
-                        flag = true;
-                        break;
-                    }
-                    if (temp_temp_instruction->arg1 == temp_name || temp_temp_instruction->arg2 == temp_name) {
-                        flag = true;
-                        break;
-                    }
-                }
-            }
-            if (flag == true) {
-                continue;
-            }
-            else {
-                temp_instruction->op = "NULL";
-                std::cout << "NO: " << i1 << " Instructions: Optimized For UnUsed Variables" << std::endl;
-                cnt++;
-            }
+        }
+        if (flag == true) {
+            continue;
+        }
+        else {
+            temp_instruction->op = "NULL";
+            std::cout << "NO: " << i1 << " Instructions: Optimized For UnUsed Variables" << std::endl;
+            cnt++;
         }
     }
-    std::cout << "Optimize instructions: " << cnt << std::endl;
+}
+std::cout << "Optimize instructions: " << cnt << std::endl;
 ```
 
 4. 恐慌模式：代码思路已说明。
