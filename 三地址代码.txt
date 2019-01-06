@@ -1,0 +1,50 @@
+跳转
+JMP	-	-	line	;无条件跳转
+
+JE	arg1	arg2	line	;等于则跳转
+JNE	arg1	arg2	line	;不等于则跳转
+
+JG	arg1	arg2	line	;大于则跳转
+JNG	arg1	arg2	line	;不大于则跳转
+JGE	arg1	arg2	line	;大于等于则跳转
+JNGE	arg1	arg2	line	;不大于等于则跳转
+
+JL	arg1	arg2	line	;小于则跳转
+JNL	arg1	arg2	line	;不小于则跳转
+JLE	arg1	arg2	line	;小于等于则跳转
+JNLE	arg1	arg2	line	;不小于等于则跳转
+
+JZ	arg1	0	line	;为假则跳转
+JNZ	arg1	0	line	;为真则跳转
+
+数组运算
+=[]	arg1	arg2	result	;result = arg1[arg2]
+[]=	arg1	arg2	result	;arg1[arg2] = result
+
+双目运算符
++	arg1	arg2	result	;result = arg1 + arg2
+-	arg1	arg2	result	;result = arg1 - arg2
+*	arg1	arg2	result	;result = arg1 * arg2
+/	arg1	arg2	result	;result = arg1 / arg2
+%	arg1	arg2	result	;result = arg1 % arg2
+^	arg1	arg2	result	;result = arg1 ^ arg2
+=	arg1	-	result	;result = arg1
+
+单目运算符
+++ --	arg1	-	result	;result = arg1++
+
+负号
+MINUS	arg1	-	result	;result = -arg1
+
+非
+!	arg1	-	result	;result = !arg1
+
+函数调用
+PARAM	arg1	-	-	
+CALL	arg1	arg2	-	;函数名 arg1 参数数量 arg2
+
+函数定义
+FUNC	name	-	result	;返回值
+ENDF	name 	-	-
+RET	arg1	-	line	;返回变量 arg1 跳转行号 line
+
