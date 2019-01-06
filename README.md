@@ -131,6 +131,9 @@ void update_output_sequence();
 ### 语法分析
 
 #### 思路
+4. 合并`LR1`项集：查询并合并`LR1`中所有的同心集，优化状态数量，删除被合并的项目族和对应的`GO`函数，得到`LALR1`项目族集合和对应的`GO`函数
+
+5. 生成`GOTO`和`ACTION`表：通过`LALR1`的`GO`函数生成对应的`GOTO`表和`ACTION`表
 
 6. 完成归约移入动作：
 ![preview](images/grammar_reduce_shift.jpg)
@@ -139,6 +142,18 @@ void update_output_sequence();
 按照产生式和`Action`表以及`Goto`表对词法单元序列进行移入归约操作。在进行归约操作时构造新的父节点以及相应的子节点。最后将唯一的父节点作为整棵语法分析树的根节点保存在`root`属性中。
 
 #### 数据结构
+4. 合并`LR1`项集：
+
+&emsp;&emsp;merge_all
+
+```c++
+// 合并所有同心集
+void merge_all();
+// 在该函数中进行
+```
+
+5. 生成`GOTO`和`ACTION`表：
+
 
 6. 完成归约移入动作：
 7. 构造语法分析树：
