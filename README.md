@@ -72,10 +72,12 @@
 
 #### 思路
 
-1. 正则表达式转`NFA`:
-
+1. 正则表达式转`NFA`:  
+    - 将中缀正则表达式转为后缀表达式
+    - 对后缀表达式构造语法分析树
+    - 使用[Thompson构造法](https://zh.wikipedia.org/wiki/Thompson%E6%9E%84%E9%80%A0%E6%B3%95)将语法分析树转换为`NFA`
 2. `NFA`合并：
-
+    - 将所有生成的`NFA`以或的关系连接到一起，生成一个总的`NFA`
 3. `NFA`转`DFA`：
 
 4. `DFA`最小化：
@@ -87,6 +89,56 @@
 #### 数据结构
 
 1. 正则表达式转`NFA`:
+    
+    正则表达式语法分析树节点：
+    ``` c++
+    struct RegTreeNode
+    {
+        // 该节点的操作符
+        char reg_op; // '\1'='*', '\2'='|', '\3'='.', '\4'='(', '\5'=')'
+        // 该节点的左右子节点
+        RegTreeNode* left;
+        RegTreeNode* right;
+        // 起止状态号
+        int start;
+        int end;
+        // 构造函数
+        RegTreeNode(char _reg_op, RegTreeNode* _left = nullptr, RegTreeNode* _right = nullptr);
+    };
+    ```
+
+    正则表达式：
+    ```c++
+    class RegExp
+    {
+        // 中缀表达式字符串
+        std::string infix_exp;
+        // 后缀表达式字符串
+        std::string suffix_exp;
+        // 语法分析树根节点指针
+        RegTreeNode* reg_tree;
+    public:
+        // 构造函数
+        RegExp(std::string exp, int mode = 0);
+        // 返回该后缀表达式字符串
+        std::string get_suffix_exp();
+        // 返回语法分析树根节点指针
+        RegTreeNode* get_reg_tree();
+        // 将后缀表达式输出到控制台
+        void get_explicit_suffix_exp();
+    private:
+        // 中缀表达式转后缀表达式
+        std::string to_suffix();
+        // 后缀表达式转正则树
+        RegTreeNode* to_reg_tree();
+        // 判断操作符优先级
+        bool is_prior(char opreand1, char operand2);
+        // 判断是否为操作符
+        bool is_operator(char operand);
+    };
+    ```
+
+
 
 2. `NFA`合并：
 
@@ -187,39 +239,32 @@ void update_output_sequence();
 
 #### 遇到的问题
 
-1. 正则表达式转`NFA`:
-
+1. 正则表达式转`NFA`：
+    无
 2. `NFA`合并：
-
+    无
 3. `NFA`转`DFA`：
 
 4. `DFA`最小化：
+    - 不同的正则表达式，其终态在初始化终态的集合时应分立到不同的集合中去，同一正则表达式的不同终态在初始化终态的集合时应归到相同的集合中。该BUG未能在小规模测试中找到。
 
-- 不同的正则表达式，其终态在初始化终态的集合时应分立到不同的集合中去，同一正则表达式的不同终态在初始化终态的集合时应归到相同的集合中。该BUG未能在小规模测试中找到。
-
-5. 文件输入和错误、注释处理
-
-- 使用`char`类型存储读入字符，无法读入中文字符；
-
-- 未处理文件中字符串(`""`)。
+5. 文件输入和错误、注释处理：
+    - 使用`char`类型存储读入字符，无法读入中文字符；
+    - 未处理文件中字符串(`""`)。
 
 #### 成果
 
 1. 正则表达式转`NFA`:
-
+    - 将所有词法单元的正则表达式转换成`NFA`。
 2. `NFA`合并：
-
+    - 生成一个可以识别所有词法单元的`NFA`。
 3. `NFA`转`DFA`：
 
 4. `DFA`最小化：
-
-- 成功完成`DFA`状态的最小化，并将简化后的状态转换表存入文件中。
-
-5. 文件输入和错误、注释处理
-
-- 读入`DFA`和测试源文件；
-
-- 输出词法单元序列并传递给语法分析器。
+    - 成功完成`DFA`状态的最小化，并将简化后的状态转换表存入文件中。
+5. 文件输入和错误、注释处理：
+    - 读入`DFA`和测试源文件；
+    - 输出词法单元序列并传递给语法分析器。
 
 ---
 
