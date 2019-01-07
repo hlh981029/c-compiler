@@ -823,27 +823,38 @@ private:
     std::string type; // 符号类型
     int offset; // 偏移量 但后续为使用
     int width; // 符号宽度, 即符号占用内存字节数
-    SymbolItem(std::string _name, std::string _type, int _offset, int _width); // 构造函数
+    SymbolItem(std::string _name, std::string _type, int _offset, int _width); 
+    // 构造函数
   };
 
   class SymbolTable
   {
-    static int symbol_table_count; // 符号表数量
-    void put_struct(std::string object_name, std::string struct_name); // 向符号表中插入一个结构体变量
-    void put_struct_array(std::string array_name, std::string struct_name, int length); // 向符号表中插入一个结构体数组
+    static int symbol_table_count; 
+    // 符号表数量
+    void put_struct(std::string object_name, std::string struct_name); 
+    // 向符号表中插入一个结构体变量
+    void put_struct_array(std::string array_name, std::string struct_name, int length); 
+    // 向符号表中插入一个结构体数组
   public:
-    SymbolTable* father; // 上级符号表
-    std::vector<SymbolItem> symbol_item_vector; // 该vector当前符号表所存储的符号
-    std::string symbol_table_name; // 符号表名称
-    std::vector<SymbolTable*> son_vector;  // 该vector该符号表下的各个子符号表
+    SymbolTable* father; 
+    // 上级符号表
+    std::vector<SymbolItem> symbol_item_vector; 
+    // 该vector当前符号表所存储的符号
+    std::string symbol_table_name; 
+    // 符号表名称
+    std::vector<SymbolTable*> son_vector;  
+    // 该vector该符号表下的各个子符号表
 
     SymbolTable(); // 默认构造函数
     SymbolTable(std::string _name, SymbolTable* _father = nullptr);
     SymbolTable(const SymbolTable& copied);
 
-    void put_symbol(const SymbolItem& symbol) throw(std::string); // 向符号表内插入一个符号
-    SymbolItem& get_symbol(std::string symbol_name) throw(std::string); // 通过符号的名字得到符号表中该符号的引用
-    SymbolItem& get_symbol_from_address(std::string symbol_address) throw(std::string); // 通过符号的地址得到符号表中该符号的引用
+    void put_symbol(const SymbolItem& symbol) throw(std::string); 
+    // 向符号表内插入一个符号
+    SymbolItem& get_symbol(std::string symbol_name) throw(std::string); 
+    // 通过符号的名字得到符号表中该符号的引用
+    SymbolItem& get_symbol_from_address(std::string symbol_address) throw(std::string); 
+    // 通过符号的地址得到符号表中该符号的引用
     
     ~SymbolTable();
   };
@@ -970,35 +981,27 @@ public:
 
 1. 设计动作
 
-- 根据项目需求，对布尔表达式的翻译改变了书中的模式，使布尔表达式返回为int值，在循环和分支语句判断条件时根据判0原则生成跳转语句。
+	- 根据项目需求，对布尔表达式的翻译改变了书中的模式，使布尔表达式返回为int值，在循环和分支语句判断条件时根据判0原则生成跳转语句。
 
 2. 重构符号表：无问题
 
 3. 插入动作：
 
-- 由于前期总体设计未考虑周全，导致构造语法分析树时未能将动作节点直接加入；且在产生式列表生成过程中使用了`set`，使得每次生成产生式，其顺序都不一样；因此使用`O(n^2)`代价的扫描将加入节点的产生式合并进原产生式列表中。此处未来可以优化。
+	- 由于前期总体设计未考虑周全，导致构造语法分析树时未能将动作节点直接加入；且在产生式列表生成过程中使用了`set`，使得每次生成产生式，其顺序都不一样；因此使用`O(n^2)`代价的扫描将加入节点的产生式合并进原产生式列表中。此处未来可以优化。
 
-- 动作设计过程中，一些属性值传递的动作没有设计完全，导致前期生成中间代码无法运行。
-
+	- 动作设计过程中，一些属性值传递的动作没有设计完全，导致前期生成中间代码无法运行。
 4. 生成中间代码：
-
-- 无问题。
+	- 无问题。
 
 #### 成果 
 
 1. 设计动作
-
-- 设计出了符合项目需求的语义动作
-
+	- 设计出了符合项目需求的语义动作
 2. 重构符号表：为后续提供查询符号提供便利，并且可以处理重定义和未声明变量的错误处理
-
 3. 插入动作：
-
-- 将原产生式更新为含有动作的产生式，在规约时正确生成语法分析树。
-
+	- 将原产生式更新为含有动作的产生式，在规约时正确生成语法分析树。
 4. 生成中间代码：
-
-- 在对语法分析树的前序遍历过程中正确生成了中间代码，与汇编代码的接口定义良好，运行无误。
+	- 在对语法分析树的前序遍历过程中正确生成了中间代码，与汇编代码的接口定义良好，运行无误。
 
 ---
 
@@ -1273,6 +1276,7 @@ public:
     </table>
 
 2. 汇编代码生成器
+
     ```c++
     class AssemblyGenerator {
     public:
@@ -1316,6 +1320,7 @@ public:
         void add_instruction(GrammerAnalyzer::three_address_instruction *i);
     };
     ```
+    
 #### 遇到的问题
 1. 与前端确定三地址指令的格式与用法：
     无
