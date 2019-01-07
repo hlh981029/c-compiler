@@ -263,9 +263,9 @@ production_body3
 
 #### 数据结构
 
-1. 正则表达式转`NFA`:
+1. 正则表达式转`NFA`与`NFA`合并:
     
-    正则表达式语法分析树节点：
+    正则表达式语法分析树节点数据结构：
     ``` c++
     struct RegTreeNode
     {
@@ -282,7 +282,8 @@ production_body3
     };
     ```
 
-    正则表达式：
+    正则表达式数据结构：
+
     ```c++
     class RegExp
     {
@@ -313,9 +314,34 @@ production_body3
     };
     ```
 
-
-
-2. `NFA`合并：
+    NFA数据结构：
+    ```c++
+    class NFA
+    {
+    public:
+        NFA();
+        NFA(RegExp **exps, std::string *names, int n);
+        ~NFA();
+        // 当前状态数
+        int current_state;
+        // 最大状态数
+        int max_state;
+        // 状态转换表
+        std::vector<int>** transition;
+        // 初始状态号
+        int start;
+        // 结束状态集
+        std::map<int, std::string> end;
+        // 正则树转NFA
+        void to_nfa(RegTreeNode *root);
+        // 转NFA调用的递归函数
+        void recurse_to_nfa(RegTreeNode *root);
+        // 判断是否为操作符
+        bool is_operator(char operand);
+        // 输出状态转换表到控制台
+        void print_diagram();
+    };
+    ```
 
 3. `NFA`转`DFA`：
 
@@ -436,10 +462,8 @@ void update_output_sequence();
 
 #### 遇到的问题
 
-1. 正则表达式转`NFA`：
-    无
-2. `NFA`合并：
-    无
+1. 正则表达式转`NFA`：无
+2. `NFA`合并：无
 3. `NFA`转`DFA`：
 
 4. `DFA`最小化：
